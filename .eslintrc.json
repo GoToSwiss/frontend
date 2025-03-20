@@ -11,5 +11,5 @@
     "@typescript-eslint/no-use-before-define": "off",
     "react/button-has-type": "off"
   },
-  "ignorePatterns": ["./vite.config.js", "/public/mockServiceWorker.js"]
+  "ignorePatterns": ["vite.config.ts", "/public/mockServiceWorker.js"]
 }
