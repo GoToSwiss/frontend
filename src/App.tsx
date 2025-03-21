@@ -1,16 +1,11 @@
-import { QueryClientProvider } from "@tanstack/react-query";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import NotFound from "./pages/NotFound";
-import Home from "./pages/Home";
-import CommonLayout from "./layouts/CommonLayout";
-import { queryClient } from "./services/TanstackQueryStore";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from './pages/Home';
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <CommonLayout />,
-    errorElement: <NotFound />,
+    path: '/',
+    // element: <CommonLayout />,
+    // errorElement: <NotFound />,
     children: [
       {
         index: true,
@@ -21,12 +16,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
