@@ -1,15 +1,21 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
+import CommonLayout from './layouts/CommonLayout';
+import Upload from './pages/Upload';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    // element: <CommonLayout />,
+    element: <CommonLayout />,
     // errorElement: <NotFound />,
     children: [
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: 'upload',
+        element: <Upload />,
       },
     ],
   },
