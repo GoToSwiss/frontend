@@ -1,5 +1,17 @@
 import WhiteBox from '@/features/upload/components/WhiteBox';
 import uploadLogo from '@/assets/upload.png';
+import VisualizationCard from '@/features/upload/components/VisualizationCard';
+import PreviewDataTable from '@/features/upload/components/PreviewDataTable';
+
+// TODO: 그래프 모양 정해지면 services로 옮길 예정
+const visualizationTypes = [
+  '막대 그래프',
+  '원형 그래프',
+  '꺾은선 그래프',
+  '산점도',
+  '히트맵',
+  '윈드로즈',
+];
 
 export default function Upload() {
   return (
@@ -10,7 +22,7 @@ export default function Upload() {
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <WhiteBox title="데이터 업로드">
-          <div className="my-6 w-full rounded-md border-2 border-dotted border-gray-300 py-10">
+          <div className="mb-6 w-full rounded-md border-2 border-dotted border-gray-300 py-10">
             <div className="flex flex-col items-center gap-4">
               <img src={uploadLogo} alt="업로드" className="h-auto w-12" />
               <p>파일을 드래그하여 업로드하거나</p>
@@ -18,36 +30,20 @@ export default function Upload() {
               <p className="">지원형식 : CSV, XLSX, TXT(최대 100MB)</p>
             </div>
           </div>
-          <div>
-            <h3 className="mb-2 text-sm font-semibold">데이터 미리보기</h3>
-            <table className="w-full table-auto border-collapse border-b border-t border-gray-100 text-center">
-              <thead>
-                <tr className="bg-gray-300">
-                  <th className="border-b border-t border-gray-300 p-2">날짜</th>
-                  <th className="border-b border-t border-gray-300 p-2">온도 (°C)</th>
-                  <th className="border-b border-t border-gray-300 p-2">습도 (%)</th>
-                  <th className="border-b border-t border-gray-300 p-2">미세먼지</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border-b border-t border-gray-300 p-2">2024-02-20</td>
-                  <td className="border-b border-t border-gray-300 p-2">23.5</td>
-                  <td className="border-b border-t border-gray-300 p-2">65</td>
-                  <td className="border-b border-t border-gray-300 p-2">45</td>
-                </tr>
-                <tr>
-                  <td className="border-b border-t border-gray-300 p-2">2024-02-21</td>
-                  <td className="border-b border-t border-gray-300 p-2">23.5</td>
-                  <td className="border-b border-t border-gray-300 p-2">65</td>
-                  <td className="border-b border-t border-gray-300 p-2">45</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <PreviewDataTable />
         </WhiteBox>
-        <WhiteBox title="데이터 업로드">
-          <div className="flex h-full items-center justify-center">box</div>
+        <WhiteBox title="분석 도구">
+          <h3 className="text-sm font-semibold">시각화 유형</h3>
+          <div className="grid grid-cols-3 gap-4">
+            {visualizationTypes.map((type) => (
+              <VisualizationCard
+                key={type}
+                title={type}
+                className="rounded-lg border p-4 text-center shadow-md"
+              />
+            ))}
+          </div>
+          <button className="rounded bg-black px-4 py-2 text-white">분석하기</button>
         </WhiteBox>
       </div>
     </main>
