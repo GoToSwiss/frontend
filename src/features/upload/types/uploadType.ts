@@ -9,4 +9,6 @@ export interface VisualizationCardProps {
   title: string;
   description?: string;
   className?: string;
+  isGraph?: boolean;
+  logoSrc: string;
 }

@@ -5,7 +5,7 @@ export default function CommonLayout() {
   return (
     <div>
       <Header />
-      <div className="h-screen bg-[#F9FAFB]">
+      <div className="h-full bg-web_bg">
         <Outlet />
       </div>
     </div>
