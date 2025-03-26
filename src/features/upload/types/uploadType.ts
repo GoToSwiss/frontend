@@ -7,8 +7,8 @@ export interface WhiteBoxProps {
 
 export interface VisualizationCardProps {
   title: string;
-  description?: string;
+  description?: string | undefined;
   className?: string;
-  isGraph?: boolean;
+  isGraph?: boolean | undefined;
   logoSrc: string;
 }
