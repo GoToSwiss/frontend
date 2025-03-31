@@ -5,8 +5,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Home from './pages/Home';
 import CommonLayout from './layouts/CommonLayout';
 import Upload from './pages/Upload';
-import GoogleMapContainer from './features/map/GoogleMapContainer';
 import queryClient from './services/TanstackQueryStore';
+import GoogleMap from './pages/GoogleMap';
 
 async function enableMocking() {
   if (import.meta.env.VITE_NODE_ENV !== 'development') {
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'map',
-        element: <GoogleMapContainer />,
+        element: <GoogleMap />,
       },
     ],
   },
