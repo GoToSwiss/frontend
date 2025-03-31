@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import logo from '@/assets/logo.png';
-import kwon from '@/assets/kwon.jpg';
+import kwon from '@/assets/layout/kwon.jpg';
 
 export default function Header() {
   return (
