@@ -1,4 +1,4 @@
-import Header from '@/components/Header';
+import Header from '@/layouts/components/Header';
 import Loading from '@/components/Loading';
 import QueryErrorBoundary from '@/services/QueryErrorBoundary';
 import { Suspense } from 'react';

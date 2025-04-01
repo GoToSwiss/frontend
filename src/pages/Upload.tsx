@@ -1,8 +1,6 @@
-import WhiteBox from '@/features/upload/components/WhiteBox';
-import uploadLogo from '@/assets/upload.png';
-import VisualizationCard from '@/features/upload/components/VisualizationCard';
-import PreviewDataTable from '@/features/upload/components/PreviewDataTable';
+import uploadLogo from '@/assets/upload/upload.png';
 import Button from '@/components/Button';
+import { PreviewDataTable, VisualizationCard, WhiteBox } from '@/features/upload';
 
 // TODO: 그래프 모양 정해지면 services로 옮길 예정
 const visualizationTypes = [
@@ -60,17 +58,17 @@ export default function Upload() {
           <VisualizationCard
             title="사용자 매뉴얼"
             description="상세한 기능 설명과 사용법을 확인하세요"
-            logoSrc="/src/assets/book.png"
+            logoSrc="/src/assets/upload/book.png"
           />
           <VisualizationCard
             title="비디오 튜토리얼"
             description="단계별 가이드 영상을 시청하세요"
-            logoSrc="/src/assets/video.png"
+            logoSrc="/src/assets/upload/video.png"
           />
           <VisualizationCard
             title="고객 지원"
             description="문의사항이 있으시면 연락주세요"
-            logoSrc="/src/assets/help.png"
+            logoSrc="/src/assets/upload/help.png"
           />
         </div>
       </WhiteBox>
