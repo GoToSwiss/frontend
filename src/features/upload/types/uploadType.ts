@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import * as Plot from '@observablehq/plot';
 
 export interface WhiteBoxProps {
   children: ReactNode;
@@ -11,4 +12,8 @@ export interface VisualizationCardProps {
   className?: string;
   isGraph?: boolean | undefined;
   logoSrc: string;
+}
+
+export interface PlotFigureProps {
+  options: Parameters<typeof Plot.plot>[0];
 }
