@@ -8,6 +8,7 @@ import Upload from './pages/Upload';
 import queryClient from './services/TanstackQueryStore';
 import GoogleMap from './pages/GoogleMap';
 import Login from './pages/Login';
+import MyPage from './pages/MyPage';
 
 async function enableMocking() {
   if (import.meta.env.VITE_NODE_ENV !== 'development') {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: 'map',
         element: <GoogleMap />,
+      },
+      {
+        path: 'mypage',
+        element: <MyPage />,
       },
     ],
   },
