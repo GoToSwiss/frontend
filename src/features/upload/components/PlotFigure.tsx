@@ -9,10 +9,8 @@ export default function PlotFigure({ options }: PlotFigureProps) {
     const plot = Plot.plot(options);
 
     if (ref.current) {
-      ref.current.innerHTML = '';
-      ref.current.appendChild(plot);
+      ref.current.replaceChildren(plot);
     }
-
     return () => {
       plot.remove();
     };
