@@ -10,7 +10,14 @@ export default function CommonLayout() {
       <Header />
       <div className="h-screen bg-[#F9FAFB]">
         <QueryErrorBoundary>
-          <Suspense fallback={<Loading />}>
+          <Suspense
+            fallback={
+              <Loading
+                title="데이터를 불러오는 중.."
+                description="열심히 데이터를 가져오고 있어요"
+              />
+            }
+          >
             <Outlet />
           </Suspense>
         </QueryErrorBoundary>
