@@ -1,6 +1,52 @@
 import uploadLogo from '@/assets/upload/upload.png';
 import Button from '@/components/Button';
 import { PreviewDataTable, VisualizationCard, WhiteBox } from '@/features/upload';
+import * as Plot from '@observablehq/plot';
+import PlotFigure from '@/features/upload/components/PlotFigure';
+
+// TODO : 테스트 목적, 제거 예정
+const aapl = [
+  {
+    Date: new Date('2013-05-13'),
+    Open: 64.501427,
+    High: 65.414284,
+    Low: 64.5,
+    Close: 64.96286,
+    Volume: 79237200,
+  },
+  {
+    Date: new Date('2013-05-14'),
+    Open: 64.835716,
+    High: 65.028572,
+    Low: 63.164288,
+    Close: 63.408573,
+    Volume: 111779500,
+  },
+  {
+    Date: new Date('2013-05-15'),
+    Open: 62.737144,
+    High: 63.0,
+    Low: 60.337143,
+    Close: 61.264286,
+    Volume: 185403400,
+  },
+  {
+    Date: new Date('2013-05-16'),
+    Open: 60.462856,
+    High: 62.549999,
+    Low: 59.842857,
+    Close: 62.082859,
+    Volume: 150801000,
+  },
+  {
+    Date: new Date('2013-05-17'),
+    Open: 62.721428,
+    High: 62.869999,
+    Low: 61.572857,
+    Close: 61.894287,
+    Volume: 106976100,
+  },
+];
 
 // TODO: 그래프 모양 정해지면 services로 옮길 예정
 const visualizationTypes = [
@@ -51,8 +97,15 @@ export default function Upload() {
           </Button>
         </WhiteBox>
       </div>
-      <WhiteBox title="분석 결과">그래프</WhiteBox>
-      {/* TODO: 그래프에 따른 라이브러리 선택예정(D3.js, Chart.js등) */}
+      <WhiteBox title="분석 결과">
+        그래프
+        <PlotFigure
+          options={{
+            width: 1000,
+            marks: [Plot.lineY(aapl, { x: 'Date', y: 'Close' })],
+          }}
+        />
+      </WhiteBox>
       <WhiteBox title="도움말 및 가이드">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
           <VisualizationCard

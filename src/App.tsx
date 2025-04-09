@@ -11,6 +11,7 @@ import GoogleMap from './pages/GoogleMap';
 import Login from './pages/Login';
 import LoadingAuth from './pages/LoadingAuth';
 import NotFound from './pages/NotFound';
+import MyPage from './pages/MyPage';
 
 async function enableMocking() {
   if (import.meta.env.VITE_NODE_ENV !== 'development') {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: 'map',
         element: <GoogleMap />,
+      },
+      {
+        path: 'mypage',
+        element: <MyPage />,
       },
     ],
   },
