@@ -19,7 +19,9 @@ export default function Header() {
         </ul>
       </div>
       <div>
-        <img src={kwon} alt="권기학" className="size-14 rounded-full" />
+        <Link to="/mypage">
+          <img src={kwon} alt="권기학" className="size-14 rounded-full" />
+        </Link>
       </div>
     </header>
   );
