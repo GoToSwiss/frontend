@@ -34,8 +34,6 @@ async function sendData<T>(
     }
     return response.data;
   } catch (error) {
-    console.error(method, error);
-
     if (error instanceof AxiosError) {
       throw new Error(error.message || `${method} 요청 실패`);
     }

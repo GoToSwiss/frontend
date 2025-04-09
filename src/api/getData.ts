@@ -17,8 +17,6 @@ const getData = async <T>(
     const { data } = await api.get<ApiResponse<T>>(url, config);
     return data;
   } catch (error) {
-    console.error(error);
-
     if (error instanceof AxiosError) {
       throw new Error(error.response?.data?.message || 'API 요청 실패');
     }
