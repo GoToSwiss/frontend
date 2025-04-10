@@ -35,7 +35,7 @@ async function sendData<T>(
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error(error.message || `${method} 요청 실패`);
+      throw error;
     }
 
     throw new Error(`${method}: Unknown error occurred`);
