@@ -18,7 +18,7 @@ const getData = async <T>(
     return data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error(error.response?.data?.message || 'API 요청 실패');
+      throw error;
     }
 
     throw new Error('Unknown error occurred');
