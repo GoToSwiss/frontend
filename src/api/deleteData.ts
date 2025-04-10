@@ -14,8 +14,6 @@ const deleteData = async <T>(url: string, config?: AxiosRequestConfig): Promise<
     const { data } = await api.delete<ApiResponse<T>>(url, config);
     return data;
   } catch (error) {
-    console.error(error);
-
     if (axios.isAxiosError(error)) {
       throw error;
     }
