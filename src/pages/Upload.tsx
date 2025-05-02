@@ -3,6 +3,8 @@ import Button from '@/components/Button';
 import { PreviewDataTable, VisualizationCard, WhiteBox } from '@/features/upload';
 import * as Plot from '@observablehq/plot';
 import PlotFigure from '@/features/upload/components/PlotFigure';
+import sendData from '@/api/sendData';
+import React, { useState } from 'react';
 
 // TODO : 테스트 목적, 제거 예정
 const aapl = [
@@ -59,6 +61,34 @@ const visualizationTypes = [
 ];
 
 export default function Upload() {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileSelect = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.xlsx,.xls,.csv';
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        setSelectedFile(file);
+      }
+    };
+    input.click();
+  };
+
+  const onClick = async () => {
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    try {
+      await sendData('post', '/file/upload', formData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <main className="flex flex-col gap-8 px-10 py-12">
       <div className="flex flex-col gap-2">
@@ -71,9 +101,15 @@ export default function Upload() {
             <div className="flex flex-col items-center gap-4">
               <img src={uploadLogo} alt="업로드" className="h-auto w-12" />
               <p className="text-theme_secondary">파일을 드래그하여 업로드하거나</p>
-              <Button className="rounded bg-theme_black px-4 py-2 text-white" onClick={() => null}>
+              <Button
+                className="rounded bg-theme_black px-4 py-2 text-white"
+                onClick={handleFileSelect}
+              >
                 파일 선택
               </Button>
+              {selectedFile && (
+                <p className="text-theme_tertiary">선택된 파일: {selectedFile.name}</p>
+              )}
               <p className="text-theme_tertiary">지원형식 : CSV, XLSX, TXT(최대 100MB)</p>
             </div>
           </div>
@@ -92,7 +128,7 @@ export default function Upload() {
               />
             ))}
           </div>
-          <Button className="rounded bg-theme_black px-4 py-2 text-white" onClick={() => null}>
+          <Button className="rounded bg-theme_black px-4 py-2 text-white" onClick={onClick}>
             분석하기
           </Button>
         </WhiteBox>
