@@ -17,3 +17,8 @@ export interface VisualizationCardProps {
 export interface PlotFigureProps {
   options: Parameters<typeof Plot.plot>[0];
 }
+
+export interface UploadProps {
+  headers: string[];
+  fileId: string;
+}

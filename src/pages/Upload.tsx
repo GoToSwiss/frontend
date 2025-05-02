@@ -5,6 +5,8 @@ import * as Plot from '@observablehq/plot';
 import PlotFigure from '@/features/upload/components/PlotFigure';
 import sendData from '@/api/sendData';
 import React, { useState } from 'react';
+import mapping from '@/features/upload/mapping';
+import { UploadProps } from '@/features/upload/types/uploadType';
 
 // TODO : 테스트 목적, 제거 예정
 const aapl = [
@@ -83,7 +85,16 @@ export default function Upload() {
     formData.append('file', selectedFile);
 
     try {
-      await sendData('post', '/file/upload', formData);
+      const uploadResponse = await sendData<UploadProps>('post', '/file/upload', formData);
+
+      const mappingData = {
+        headers: uploadResponse.result.headers.map(
+          (header: string) => mapping.indexOf(header) + 1, // 인덱스 1부터 시작
+        ),
+        fileId: uploadResponse.result.fileId,
+      };
+
+      await sendData('post', '/file/mapping', mappingData);
     } catch (error) {
       console.error(error);
     }
