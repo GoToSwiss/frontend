@@ -1,0 +1,26 @@
+const mapping = [
+  'Time',
+  'CO2(ppm)',
+  'CH4(ppb)',
+  'CH4(ppm)',
+  'TYPE',
+  '시도',
+  '도시',
+  '시군구',
+  '측정소명',
+  '측정소코드',
+  'SO₂(ppm)(Avg)',
+  'NO₂(ppm)(Avg)',
+  'O₃(ppm)(Avg)',
+  'CO(ppm)(Avg)',
+  'PM10(㎍/㎥)(Avg)',
+  'PM2.5(㎍/㎥)(Avg)',
+  'NOx(ppm)(Avg)',
+  'NO(ppm)(Avg)',
+  '풍향(도)(Avg)',
+  '풍속(m/s)(Avg)',
+  '온도(℃)(Avg)',
+  '습도(%)(Avg)',
+];
+
+export default mapping;

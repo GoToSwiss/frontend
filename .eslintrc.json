@@ -10,6 +10,12 @@
     "react/require-default-props": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "react/button-has-type": "off",
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "some": ["nesting", "id"]
+      }
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",

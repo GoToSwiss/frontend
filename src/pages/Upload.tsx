@@ -3,6 +3,10 @@ import Button from '@/components/Button';
 import { PreviewDataTable, VisualizationCard, WhiteBox } from '@/features/upload';
 import * as Plot from '@observablehq/plot';
 import PlotFigure from '@/features/upload/components/PlotFigure';
+import sendData from '@/api/sendData';
+import React, { useState, useRef } from 'react';
+import mapping from '@/features/upload/mapping';
+import { UploadProps } from '@/features/upload/types/uploadType';
 
 // TODO : 테스트 목적, 제거 예정
 const aapl = [
@@ -48,7 +52,6 @@ const aapl = [
   },
 ];
 
-// TODO: 그래프 모양 정해지면 services로 옮길 예정
 const visualizationTypes = [
   '막대 그래프',
   '원형 그래프',
@@ -59,6 +62,52 @@ const visualizationTypes = [
 ];
 
 export default function Upload() {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
+  const onClick = async () => {
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    try {
+      const uploadResponse = await sendData<UploadProps>('post', '/file/upload', formData);
+
+      const mappingData = {
+        headers: uploadResponse.result.headers.map((header: string) => mapping.indexOf(header) + 1),
+        fileId: uploadResponse.result.fileId,
+      };
+
+      await sendData('post', '/file/mapping', mappingData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <main className="flex flex-col gap-8 px-10 py-12">
       <div className="flex flex-col gap-2">
@@ -67,13 +116,30 @@ export default function Upload() {
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <WhiteBox title="데이터 업로드">
-          <div className="mb-6 w-full rounded-md border-2 border-dotted border-border_color py-10">
+          <div
+            className="mb-6 w-full rounded-md border-2 border-dotted border-border_color py-10"
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
             <div className="flex flex-col items-center gap-4">
               <img src={uploadLogo} alt="업로드" className="h-auto w-12" />
               <p className="text-theme_secondary">파일을 드래그하여 업로드하거나</p>
-              <Button className="rounded bg-theme_black px-4 py-2 text-white" onClick={() => null}>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept=".xlsx,.xls,.csv"
+                className="hidden"
+              />
+              <Button
+                className="rounded bg-theme_black px-4 py-2 text-white"
+                onClick={triggerFileInput}
+              >
                 파일 선택
               </Button>
+              {selectedFile && (
+                <p className="text-theme_tertiary">선택된 파일: {selectedFile.name}</p>
+              )}
               <p className="text-theme_tertiary">지원형식 : CSV, XLSX, TXT(최대 100MB)</p>
             </div>
           </div>
@@ -92,7 +158,7 @@ export default function Upload() {
               />
             ))}
           </div>
-          <Button className="rounded bg-theme_black px-4 py-2 text-white" onClick={() => null}>
+          <Button className="rounded bg-theme_black px-4 py-2 text-white" onClick={onClick}>
             분석하기
           </Button>
         </WhiteBox>
