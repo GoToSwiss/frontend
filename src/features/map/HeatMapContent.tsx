@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
-import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
+import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { FeatureCollection, Point, GeoJsonProperties } from 'geojson';
+import useMapStore from './store/useMapStore';
 
 type HeatmapProps = {
   geojson: FeatureCollection<Point, GeoJsonProperties>;
@@ -9,11 +10,11 @@ type HeatmapProps = {
 };
 
 function Heatmap({ geojson, radius, opacity }: HeatmapProps) {
-  const map = useMap();
+  const mapInstance = useMapStore((state) => state.mapInstance);
   const visualization = useMapsLibrary('visualization');
 
   const heatmap = useMemo(() => {
-    if (!visualization) return null;
+    if (!visualization || !mapInstance) return null;
 
     return new google.maps.visualization.HeatmapLayer({
       radius,
@@ -37,10 +38,14 @@ function Heatmap({ geojson, radius, opacity }: HeatmapProps) {
   }, [heatmap, geojson, radius, opacity]);
 
   useEffect(() => {
-    if (!heatmap) return;
+    if (!heatmap || !mapInstance) return;
 
-    heatmap.setMap(map);
-  }, [heatmap, map]);
+    heatmap.setMap(mapInstance);
+    // eslint-disable-next-line consistent-return
+    return () => {
+      heatmap.setMap(null);
+    };
+  }, [heatmap, mapInstance]);
 
   return null;
 }

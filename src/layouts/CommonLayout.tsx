@@ -8,7 +8,7 @@ export default function CommonLayout() {
   return (
     <div>
       <Header />
-      <div className="h-screen bg-[#F9FAFB]">
+      <div className="z-10 h-[calc(100vh-60px)] bg-[#F9FAFB]">
         <QueryErrorBoundary>
           <Suspense
             fallback={
