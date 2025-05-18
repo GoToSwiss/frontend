@@ -41,15 +41,13 @@ export default function Windrose() {
         marks: [
           // 중앙 x=0 수직선
           Plot.ruleX([0], {
-            stroke: 'gray',
+            stroke: 'black',
             strokeWidth: 1,
-            strokeOpacity: 0.5,
           }),
           // 중앙 y=0 수평선
           Plot.ruleY([0], {
-            stroke: 'gray',
+            stroke: 'black',
             strokeWidth: 1,
-            strokeOpacity: 0.5,
           }),
 
           // 동심원 그리기 (각 반지름 별로 line으로 연결)
@@ -58,26 +56,22 @@ export default function Windrose() {
               x: 'x',
               y: 'y',
               stroke: 'black',
-              strokeOpacity: 0.3,
               strokeWidth: 1,
             }),
           ),
 
           // 데이터 점들
-          Plot.dot(plotData, {
+          Plot.raster(plotData, {
             x: 'x',
             y: 'y',
             fill: 'co2',
-            r: 5,
-            fillOpacity: 0.8,
-            stroke: 'black',
-            strokeWidth: 0.5,
-            tip: true,
+            fillOpacity: 0.9,
+            interpolate: 'barycentric',
           }),
         ],
         x: { domain: [-1, 1] },
         y: { domain: [-1, 1] },
-        color: { legend: true, scheme: 'viridis', label: 'CO₂' },
+        color: { legend: true, scheme: 'turbo', label: 'CO₂' },
         aspectRatio: 1,
       }}
     />

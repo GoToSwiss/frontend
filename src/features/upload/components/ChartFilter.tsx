@@ -19,13 +19,13 @@ export default function ChartFilter() {
     setChart(type);
   };
   return (
-    <WhiteBox title="분석 도구" className="flex-col">
+    <WhiteBox title="분석 도구" className="flex flex-col">
       <div className="grid grid-cols-3 gap-4">
         {visualizationTypes.map((type) => (
           <VisualizationCard
             key={type}
             title={type}
-            className="rounded-lg border p-4 text-center shadow-md"
+            className="rounded-md border p-4 text-center shadow-md"
             isGraph
             logoSrc="/src/assets/logo.png"
             onClick={() => onClick(type)}
@@ -34,7 +34,7 @@ export default function ChartFilter() {
       </div>
       <button
         onClick={() => setStep(step + 1)}
-        className="mt-4 w-full rounded-lg bg-theme_secondary px-6 py-3 text-white transition-colors hover:bg-theme_secondary/90"
+        className="mt-4 w-full rounded-md bg-theme_secondary px-4 py-2 text-white"
       >
         Next
       </button>

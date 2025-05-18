@@ -74,7 +74,7 @@ export default function UploadComponent() {
   return (
     <>
       <div
-        className="mb-6 w-full rounded-md border-2 border-dotted border-border_color py-10"
+        className="mb-6 h-auto w-full rounded-md border-2 border-dotted border-border_color py-10"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
@@ -99,7 +99,10 @@ export default function UploadComponent() {
         </div>
       </div>
 
-      <Button onClick={handleUpload} className="w-full bg-theme_secondary text-white">
+      <Button
+        onClick={handleUpload}
+        className="w-full self-end rounded-md bg-theme_secondary px-4 py-2 text-white"
+      >
         업로드 및 분석 시작
       </Button>
     </>

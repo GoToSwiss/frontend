@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import * as Plot from '@observablehq/plot';
-import rasterize from '@/features/mypage/service/PngConverter';
 import { PlotFigureProps } from '../types/uploadType';
 
 export default function PlotFigure({ options }: PlotFigureProps) {
@@ -21,21 +20,53 @@ export default function PlotFigure({ options }: PlotFigureProps) {
   const handleDownload = async () => {
     if (!containerRef.current) return;
 
-    const svg = containerRef.current.querySelector('svg');
-    if (!svg) {
+    const svgs = containerRef.current.querySelectorAll('svg');
+    if (svgs.length === 0) {
       alert('SVG를 찾을 수 없습니다.');
       return;
     }
 
     try {
-      const { blob } = await rasterize(svg);
+      const width = Array.from(svgs).reduce((w, svg) => Math.max(w, svg.width.baseVal.value), 0);
+      const height = Array.from(svgs).reduce((h, svg) => h + svg.height.baseVal.value, 0);
 
-      const url = URL.createObjectURL(blob);
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas context 생성 실패');
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      let offsetY = 0;
+
+      await Promise.all(
+        Array.from(svgs).map(
+          (svg) =>
+            new Promise<void>((resolve, reject) => {
+              const svgClone = svg.cloneNode(true) as SVGSVGElement;
+              const svgString = new XMLSerializer().serializeToString(svgClone);
+              const blob = new Blob([svgString], { type: 'image/svg+xml' });
+              const url = URL.createObjectURL(blob);
+              const img = new Image();
+
+              img.onload = () => {
+                ctx.drawImage(img, 0, offsetY);
+                offsetY += img.height;
+                URL.revokeObjectURL(url);
+                resolve();
+              };
+              img.onerror = reject;
+              img.src = url;
+            }),
+        ),
+      );
+
       const a = document.createElement('a');
-      a.href = url;
+      a.href = canvas.toDataURL('image/png');
       a.download = 'chart.png';
       a.click();
-      URL.revokeObjectURL(url);
     } catch (err) {
       alert('이미지 변환 중 오류가 발생했습니다.');
       console.error(err);

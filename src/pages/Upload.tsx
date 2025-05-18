@@ -20,7 +20,7 @@ export default function Upload() {
       </section>
 
       <section className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <WhiteBox title="데이터 업로드" className="flex-col">
+        <WhiteBox title="데이터 업로드" className="flex flex-col justify-between">
           <UploadComponent />
         </WhiteBox>
         <Step />
