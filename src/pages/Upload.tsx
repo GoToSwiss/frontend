@@ -17,13 +17,33 @@ export default function Upload() {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selected = event.target.files?.[0];
-    if (selected) setFile(selected);
+    if (!selected) return;
+
+    const allowedExtensions = ['.xlsx', '.xls', '.csv'];
+    const fileExtension = selected.name.slice(selected.name.lastIndexOf('.')).toLowerCase();
+
+    if (!allowedExtensions.includes(fileExtension)) {
+      alert('지원하지 않는 파일 형식입니다. CSV, XLSX, XLS 파일만 업로드 가능합니다.');
+      return;
+    }
+
+    setFile(selected);
   };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     const dropped = e.dataTransfer.files?.[0];
-    if (dropped) setFile(dropped);
+    if (!dropped) return;
+
+    const allowedExtensions = ['.xlsx', '.xls', '.csv'];
+    const fileExtension = dropped.name.slice(dropped.name.lastIndexOf('.')).toLowerCase();
+
+    if (!allowedExtensions.includes(fileExtension)) {
+      alert('지원하지 않는 파일 형식입니다. CSV, XLSX, XLS 파일만 업로드 가능합니다.');
+      return;
+    }
+
+    setFile(dropped);
   };
 
   const handleDragOver = (e: React.DragEvent) => e.preventDefault();
