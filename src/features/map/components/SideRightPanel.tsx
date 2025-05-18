@@ -1,8 +1,18 @@
 import { useState } from 'react';
 import { X, ChevronRight } from 'lucide-react';
+import AirSelection from './AirSelection';
+import useStationStore from '../store/useStationStore';
+import useDataRangeStore from '../store/useDateRangeStore';
+import useGetAir from '../query/air.query';
 
 function SideRightPanel() {
   const [open, setOpen] = useState(true);
+  const { stationName } = useStationStore();
+  const { dateRange, timeRange } = useDataRangeStore();
+  const { data } = useGetAir(stationName, dateRange, timeRange);
+
+  console.log('data', data);
+
   return (
     <>
       <button
@@ -18,8 +28,9 @@ function SideRightPanel() {
       </button>
       {open && (
         <div className="w-70 absolute right-4 top-11 z-10 h-[90%] space-y-6 rounded-lg bg-white p-4 shadow-md">
-          <h1 className="text-sm font-semibold">서울 특별시 강남구</h1>
+          <h1 className="text-sm font-semibold">{stationName} 관측소</h1>
           <span className="text-xs text-gray-500">마지막 업데이트: 2025-05-12 15:30</span>
+          <AirSelection />
         </div>
       )}
     </>

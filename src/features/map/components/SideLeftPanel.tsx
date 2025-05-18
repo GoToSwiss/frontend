@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { X, ChevronRight } from 'lucide-react';
 import PlaceSearchInput from './PlaceSearchInput';
-import AirSelection from './AirSelection';
 import DataVisualizationSelection from './DataVisualizationSelection';
 import AirLegend from './AirLegend';
+import DateSelection from './DateSelection';
 
 function SideLeftPanel() {
   const [open, setOpen] = useState(true);
@@ -23,11 +23,14 @@ function SideLeftPanel() {
       </button>
 
       {open && (
-        <div className="w-70 absolute left-4 top-11 z-10 h-[90%] space-y-6 rounded-lg bg-white p-4 shadow-md">
+        <div className="absolute left-4 top-11 z-10 h-[90%] w-80 space-y-6 rounded-lg bg-white p-4 shadow-md">
           <PlaceSearchInput />
-          <AirSelection />
           <DataVisualizationSelection />
           <AirLegend />
+          <DateSelection />
+          <button className="w-full rounded border border-gray-300 px-3 py-2 text-xs shadow-sm transition hover:bg-gray-50">
+            분석
+          </button>
         </div>
       )}
     </>
