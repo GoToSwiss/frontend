@@ -7,6 +7,7 @@ export default function LineChartFilter() {
   const { x, y, setX, setY } = useLineChartFilterStore();
   const [xOptions, setXOptions] = useState<string[]>([]);
   const [yOptions, setYOptions] = useState<string[]>([]);
+  // TODO: 원하는 값에 따른 라인 추가 기능
 
   useEffect(() => {
     if (uploadedData.length > 0) {

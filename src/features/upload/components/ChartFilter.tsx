@@ -20,7 +20,6 @@ export default function ChartFilter() {
   };
   return (
     <WhiteBox title="분석 도구" className="flex-col">
-      <h3 className="text-sm font-semibold">시각화 유형</h3>
       <div className="grid grid-cols-3 gap-4">
         {visualizationTypes.map((type) => (
           <VisualizationCard

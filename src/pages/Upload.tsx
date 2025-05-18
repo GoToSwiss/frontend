@@ -1,18 +1,16 @@
-import PlotFigure from '@/features/upload/components/PlotFigure';
 import { WhiteBox } from '@/features/upload';
 import VisualizationCard from '@/features/upload/components/VisualizationCard';
-import * as Plot from '@observablehq/plot';
 import Step from '@/features/upload/components/Step';
-import useFileStore from '@/features/upload/store/useFileStore';
-import UploadComponent from '@/features/upload/components/UploadComponent';
-import { useLineChartFilterStore } from '@/features/upload/store/useFilterStore';
-import DataFilter from '@/features/upload/components/DataFilter';
 import useStepStore from '@/features/upload/store/useStepStore';
+import UploadComponent from '@/features/upload/components/UploadComponent';
+import DataFilter from '@/features/upload/components/DataFilter';
+import Windrose from '@/features/upload/components/Windrose';
+import useFileStore from '@/features/upload/store/useFileStore';
+import LineChart from '@/features/upload/components/LineChart';
 
 export default function Upload() {
-  const { uploadedData } = useFileStore();
-  const { x, y } = useLineChartFilterStore();
   const step = useStepStore((state) => state.step);
+  const kind = useFileStore((state) => state.chart);
 
   return (
     <main className="flex flex-col gap-8 px-10 py-12">
@@ -32,31 +30,14 @@ export default function Upload() {
         {/* TODO: uploadedData를 이용해 시각화, 그래프별 조건부 렌더링 */}
         {/* TODO: 날짜 KST로 변경, uploadedData의 time 자체를 Date로 변환 */}
 
-        {step === 3 ? (
+        {step === 2 ? (
           <div className="mt-6 grid grid-cols-2">
-            <PlotFigure
-              options={{
-                marks: [
-                  Plot.lineY(
-                    uploadedData
-                      .filter((d) => d.time <= x)
-                      .map((d) => ({ ...d, time: new Date(d.time) })),
-                    { x: 'time', y, stroke: 'blue' },
-                  ),
-                  Plot.dotY(
-                    uploadedData
-                      .filter((d) => d.time <= x)
-                      .map((d) => ({ ...d, time: new Date(d.time) })),
-                    { x: 'time', y, fill: 'blue', r: 2, tip: true },
-                  ),
-                ],
-              }}
-            />
+            {kind === '윈드로즈' ? <Windrose /> : <LineChart />}
 
             <DataFilter />
           </div>
         ) : (
-          <p className="text-center text-gray-400">업로드된 데이터가 없습니다.</p>
+          <p className="text-center text-gray-400">분석 결과를 확인할 수 없습니다.</p>
         )}
       </WhiteBox>
 
