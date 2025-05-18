@@ -1,6 +1,7 @@
 import Button from '@/components/Button';
 import WhiteBox from '@/features/upload/components/WhiteBox';
 import VisualizationCard from '@/features/upload/components/VisualizationCard';
+import useFileStore from '../store/useFileStore';
 
 const visualizationTypes = [
   '막대 그래프',
@@ -11,8 +12,10 @@ const visualizationTypes = [
   '윈드로즈',
 ];
 export default function ChartFilter() {
-  // TODO: 시각화 유형 선택하고 zustand에 저장
-  const onClick = () => {};
+  const setChart = useFileStore((state) => state.setChart);
+  const onClick = (type: string) => {
+    setChart(type);
+  };
   return (
     <WhiteBox title="분석 도구">
       <h3 className="text-sm font-semibold">시각화 유형</h3>
@@ -24,10 +27,11 @@ export default function ChartFilter() {
             className="rounded-lg border p-4 text-center shadow-md"
             isGraph
             logoSrc="/src/assets/logo.png"
+            onClick={() => onClick(type)}
           />
         ))}
       </div>
-      <Button className="rounded bg-theme_black px-4 py-2 text-white" onClick={onClick}>
+      <Button className="rounded bg-theme_black px-4 py-2 text-white" onClick={() => null}>
         분석하기
       </Button>
     </WhiteBox>

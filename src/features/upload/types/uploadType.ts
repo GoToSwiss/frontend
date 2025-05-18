@@ -12,6 +12,7 @@ export interface VisualizationCardProps {
   className?: string;
   isGraph?: boolean | undefined;
   logoSrc: string;
+  onClick?: () => void;
 }
 
 export interface PlotFigureProps {
