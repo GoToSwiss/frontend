@@ -1,7 +1,7 @@
-import Button from '@/components/Button';
 import WhiteBox from '@/features/upload/components/WhiteBox';
 import VisualizationCard from '@/features/upload/components/VisualizationCard';
 import useFileStore from '../store/useFileStore';
+import useStepStore from '../store/useStepStore';
 
 const visualizationTypes = [
   '막대 그래프',
@@ -13,11 +13,13 @@ const visualizationTypes = [
 ];
 export default function ChartFilter() {
   const setChart = useFileStore((state) => state.setChart);
+  const setStep = useStepStore((state) => state.setStep);
+  const step = useStepStore((state) => state.step);
   const onClick = (type: string) => {
     setChart(type);
   };
   return (
-    <WhiteBox title="분석 도구">
+    <WhiteBox title="분석 도구" className="flex-col">
       <h3 className="text-sm font-semibold">시각화 유형</h3>
       <div className="grid grid-cols-3 gap-4">
         {visualizationTypes.map((type) => (
@@ -31,9 +33,12 @@ export default function ChartFilter() {
           />
         ))}
       </div>
-      <Button className="rounded bg-theme_black px-4 py-2 text-white" onClick={() => null}>
-        분석하기
-      </Button>
+      <button
+        onClick={() => setStep(step + 1)}
+        className="mt-4 w-full rounded-lg bg-theme_secondary px-6 py-3 text-white transition-colors hover:bg-theme_secondary/90"
+      >
+        Next
+      </button>
     </WhiteBox>
   );
 }

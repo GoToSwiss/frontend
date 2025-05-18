@@ -8,7 +8,7 @@ import mapping from '../mapping';
 
 export default function UploadComponent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { file, setFile, uploadedData, setUploadedData } = useFileStore();
+  const { file, setFile, setUploadedData } = useFileStore();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selected = event.target.files?.[0];
@@ -64,8 +64,6 @@ export default function UploadComponent() {
       const dummy = await sendData('post', '/file/mapping', mappingData);
 
       setUploadedData(dummy.result as any);
-
-      console.log(uploadedData);
 
       alert('성공');
     } catch (error) {

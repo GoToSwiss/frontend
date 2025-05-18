@@ -43,11 +43,11 @@ export default function PlotFigure({ options }: PlotFigureProps) {
   };
 
   return (
-    <div className="flex w-full items-center gap-2">
+    <div className="flex w-full flex-col gap-4">
       <div ref={containerRef} className="flex" />
       <button
         onClick={handleDownload}
-        className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        className="w-[200px] self-center rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
       >
         PNG로 다운로드
       </button>

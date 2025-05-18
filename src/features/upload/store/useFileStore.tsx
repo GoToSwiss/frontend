@@ -1,28 +1,28 @@
 import { create } from 'zustand';
 
-interface UploadData {
-  Time: string;
-  'CO2(ppm)': number;
-  'CH4(ppb)': number;
-  'CH4(ppm)': number;
-  TYPE: string;
-  시도: string;
-  도시: string;
-  시군구: string;
-  측정소명: string;
-  측정소코드: string;
-  'SO₂(ppm)(Avg)': number;
-  'NO₂(ppm)(Avg)': number;
-  'O₃(ppm)(Avg)': number;
-  'CO(ppm)(Avg)': number;
-  'PM10(㎍/㎥)(Avg)': number;
-  'PM2.5(㎍/㎥)(Avg)': number;
-  'NOx(ppm)(Avg)': number;
-  'NO(ppm)(Avg)': number;
-  '풍향(도)(Avg)': number;
-  '풍속(m/s)(Avg)': number;
-  '온도(℃)(Avg)': number;
-  '습도(%)(Avg)': number;
+export interface UploadData {
+  time: string;
+  co2: number;
+  ch4_ppb: number;
+  ch4_ppm: number;
+  type: string;
+  province: string;
+  city: string;
+  district: string;
+  observatoryName: string;
+  code: string;
+  so2_ppm: number;
+  no2_ppm: number;
+  o3_ppm: number;
+  co_ppm: number;
+  pm10: number;
+  pm2_5: number;
+  nox_ppm: number;
+  no_ppm: number;
+  windDirection: number;
+  windSpeed: number;
+  temperature: number;
+  humidity: number;
 }
 
 interface FileStore {

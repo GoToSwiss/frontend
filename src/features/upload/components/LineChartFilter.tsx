@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
-import useFileStore from '@/features/upload/store/useFileStore';
+import useFileStore, { UploadData } from '@/features/upload/store/useFileStore';
 import { useLineChartFilterStore } from '../store/useFilterStore';
 
 export default function LineChartFilter() {
   const uploadedData = useFileStore((state) => state.uploadedData);
   const { x, y, setX, setY } = useLineChartFilterStore();
-  const [options, setOptions] = useState<string[]>([]);
+  const [xOptions, setXOptions] = useState<string[]>([]);
+  const [yOptions, setYOptions] = useState<string[]>([]);
 
   useEffect(() => {
     if (uploadedData.length > 0) {
-      const keys = Object.keys(uploadedData[0]);
-      setOptions(keys);
+      const times = uploadedData.map((item) => item.time);
+      const uniqueTimes = Array.from(new Set(times));
+      setXOptions(uniqueTimes);
+
+      const keys = Object.keys(uploadedData[0]) as (keyof UploadData)[];
+
+      setYOptions(keys.filter((key) => key !== 'time' && typeof uploadedData[0][key] === 'number'));
     }
   }, [uploadedData]);
 
@@ -27,7 +33,7 @@ export default function LineChartFilter() {
           onChange={(e) => setX(e.target.value)}
         >
           <option value="">선택하세요</option>
-          {options.map((key) => (
+          {xOptions.map((key) => (
             <option key={key} value={key}>
               {key}
             </option>
@@ -46,7 +52,7 @@ export default function LineChartFilter() {
           onChange={(e) => setY(e.target.value)}
         >
           <option value="">선택하세요</option>
-          {options.map((key) => (
+          {yOptions.map((key) => (
             <option key={key} value={key}>
               {key}
             </option>

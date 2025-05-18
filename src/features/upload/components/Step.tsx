@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import Mapping from './Mapping';
 import ChartFilter from './ChartFilter';
 import DataFilter from './DataFilter';
+import useStepStore from '../store/useStepStore';
 
 export default function Step() {
-  const [step, setStep] = useState(0);
+  const step = useStepStore((state) => state.step);
 
   const renderStep = () => {
     switch (step) {
@@ -12,15 +12,12 @@ export default function Step() {
         return <Mapping />;
       case 1:
         return <ChartFilter />;
-      default:
+      case 2:
         return <DataFilter />;
+      default:
+        return <div>완료</div>;
     }
   };
 
-  return (
-    <div>
-      {renderStep()}
-      <button onClick={() => setStep(step + 1)}>{step === 2 ? '완료' : 'Next'}</button>
-    </div>
-  );
+  return <div>{renderStep()}</div>;
 }
