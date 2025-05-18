@@ -164,7 +164,6 @@ export default function Upload() {
         </WhiteBox>
       </div>
       <WhiteBox title="분석 결과">
-        그래프
         <PlotFigure
           options={{
             width: 1000,
