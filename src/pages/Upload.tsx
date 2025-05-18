@@ -1,98 +1,42 @@
+import React, { useRef } from 'react';
 import uploadLogo from '@/assets/upload/upload.png';
 import Button from '@/components/Button';
-import { PreviewDataTable, VisualizationCard, WhiteBox } from '@/features/upload';
-import * as Plot from '@observablehq/plot';
 import PlotFigure from '@/features/upload/components/PlotFigure';
+import { WhiteBox, PreviewDataTable } from '@/features/upload';
+import VisualizationCard from '@/features/upload/components/VisualizationCard';
+import useFileStore from '@/features/upload/store/useFileStore';
 import sendData from '@/api/sendData';
-import React, { useState, useRef } from 'react';
 import mapping from '@/features/upload/mapping';
 import { UploadProps } from '@/features/upload/types/uploadType';
-
-// TODO : 테스트 목적, 제거 예정
-const aapl = [
-  {
-    Date: new Date('2013-05-13'),
-    Open: 64.501427,
-    High: 65.414284,
-    Low: 64.5,
-    Close: 64.96286,
-    Volume: 79237200,
-  },
-  {
-    Date: new Date('2013-05-14'),
-    Open: 64.835716,
-    High: 65.028572,
-    Low: 63.164288,
-    Close: 63.408573,
-    Volume: 111779500,
-  },
-  {
-    Date: new Date('2013-05-15'),
-    Open: 62.737144,
-    High: 63.0,
-    Low: 60.337143,
-    Close: 61.264286,
-    Volume: 185403400,
-  },
-  {
-    Date: new Date('2013-05-16'),
-    Open: 60.462856,
-    High: 62.549999,
-    Low: 59.842857,
-    Close: 62.082859,
-    Volume: 150801000,
-  },
-  {
-    Date: new Date('2013-05-17'),
-    Open: 62.721428,
-    High: 62.869999,
-    Low: 61.572857,
-    Close: 61.894287,
-    Volume: 106976100,
-  },
-];
-
-const visualizationTypes = [
-  '막대 그래프',
-  '원형 그래프',
-  '꺾은선 그래프',
-  '산점도',
-  '히트맵',
-  '윈드로즈',
-];
+import * as Plot from '@observablehq/plot';
+import Step from '@/features/upload/components/Step';
 
 export default function Upload() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { file, setFile, uploadedData, setUploadedData } = useFileStore();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-    }
+    const selected = event.target.files?.[0];
+    if (selected) setFile(selected);
   };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    const file = e.dataTransfer.files?.[0];
-    if (file) {
-      setSelectedFile(file);
+    const dropped = e.dataTransfer.files?.[0];
+    if (dropped) setFile(dropped);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => e.preventDefault();
+  const triggerFileInput = () => fileInputRef.current?.click();
+
+  const handleUpload = async (): Promise<void> => {
+    if (!file) {
+      alert('파일을 먼저 업로드하세요.');
+      return;
     }
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
-
-  const triggerFileInput = () => {
-    fileInputRef.current?.click();
-  };
-
-  const onClick = async () => {
-    if (!selectedFile) return;
 
     const formData = new FormData();
-    formData.append('file', selectedFile);
+    formData.append('file', file);
 
     try {
       const uploadResponse = await sendData<UploadProps>('post', '/file/upload', formData);
@@ -103,18 +47,29 @@ export default function Upload() {
       };
 
       await sendData('post', '/file/mapping', mappingData);
+
+      const dummy = [
+        { Date: new Date('2023-01-01'), Close: 150 },
+        { Date: new Date('2023-01-02'), Close: 152 },
+        { Date: new Date('2023-01-03'), Close: 149 },
+      ];
+      setUploadedData(dummy);
+
+      alert('성공');
     } catch (error) {
       console.error(error);
+      alert('업로드에 실패했습니다.');
     }
   };
 
   return (
     <main className="flex flex-col gap-8 px-10 py-12">
-      <div className="flex flex-col gap-2">
+      <section className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold">데이터 분석 도구</h1>
-        <p className="text-sm font-light">환경 데이터를 업로드하고 전문적인 분석을 시작하세요.</p>
-      </div>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <p className="text-sm text-gray-500">환경 데이터를 업로드하고 분석을 시작하세요.</p>
+      </section>
+
+      <section className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <WhiteBox title="데이터 업로드">
           <div
             className="mb-6 w-full rounded-md border-2 border-dotted border-border_color py-10"
@@ -123,7 +78,7 @@ export default function Upload() {
           >
             <div className="flex flex-col items-center gap-4">
               <img src={uploadLogo} alt="업로드" className="h-auto w-12" />
-              <p className="text-theme_secondary">파일을 드래그하여 업로드하거나</p>
+              <p className="text-theme_secondary">파일을 드래그하거나 아래 버튼 클릭</p>
               <input
                 type="file"
                 ref={fileInputRef}
@@ -137,40 +92,38 @@ export default function Upload() {
               >
                 파일 선택
               </Button>
-              {selectedFile && (
-                <p className="text-theme_tertiary">선택된 파일: {selectedFile.name}</p>
-              )}
+              {file && <p className="text-theme_tertiary">선택된 파일: {file.name}</p>}
               <p className="text-theme_tertiary">지원형식 : CSV, XLSX, TXT(최대 100MB)</p>
             </div>
           </div>
+
+          <Button onClick={handleUpload} className="w-full bg-theme_secondary text-white">
+            업로드 및 분석 시작
+          </Button>
+
           <PreviewDataTable />
         </WhiteBox>
-        <WhiteBox title="분석 도구">
-          <h3 className="text-sm font-semibold">시각화 유형</h3>
-          <div className="grid grid-cols-3 gap-4">
-            {visualizationTypes.map((type) => (
-              <VisualizationCard
-                key={type}
-                title={type}
-                className="rounded-lg border p-4 text-center shadow-md"
-                isGraph
-                logoSrc="/src/assets/logo.png"
-              />
-            ))}
-          </div>
-          <Button className="rounded bg-theme_black px-4 py-2 text-white" onClick={onClick}>
-            분석하기
-          </Button>
-        </WhiteBox>
-      </div>
+
+        {/* TODO: 여기서 단계별 컴포넌트 렌더링 */}
+
+        <Step />
+      </section>
+
       <WhiteBox title="분석 결과">
-        <PlotFigure
-          options={{
-            width: 1000,
-            marks: [Plot.lineY(aapl, { x: 'Date', y: 'Close' })],
-          }}
-        />
+        {/* TODO: uploadedData를 이용해 시각화, 그래프별 options 초기 fix로 세팅 */}
+        {uploadedData.length > 0 ? (
+          <PlotFigure
+            options={{
+              width: 800,
+              height: 400,
+              marks: [Plot.lineY(uploadedData, { x: 'Date', y: 'Close', stroke: 'blue' })],
+            }}
+          />
+        ) : (
+          <p className="text-center text-gray-400">업로드된 데이터가 없습니다.</p>
+        )}
       </WhiteBox>
+
       <WhiteBox title="도움말 및 가이드">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
           <VisualizationCard
