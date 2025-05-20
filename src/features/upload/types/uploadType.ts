@@ -13,6 +13,7 @@ export interface VisualizationCardProps {
   className?: string;
   isGraph?: boolean | undefined;
   logoSrc: string;
+  isClicked?: boolean | undefined;
   onClick?: () => void;
 }
 

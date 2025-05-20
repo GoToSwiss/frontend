@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import WhiteBox from '@/features/upload/components/WhiteBox';
 import VisualizationCard from '@/features/upload/components/VisualizationCard';
 import useFileStore from '../../store/useFileStore';
@@ -15,8 +16,10 @@ export default function ChartFilter() {
   const setChart = useFileStore((state) => state.setChart);
   const setStep = useStepStore((state) => state.setStep);
   const step = useStepStore((state) => state.step);
+  const [isClicked, setIsClicked] = useState<string>('');
   const onClick = (type: string) => {
     setChart(type);
+    setIsClicked(type);
   };
   return (
     <WhiteBox title="분석 도구" className="flex flex-col">
@@ -28,6 +31,7 @@ export default function ChartFilter() {
             className="rounded-md border p-4 text-center shadow-md"
             isGraph
             logoSrc="/src/assets/logo.png"
+            isClicked={isClicked === type}
             onClick={() => onClick(type)}
           />
         ))}

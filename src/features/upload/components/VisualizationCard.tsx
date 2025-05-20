@@ -6,16 +6,19 @@ export default function VisualizationCard({
   className = '',
   isGraph = false,
   logoSrc,
+  isClicked = false,
   onClick = () => {},
 }: VisualizationCardProps) {
   return (
     <button
       onClick={onClick}
-      className={`${!isGraph && 'h-36'} group relative flex flex-col items-center justify-center rounded-lg border border-gray-200 p-4 text-center shadow-lg transition duration-300 hover:shadow-xl ${className}`}
+      className={`${!isGraph && 'h-36'} group relative flex flex-col items-center justify-center rounded-lg border border-gray-200 p-4 text-center ${isClicked ? 'bg-gray-100 hover:shadow-none' : ''} shadow-lg transition duration-300 hover:shadow-xl ${className}`}
     >
       <div className="flex items-center gap-4 pb-2">
         {!isGraph && <img src={logoSrc} alt="logo" className="size-6" />}
-        <h3 className="text-lg font-bold text-gray-800 transition group-hover:text-blue-600">
+        <h3
+          className={`${isClicked ? 'text-blue-600' : ''} text-lg font-bold text-gray-800 transition group-hover:text-blue-600`}
+        >
           {title}
         </h3>
       </div>
