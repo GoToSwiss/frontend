@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import useFileStore, { UploadData } from '@/features/upload/store/useFileStore';
+import useFileStore from '@/features/upload/store/useFileStore';
+import { FinalResponseProps } from '@/features/upload/types/uploadType';
 import { useLineChartFilterStore } from '../../store/useFilterStore';
 
 export default function LineChartFilter() {
@@ -15,7 +16,7 @@ export default function LineChartFilter() {
       const uniqueTimes = Array.from(new Set(times));
       setXOptions(uniqueTimes);
 
-      const keys = Object.keys(uploadedData[0]) as (keyof UploadData)[];
+      const keys = Object.keys(uploadedData[0]) as (keyof FinalResponseProps)[];
 
       setYOptions(keys.filter((key) => key !== 'time' && typeof uploadedData[0][key] === 'number'));
     }
@@ -29,14 +30,22 @@ export default function LineChartFilter() {
         </label>
         <select
           id="x"
-          className="w-full rounded border px-3 py-2"
+          className="rounded border px-3 py-2"
           value={x}
           onChange={(e) => setX(e.target.value)}
         >
           <option value="">선택하세요</option>
           {xOptions.map((key) => (
             <option key={key} value={key}>
-              {key}
+              {new Intl.DateTimeFormat('ko-KR', {
+                timeZone: 'Asia/Seoul',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+              }).format(new Date(key))}
             </option>
           ))}
         </select>
@@ -48,7 +57,7 @@ export default function LineChartFilter() {
         </label>
         <select
           id="y"
-          className="w-full rounded border px-3 py-2"
+          className="rounded border px-3 py-2"
           value={y}
           onChange={(e) => setY(e.target.value)}
         >

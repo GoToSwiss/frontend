@@ -26,12 +26,12 @@ export default function Upload() {
         <Step />
       </section>
 
-      <WhiteBox title="분석 결과">
+      <WhiteBox title="분석 결과" className="flex flex-col">
         {/* TODO: uploadedData를 이용해 시각화, 그래프별 조건부 렌더링 */}
         {/* TODO: 날짜 KST로 변경, uploadedData의 time 자체를 Date로 변환 */}
 
         {step === 2 ? (
-          <div className="mt-6 grid grid-cols-2">
+          <div className="grid grid-cols-2">
             {kind === '윈드로즈' ? <Windrose /> : <LineChart />}
 
             <DataFilter />
@@ -41,7 +41,7 @@ export default function Upload() {
         )}
       </WhiteBox>
 
-      <WhiteBox title="도움말 및 가이드">
+      <WhiteBox title="도움말 및 가이드" className="flex flex-col">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
           <VisualizationCard
             title="사용자 매뉴얼"

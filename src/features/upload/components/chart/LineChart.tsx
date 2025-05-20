@@ -18,7 +18,15 @@ export default function LineChart() {
           ),
           Plot.dotY(
             uploadedData.map((d) => ({ ...d, time: new Date(d.time) })),
-            { x: 'time', y, fill: 'blue', r: 2, tip: true },
+            {
+              x: 'time',
+              y,
+              fill: 'blue',
+              r: 2,
+              tip: true,
+              title: (d) =>
+                `🗓️ 날짜: ${d.time.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}\n\n📊 ${y}: ${d[y]}`,
+            },
           ),
         ],
       }}

@@ -24,3 +24,28 @@ export interface UploadProps {
   headers: string[];
   fileId: string;
 }
+
+export interface FinalResponseProps {
+  time: string;
+  co2: number;
+  ch4_ppb: number;
+  ch4_ppm: number;
+  type: string;
+  province: string;
+  city: string;
+  district: string;
+  observatoryName: string;
+  code: string;
+  so2_ppm: number;
+  no2_ppm: number;
+  o3_ppm: number;
+  co_ppm: number;
+  pm10: number;
+  pm2_5: number;
+  nox_ppm: number;
+  no_ppm: number;
+  windDirection: number;
+  windSpeed: number;
+  temperature: number;
+  humidity: number;
+}
