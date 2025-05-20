@@ -6,9 +6,11 @@ export default function VisualizationCard({
   className = '',
   isGraph = false,
   logoSrc,
+  onClick = () => {},
 }: VisualizationCardProps) {
   return (
     <button
+      onClick={onClick}
       className={`${!isGraph && 'h-36'} group relative flex flex-col items-center justify-center rounded-lg border border-gray-200 p-4 text-center shadow-lg transition duration-300 hover:shadow-xl ${className}`}
     >
       <div className="flex items-center gap-4 pb-2">

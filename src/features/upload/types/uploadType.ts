@@ -4,6 +4,7 @@ import * as Plot from '@observablehq/plot';
 export interface WhiteBoxProps {
   children: ReactNode;
   title: string;
+  className?: string;
 }
 
 export interface VisualizationCardProps {
@@ -12,6 +13,7 @@ export interface VisualizationCardProps {
   className?: string;
   isGraph?: boolean | undefined;
   logoSrc: string;
+  onClick?: () => void;
 }
 
 export interface PlotFigureProps {
