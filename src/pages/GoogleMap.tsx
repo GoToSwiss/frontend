@@ -1,12 +1,15 @@
 import Heatmap from '@/features/map/HeatMapContent';
-import { APIProvider, Map, Marker, useMap } from '@vis.gl/react-google-maps';
-import { useEffect, useState } from 'react';
+import { APIProvider, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps';
+import { useCallback, useEffect, useState } from 'react';
 import { EarthquakesGeojson, loadEarthquakeGeojson } from '@/features/map/earthquake';
 import SideLeftPanel from '@/features/map/components/SideLeftPanel';
 import SideRightPanel from '@/features/map/components/SideRightPanel';
 import useMapStore from '@/features/map/store/useMapStore';
-import { MarkerData } from '@/features/map/types/CoordType';
 import useDataVisualTypeStore from '@/features/map/store/useDataVisualTypeStore';
+import InfoWindowContent from '@/features/map/components/InfoWindow';
+import ClusteredMarkers from '@/features/map/components/ClusteredMarkers';
+import useGetStations from '@/features/map/query/station.query';
+import { MarkerFeature } from '@/features/map/types/CoordType';
 
 function MapController({ onReady }: { onReady: (map: google.maps.Map) => void }) {
   const map = useMap();
@@ -26,26 +29,31 @@ function GoogleMap() {
   const [earthquakesGeojson, setEarthquakesGeojson] = useState<EarthquakesGeojson>();
   const dataVisualType = useDataVisualTypeStore((state) => state.dataVisualType);
   const setMapInstance = useMapStore((state) => state.setMapInstance);
+  const { data } = useGetStations();
+
+  const [, setNumClusters] = useState(0);
+
+  const [infowindowData, setInfowindowData] = useState<{
+    anchor: google.maps.marker.AdvancedMarkerElement;
+    features: MarkerFeature[];
+  } | null>(null);
+
+  const handleInfoWindowClose = useCallback(() => setInfowindowData(null), [setInfowindowData]);
 
   useEffect(() => {
     loadEarthquakeGeojson().then(setEarthquakesGeojson);
   }, []);
-
-  const dummyMarkers: MarkerData[] = [
-    { id: 1, lat: 37.5665, lng: 126.978, label: 'Seoul' },
-    { id: 2, lat: 35.1796, lng: 129.0756, label: 'Busan' },
-    { id: 3, lat: 37.4563, lng: 126.7052, label: 'Incheon' },
-  ];
 
   return (
     <div className="relative h-full w-full">
       <APIProvider apiKey={import.meta.env.VITE_MAP_API} libraries={['places']}>
         <Map
           style={{ width: '100%', height: '100%', zIndex: 0 }}
-          defaultCenter={{ lat: 22.54992, lng: 0 }}
-          defaultZoom={3}
+          defaultCenter={{ lat: 37.5665, lng: 126.978 }}
+          defaultZoom={7}
           gestureHandling="greedy"
           disableDefaultUI
+          mapId="104e02e9fce23a43cf95caf9"
         >
           <MapController onReady={setMapInstance} />
 
@@ -53,14 +61,23 @@ function GoogleMap() {
             <Heatmap geojson={earthquakesGeojson} radius={radius} opacity={opacity} />
           )}
 
-          {dataVisualType === 'marker' &&
-            dummyMarkers.map((marker) => (
-              <Marker
-                key={marker.id}
-                position={{ lat: marker.lat, lng: marker.lng }}
-                title={marker.label}
-              />
-            ))}
+          {dataVisualType === 'marker' && data.isSuccess && (
+            <ClusteredMarkers
+              geojson={data.result}
+              setNumClusters={setNumClusters}
+              setInfowindowData={setInfowindowData}
+            />
+          )}
+
+          {infowindowData && (
+            <InfoWindow
+              className="h-auto w-[150px]"
+              onCloseClick={handleInfoWindowClose}
+              anchor={infowindowData.anchor}
+            >
+              <InfoWindowContent features={infowindowData.features} />
+            </InfoWindow>
+          )}
         </Map>
 
         <SideLeftPanel />

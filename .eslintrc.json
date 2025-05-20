@@ -10,6 +10,7 @@
     "react/require-default-props": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "react/button-has-type": "off",
+    "react/prop-types": "off",
     "jsx-a11y/label-has-associated-control": [
       2,
       {

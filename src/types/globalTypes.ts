@@ -7,8 +7,8 @@ export interface ButtonProps {
 }
 
 export interface ApiResponse<T> {
-  status: number;
+  isSuccess: boolean;
+  code: string;
   message: string | undefined;
   result: T;
-  error: string | undefined;
 }
