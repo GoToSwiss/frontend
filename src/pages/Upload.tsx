@@ -3,10 +3,10 @@ import VisualizationCard from '@/features/upload/components/VisualizationCard';
 import Step from '@/features/upload/components/Step';
 import useStepStore from '@/features/upload/store/useStepStore';
 import UploadComponent from '@/features/upload/components/UploadComponent';
-import DataFilter from '@/features/upload/components/DataFilter';
-import Windrose from '@/features/upload/components/Windrose';
+import DataFilter from '@/features/upload/components/filter/DataFilter';
+import Windrose from '@/features/upload/components/chart/Windrose';
 import useFileStore from '@/features/upload/store/useFileStore';
-import LineChart from '@/features/upload/components/LineChart';
+import LineChart from '@/features/upload/components/chart/LineChart';
 
 export default function Upload() {
   const step = useStepStore((state) => state.step);

@@ -1,7 +1,7 @@
 import WhiteBox from '@/features/upload/components/WhiteBox';
 import VisualizationCard from '@/features/upload/components/VisualizationCard';
-import useFileStore from '../store/useFileStore';
-import useStepStore from '../store/useStepStore';
+import useFileStore from '../../store/useFileStore';
+import useStepStore from '../../store/useStepStore';
 
 const visualizationTypes = [
   '막대 그래프',

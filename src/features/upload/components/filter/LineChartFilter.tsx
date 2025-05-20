@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import useFileStore, { UploadData } from '@/features/upload/store/useFileStore';
-import { useLineChartFilterStore } from '../store/useFilterStore';
+import { useLineChartFilterStore } from '../../store/useFilterStore';
 
 export default function LineChartFilter() {
   const uploadedData = useFileStore((state) => state.uploadedData);

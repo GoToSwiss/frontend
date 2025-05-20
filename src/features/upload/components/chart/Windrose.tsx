@@ -1,8 +1,8 @@
 import * as Plot from '@observablehq/plot';
 
 import dummy from '@/dummy';
-import PlotFigure from './PlotFigure';
-import useFileStore from '../store/useFileStore';
+import PlotFigure from '../PlotFigure';
+import useFileStore from '../../store/useFileStore';
 
 function createCirclePoints(radius: number, segments = 100) {
   const points = [];

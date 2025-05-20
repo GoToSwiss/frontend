@@ -61,9 +61,9 @@ export default function UploadComponent() {
         fileId: uploadResponse.result.fileId,
       };
 
-      const dummy = await sendData('post', '/file/mapping', mappingData);
+      const response = await sendData('post', '/file/mapping', mappingData);
 
-      setUploadedData(dummy.result as any);
+      setUploadedData(response.result as any);
 
       alert('성공');
     } catch (error) {
