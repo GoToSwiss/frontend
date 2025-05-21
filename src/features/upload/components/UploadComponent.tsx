@@ -100,8 +100,8 @@ export default function UploadComponent() {
       </div>
 
       <Button
+        className="mt-4 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
         onClick={handleUpload}
-        className="w-full self-end rounded-md bg-theme_secondary px-4 py-2 text-white"
       >
         업로드 및 분석 시작
       </Button>

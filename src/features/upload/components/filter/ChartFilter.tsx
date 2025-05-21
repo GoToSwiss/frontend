@@ -38,9 +38,9 @@ export default function ChartFilter() {
       </div>
       <button
         onClick={() => setStep(step + 1)}
-        className="mt-4 w-full rounded-md bg-theme_secondary px-4 py-2 text-white"
+        className="mt-4 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
       >
-        Next
+        다음
       </button>
     </WhiteBox>
   );

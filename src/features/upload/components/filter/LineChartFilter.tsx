@@ -128,10 +128,29 @@ export default function LineChartFilter() {
         </select>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         <label htmlFor="addY" className="text-sm font-medium text-gray-700">
-          데이터 선택(추가)
+          데이터 선택
         </label>
+        <button
+          type="button"
+          onClick={() => setAddY([])}
+          className="flex items-center gap-1 self-start text-sm text-blue-500 hover:text-blue-700 hover:underline"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+              clipRule="evenodd"
+            />
+          </svg>
+          선택 초기화
+        </button>
         <div className="grid grid-cols-2 gap-2">
           {yOptions.map((key) => (
             <label key={key} className="flex items-center gap-2 text-sm text-gray-700">
@@ -154,12 +173,6 @@ export default function LineChartFilter() {
           ))}
         </div>
       </div>
-      <button
-        className="mt-4 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-        onClick={() => setAddY([])}
-      >
-        초기화
-      </button>
     </div>
   );
 }
