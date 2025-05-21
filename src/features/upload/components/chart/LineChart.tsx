@@ -14,8 +14,6 @@ export default function LineChart() {
     }))
     .filter((d) => d.observatoryName === observationName);
 
-  console.log(observationName);
-
   const marks = [];
 
   const colorPalette = [

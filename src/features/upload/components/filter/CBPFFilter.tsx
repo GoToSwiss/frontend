@@ -125,7 +125,7 @@ export default function CBPFFilter() {
         </label>
         <select
           id="y2"
-          className="rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-red-500 focus:outline-none"
+          className="rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
           value={data}
           onChange={(e) => setData(e.target.value)}
         >

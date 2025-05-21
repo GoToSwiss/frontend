@@ -1,14 +1,18 @@
-import { useRef } from 'react';
+import { useRef, useTransition } from 'react';
 import Button from '@/components/Button';
 import uploadLogo from '@/assets/upload/upload.png';
 import sendData from '@/api/sendData';
+import { toast } from 'react-toastify';
 import useFileStore from '../store/useFileStore';
 import { FinalResponseProps, UploadProps } from '../types/uploadType';
 import mapping from '../mapping';
+import useStepStore from '../store/useStepStore';
 
 export default function UploadComponent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { file, setFile, setUploadedData } = useFileStore();
+  const setStep = useStepStore((state) => state.setStep);
+  const [isLoading, startTransition] = useTransition();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selected = event.target.files?.[0];
@@ -54,23 +58,26 @@ export default function UploadComponent() {
     formData.append('file', file);
 
     try {
-      const uploadResponse = await sendData<UploadProps>('post', '/file/upload', formData);
+      startTransition(async () => {
+        const uploadResponse = await sendData<UploadProps>('post', '/file/upload', formData);
+        const mappingData = {
+          headers: uploadResponse.result.headers.map(
+            (header: string) => mapping.indexOf(header) + 1,
+          ),
+          fileId: uploadResponse.result.fileId,
+        };
 
-      const mappingData = {
-        headers: uploadResponse.result.headers.map((header: string) => mapping.indexOf(header) + 1),
-        fileId: uploadResponse.result.fileId,
-      };
+        const response = await sendData<FinalResponseProps[]>('post', '/file/mapping', mappingData);
+        setUploadedData(response.result);
 
-      const response = await sendData<FinalResponseProps[]>('post', '/file/mapping', mappingData);
-
-      setUploadedData(response.result);
-
-      alert('성공');
+        setStep(0);
+        toast.success('업로드 성공!');
+      });
     } catch (error) {
-      console.error(error);
-      alert('업로드에 실패했습니다.');
+      toast.error('업로드 실패!');
     }
   };
+
   return (
     <>
       <div
@@ -99,12 +106,39 @@ export default function UploadComponent() {
         </div>
       </div>
 
-      <Button
-        className="mt-4 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+      <button
+        className="mt-4 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:bg-gray-400"
         onClick={handleUpload}
+        disabled={isLoading}
       >
-        업로드 및 분석 시작
-      </Button>
+        {isLoading ? (
+          <div className="flex items-center justify-center gap-2">
+            <svg
+              className="h-5 w-5 animate-spin text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
+              />
+            </svg>
+            업로드 중...
+          </div>
+        ) : (
+          '업로드 및 분석 시작'
+        )}
+      </button>
     </>
   );
 }
