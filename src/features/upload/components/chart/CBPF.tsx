@@ -1,8 +1,7 @@
 import * as Plot from '@observablehq/plot';
-
-import dummy from '@/dummy';
 import PlotFigure from '../PlotFigure';
 import useFileStore from '../../store/useFileStore';
+import { useCBPFStore } from '../../store/useFilterStore';
 
 function createCirclePoints(radius: number, segments = 100) {
   const points = [];
@@ -13,16 +12,22 @@ function createCirclePoints(radius: number, segments = 100) {
   return points;
 }
 
-export default function Windrose() {
-  // TODO: 실제 데이터로 변경
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function CBPF() {
   const uploadedData = useFileStore((state) => state.uploadedData);
+  const { startTime, endTime, name, data } = useCBPFStore();
 
-  if (!dummy || dummy.length === 0) return <div>데이터 없음</div>;
+  if (!uploadedData || uploadedData.length === 0) return <div>데이터 없음</div>;
 
-  const maxSpeed = Math.max(...dummy.map((d) => d.windSpeed));
+  const filteredData = uploadedData.filter(
+    (d) =>
+      new Date(d.time) >= new Date(startTime) &&
+      new Date(d.time) <= new Date(endTime) &&
+      d.observatoryName === name,
+  );
 
-  const plotData = dummy.map((d) => {
+  const maxSpeed = Math.max(...filteredData.map((d) => d.windSpeed));
+
+  const plotData = filteredData.map((d) => {
     const radius = d.windSpeed / maxSpeed;
     const angleRad = (d.windDirection * Math.PI) / 180;
     const x = Math.sin(angleRad) * radius;
@@ -30,7 +35,6 @@ export default function Windrose() {
     return { ...d, x, y };
   });
 
-  // 동심원 4개 만들기 (0.25, 0.5, 0.75, 1)
   const circles = [0.25, 0.5, 0.75, 1].map((r) => createCirclePoints(r));
 
   return (
@@ -64,14 +68,14 @@ export default function Windrose() {
           Plot.raster(plotData, {
             x: 'x',
             y: 'y',
-            fill: 'co2',
+            fill: data,
             fillOpacity: 0.9,
             interpolate: 'barycentric',
           }),
         ],
         x: { domain: [-1, 1] },
         y: { domain: [-1, 1] },
-        color: { legend: true, scheme: 'turbo', label: 'CO₂' },
+        color: { legend: true, scheme: 'turbo', label: data },
         aspectRatio: 1,
       }}
     />
