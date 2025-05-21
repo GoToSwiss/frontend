@@ -3,7 +3,7 @@ import Button from '@/components/Button';
 import uploadLogo from '@/assets/upload/upload.png';
 import sendData from '@/api/sendData';
 import useFileStore from '../store/useFileStore';
-import { UploadProps } from '../types/uploadType';
+import { FinalResponseProps, UploadProps } from '../types/uploadType';
 import mapping from '../mapping';
 
 export default function UploadComponent() {
@@ -61,9 +61,9 @@ export default function UploadComponent() {
         fileId: uploadResponse.result.fileId,
       };
 
-      const dummy = await sendData('post', '/file/mapping', mappingData);
+      const response = await sendData<FinalResponseProps[]>('post', '/file/mapping', mappingData);
 
-      setUploadedData(dummy.result as any);
+      setUploadedData(response.result);
 
       alert('성공');
     } catch (error) {
