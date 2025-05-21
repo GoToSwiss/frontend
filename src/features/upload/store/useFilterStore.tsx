@@ -28,20 +28,28 @@ const useLineChartFilterStore = create<LineChartFilterStore>((set) => ({
 }));
 
 interface WindRoseFilterStore {
-  x: string;
-  y: string;
+  startTime: string;
+  endTime: string;
+  name: string;
+  data: string;
   isComplete: boolean;
-  setX: (x: string) => void;
-  setY: (y: string) => void;
+  setStartTime: (startTime: string) => void;
+  setEndTime: (endTime: string) => void;
+  setName: (name: string) => void;
+  setData: (data: string) => void;
   setIsComplete: (isComplete: boolean) => void;
 }
 
 const useWindRoseFilterStore = create<WindRoseFilterStore>((set) => ({
-  x: '',
-  y: '',
+  startTime: '',
+  endTime: '',
+  name: '',
+  data: '',
   isComplete: false,
-  setX: (x: string) => set({ x }),
-  setY: (y: string) => set({ y }),
+  setStartTime: (startTime: string) => set({ startTime }),
+  setEndTime: (endTime: string) => set({ endTime }),
+  setName: (name: string) => set({ name }),
+  setData: (data: string) => set({ data }),
   setIsComplete: (isComplete: boolean) => set({ isComplete }),
 }));
 
