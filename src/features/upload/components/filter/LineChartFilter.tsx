@@ -6,10 +6,20 @@ import { useLineChartFilterStore } from '../../store/useFilterStore';
 
 export default function LineChartFilter() {
   const uploadedData = useFileStore((state) => state.uploadedData);
-  const { x, x2, y, y2, setX, setX2, setY, setY2 } = useLineChartFilterStore();
+  const {
+    startTime,
+    endTime,
+    addY,
+    observationName,
+    setStartTime,
+    setEndTime,
+    setAddY,
+    setObservationName,
+  } = useLineChartFilterStore();
   const [xOptions, setXOptions] = useState<string[]>([]);
   const [yOptions, setYOptions] = useState<string[]>([]);
   const [sliderValue, setSliderValue] = useState<[number, number]>([0, 0]);
+  const [observationNames, setObservationNames] = useState<string[]>([]);
 
   // TODO: 로직 시간복잡도 최적화 필요
   useEffect(() => {
@@ -17,19 +27,24 @@ export default function LineChartFilter() {
       const times = uploadedData.map((item) => item.time);
       const uniqueTimes = Array.from(new Set(times));
       setXOptions(uniqueTimes);
+      const observatoryNames = Array.from(
+        new Set(uploadedData.map((item) => item.observatoryName)),
+      );
+      setObservationNames(observatoryNames);
+      setObservationName(observatoryNames[0]);
 
       if (uniqueTimes.length > 0) {
-        if (x && x2) {
-          setSliderValue([uniqueTimes.indexOf(x), uniqueTimes.indexOf(x2)]);
-          setX(uniqueTimes[uniqueTimes.indexOf(x)]);
-          setX2(uniqueTimes[uniqueTimes.indexOf(x2)]);
+        if (startTime && endTime) {
+          setSliderValue([uniqueTimes.indexOf(startTime), uniqueTimes.indexOf(endTime)]);
+          setStartTime(uniqueTimes[uniqueTimes.indexOf(startTime)]);
+          setEndTime(uniqueTimes[uniqueTimes.indexOf(endTime)]);
         } else {
           setSliderValue([
             uniqueTimes.indexOf(uniqueTimes[0]),
             uniqueTimes.indexOf(uniqueTimes[uniqueTimes.length - 1]),
           ]);
-          setX(uniqueTimes[uniqueTimes.indexOf(uniqueTimes[0])]);
-          setX2(uniqueTimes[uniqueTimes.indexOf(uniqueTimes[uniqueTimes.length - 1])]);
+          setStartTime(uniqueTimes[uniqueTimes.indexOf(uniqueTimes[0])]);
+          setEndTime(uniqueTimes[uniqueTimes.indexOf(uniqueTimes[uniqueTimes.length - 1])]);
         }
       }
 
@@ -39,18 +54,18 @@ export default function LineChartFilter() {
       );
       setYOptions(numericKeys);
     }
-  }, [uploadedData, setX, setX2, setY, setY2]);
+  }, [uploadedData, setStartTime, setEndTime]);
 
   const handleSliderChange = useCallback(
     (_: Event, newValue: number | number[]) => {
       if (Array.isArray(newValue) && xOptions.length > 0) {
         const [startIdx, endIdx] = newValue;
         setSliderValue([startIdx, endIdx]);
-        setX(xOptions[startIdx]);
-        setX2(xOptions[endIdx]);
+        setStartTime(xOptions[startIdx]);
+        setEndTime(xOptions[endIdx]);
       }
     },
-    [xOptions, setX, setX2],
+    [xOptions, setStartTime, setEndTime],
   );
 
   return (
@@ -59,10 +74,10 @@ export default function LineChartFilter() {
         <div className="flex justify-between">
           <span className="text-sm font-medium text-gray-700">시간 범위 선택</span>
           <div className="text-sm text-gray-600">
-            {x && x2 && (
+            {startTime && endTime && (
               <span>
-                {new Date(x).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })} ~{' '}
-                {new Date(x2).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}
+                {new Date(startTime).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })} ~{' '}
+                {new Date(endTime).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}
               </span>
             )}
           </div>
@@ -95,44 +110,56 @@ export default function LineChartFilter() {
           </div>
         )}
       </div>
-
       <div className="flex flex-col gap-2">
-        <label htmlFor="y" className="text-sm font-medium text-gray-700">
-          데이터 선택
+        <label htmlFor="observationName" className="text-sm font-medium text-gray-700">
+          관측소 이름
         </label>
         <select
-          id="y"
+          id="observationName"
+          value={observationName}
+          onChange={(e) => setObservationName(e.target.value)}
           className="rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
-          value={y}
-          onChange={(e) => setY(e.target.value)}
         >
-          <option value="">선택하세요</option>
-          {yOptions.map((key) => (
-            <option key={key} value={key}>
-              {key}
+          {observationNames.map((item) => (
+            <option key={item} value={item}>
+              {item}
             </option>
           ))}
         </select>
       </div>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor="y2" className="text-sm font-medium text-gray-700">
+        <label htmlFor="addY" className="text-sm font-medium text-gray-700">
           데이터 선택(추가)
         </label>
-        <select
-          id="y2"
-          className="rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-red-500 focus:outline-none"
-          value={y2}
-          onChange={(e) => setY2(e.target.value)}
-        >
-          <option value="">선택 안 함</option>
+        <div className="grid grid-cols-2 gap-2">
           {yOptions.map((key) => (
-            <option key={key} value={key}>
+            <label key={key} className="flex items-center gap-2 text-sm text-gray-700">
+              <input
+                id="addY"
+                type="checkbox"
+                value={key}
+                checked={addY.includes(key)}
+                onChange={(e) => {
+                  const { checked } = e.target;
+                  if (checked) {
+                    setAddY([...addY, key]);
+                  } else {
+                    setAddY(addY.filter((item) => item !== key));
+                  }
+                }}
+              />
               {key}
-            </option>
+            </label>
           ))}
-        </select>
+        </div>
       </div>
+      <button
+        className="mt-4 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        onClick={() => setAddY([])}
+      >
+        초기화
+      </button>
     </div>
   );
 }

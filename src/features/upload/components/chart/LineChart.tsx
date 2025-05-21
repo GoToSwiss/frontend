@@ -5,71 +5,66 @@ import PlotFigure from '../PlotFigure';
 
 export default function LineChart() {
   const uploadedData = useFileStore((state) => state.uploadedData);
-  const { x, x2, y, y2 } = useLineChartFilterStore();
+  const { startTime, endTime, addY, observationName } = useLineChartFilterStore();
 
-  const parsedData = uploadedData.map((d) => ({
-    ...d,
-    time: new Date(d.time),
-  }));
+  const parsedData = uploadedData
+    .map((d) => ({
+      ...d,
+      time: new Date(d.time),
+    }))
+    .filter((d) => d.observatoryName === observationName);
 
-  const marks = [
-    Plot.lineY(
-      parsedData.filter((e) => e.time <= new Date(x2) && e.time >= new Date(x)),
-      { x: 'time', y, stroke: 'blue' },
-    ),
-    Plot.dotY(
-      parsedData.filter((e) => e.time <= new Date(x2) && e.time >= new Date(x)),
-      {
+  console.log(observationName);
+
+  const marks = [];
+
+  const colorPalette = [
+    'red',
+    'green',
+    'orange',
+    'purple',
+    'teal',
+    'brown',
+    'pink',
+    'gray',
+    'indigo',
+    'cyan',
+  ];
+
+  for (let i = 0; i < addY.length; i += 1) {
+    const color = colorPalette[i % colorPalette.length];
+
+    const filtered = parsedData.filter(
+      (e) => e.time <= new Date(endTime) && e.time >= new Date(startTime),
+    );
+
+    marks.push(
+      Plot.lineY(filtered, {
         x: 'time',
-        y,
-        fill: 'blue',
+        y: addY[i],
+        stroke: color,
+      }),
+      Plot.dotY(filtered, {
+        x: 'time',
+        y: addY[i],
+        fill: color,
         r: 2,
         tip: true,
         title: (d) =>
-          `🗓️ ${d.time.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}\n📊 ${y}: ${d[y]}`,
-      },
-    ),
-    Plot.text([parsedData.filter((e) => e.time <= new Date(x2) && e.time >= new Date(x)).at(-1)], {
-      x: 'time',
-      y,
-      text: () => y,
-      dy: -10,
-      fill: 'blue',
-      fontWeight: 'bold',
-    }),
-  ];
-
-  if (y2) {
-    marks.push(
-      Plot.lineY(
-        parsedData.filter((e) => e.time <= new Date(x2) && e.time >= new Date(x)),
-        { x: 'time', y: y2, stroke: 'red' },
-      ),
-      Plot.dotY(
-        parsedData.filter((e) => e.time <= new Date(x2) && e.time >= new Date(x)),
-        {
-          x: 'time',
-          y: y2,
-          fill: 'red',
-          r: 2,
-          tip: true,
-          title: (d) =>
-            `🗓️ ${d.time.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}\n📊 ${y2}: ${d[y2]}`,
-        },
-      ),
-      Plot.text(
-        [parsedData.filter((e) => e.time <= new Date(x2) && e.time >= new Date(x)).at(-1)],
-        {
-          x: 'time',
-          y: y2,
-          dy: -10,
-          text: () => y2,
-          fill: 'red',
-          fontWeight: 'bold',
-        },
-      ),
+          `🗓️ ${d.time.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}\n📊 ${addY[i]}: ${
+            d[addY[i]]
+          }`,
+      }),
+      Plot.text([filtered.at(-1)], {
+        x: 'time',
+        y: addY[i],
+        dy: -10,
+        text: () => addY[i],
+        fill: color,
+        fontWeight: 'bold',
+      }),
     );
   }
 
-  return <PlotFigure options={{ marks }} />;
+  return <PlotFigure options={{ x: { grid: true }, y: { grid: true }, marks }} />;
 }
