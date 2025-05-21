@@ -2,11 +2,11 @@ import WhiteBox from '@/features/upload/components/WhiteBox';
 import useFileStore from '../../store/useFileStore';
 import LineChartFilter from './LineChartFilter';
 import useStepStore from '../../store/useStepStore';
-import WindroseFilter from './WindRoseFilter';
+import WindroseFilter from './CBPFFilter';
 
 const filterComponent: Record<string, React.FC> = {
   '꺾은선 그래프': LineChartFilter,
-  윈드로즈: WindroseFilter,
+  CBPF: WindroseFilter,
 };
 
 export default function DataFilter() {

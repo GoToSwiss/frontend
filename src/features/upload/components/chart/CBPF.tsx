@@ -1,7 +1,7 @@
 import * as Plot from '@observablehq/plot';
 import PlotFigure from '../PlotFigure';
 import useFileStore from '../../store/useFileStore';
-import { useWindRoseFilterStore } from '../../store/useFilterStore';
+import { useCBPFStore } from '../../store/useFilterStore';
 
 function createCirclePoints(radius: number, segments = 100) {
   const points = [];
@@ -12,9 +12,9 @@ function createCirclePoints(radius: number, segments = 100) {
   return points;
 }
 
-export default function Windrose() {
+export default function CBPF() {
   const uploadedData = useFileStore((state) => state.uploadedData);
-  const { startTime, endTime, name, data } = useWindRoseFilterStore();
+  const { startTime, endTime, name, data } = useCBPFStore();
 
   if (!uploadedData || uploadedData.length === 0) return <div>데이터 없음</div>;
 

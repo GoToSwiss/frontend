@@ -4,9 +4,9 @@ import Step from '@/features/upload/components/Step';
 import useStepStore from '@/features/upload/store/useStepStore';
 import UploadComponent from '@/features/upload/components/UploadComponent';
 import DataFilter from '@/features/upload/components/filter/DataFilter';
-import Windrose from '@/features/upload/components/chart/Windrose';
 import useFileStore from '@/features/upload/store/useFileStore';
 import LineChart from '@/features/upload/components/chart/LineChart';
+import CBPF from '@/features/upload/components/chart/CBPF';
 
 export default function Upload() {
   const step = useStepStore((state) => state.step);
@@ -32,7 +32,7 @@ export default function Upload() {
 
         {step === 2 ? (
           <div className="grid grid-cols-2">
-            {kind === '윈드로즈' ? <Windrose /> : <LineChart />}
+            {kind === 'CBPF' ? <CBPF /> : <LineChart />}
 
             <DataFilter />
           </div>

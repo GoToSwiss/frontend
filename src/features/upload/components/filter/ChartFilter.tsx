@@ -10,7 +10,7 @@ const visualizationTypes = [
   '꺾은선 그래프',
   '산점도',
   '히트맵',
-  '윈드로즈',
+  'CBPF',
 ];
 export default function ChartFilter() {
   const setChart = useFileStore((state) => state.setChart);

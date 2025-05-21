@@ -2,12 +2,12 @@ import { useEffect, useState, useCallback } from 'react';
 import Slider from '@mui/material/Slider';
 import useFileStore from '@/features/upload/store/useFileStore';
 import { FinalResponseProps } from '@/features/upload/types/uploadType';
-import { useWindRoseFilterStore } from '../../store/useFilterStore';
+import { useCBPFStore } from '../../store/useFilterStore';
 
-export default function WindRoseFilter() {
+export default function CBPFFilter() {
   const uploadedData = useFileStore((state) => state.uploadedData);
   const { startTime, endTime, name, data, setStartTime, setEndTime, setName, setData } =
-    useWindRoseFilterStore();
+    useCBPFStore();
   const [timeOptions, setTimeOptions] = useState<string[]>([]);
   const [xOptions, setXOptions] = useState<string[]>([]);
   const [yOptions, setYOptions] = useState<string[]>([]);

@@ -27,7 +27,7 @@ const useLineChartFilterStore = create<LineChartFilterStore>((set) => ({
   setIsComplete: (isComplete: boolean) => set({ isComplete }),
 }));
 
-interface WindRoseFilterStore {
+interface CBPFStore {
   startTime: string;
   endTime: string;
   name: string;
@@ -40,7 +40,7 @@ interface WindRoseFilterStore {
   setIsComplete: (isComplete: boolean) => void;
 }
 
-const useWindRoseFilterStore = create<WindRoseFilterStore>((set) => ({
+const useCBPFStore = create<CBPFStore>((set) => ({
   startTime: '',
   endTime: '',
   name: '',
@@ -53,4 +53,4 @@ const useWindRoseFilterStore = create<WindRoseFilterStore>((set) => ({
   setIsComplete: (isComplete: boolean) => set({ isComplete }),
 }));
 
-export { useLineChartFilterStore, useWindRoseFilterStore };
+export { useLineChartFilterStore, useCBPFStore };
