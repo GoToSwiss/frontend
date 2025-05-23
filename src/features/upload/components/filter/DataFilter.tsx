@@ -3,10 +3,12 @@ import useFileStore from '../../store/useFileStore';
 import LineChartFilter from './LineChartFilter';
 import useStepStore from '../../store/useStepStore';
 import WindroseFilter from './CBPFFilter';
+import BinnedChartFilter from './BinnedChartFilter';
 
 const filterComponent: Record<string, React.FC> = {
   '꺾은선 그래프': LineChartFilter,
   CBPF: WindroseFilter,
+  'Binned Box': BinnedChartFilter,
 };
 
 export default function DataFilter() {

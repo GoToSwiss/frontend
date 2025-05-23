@@ -56,4 +56,28 @@ const useCBPFStore = create<CBPFStore>((set) => ({
   reset: () => set(initialCBPFState),
 }));
 
-export { useLineChartFilterStore, useCBPFStore };
+interface BinnedBoxStore {
+  x: 'day' | 'month' | 'year';
+  name: string;
+  data: string;
+  setX: (x: 'day' | 'month' | 'year') => void;
+  setName: (name: string) => void;
+  setData: (data: string) => void;
+  reset: () => void;
+}
+
+const initialBinnedBoxState: Pick<BinnedBoxStore, 'x' | 'name' | 'data'> = {
+  x: 'day',
+  name: '',
+  data: '',
+};
+
+const useBinnedBoxStore = create<BinnedBoxStore>((set) => ({
+  ...initialBinnedBoxState,
+  setX: (x: 'day' | 'month' | 'year') => set({ x }),
+  setName: (name: string) => set({ name }),
+  setData: (data: string) => set({ data }),
+  reset: () => set(initialBinnedBoxState),
+}));
+
+export { useLineChartFilterStore, useCBPFStore, useBinnedBoxStore };
