@@ -4,7 +4,14 @@ import VisualizationCard from '@/features/upload/components/VisualizationCard';
 import useFileStore from '../../store/useFileStore';
 import useStepStore from '../../store/useStepStore';
 
-const visualizationTypes = ['꺾은선 그래프', 'CBPF', 'Binned Box'];
+const description: Record<'CBPF' | 'Binned Box' | '꺾은선 그래프', string> = {
+  CBPF: '풍향과 풍속에 따른 오염물질 농도 분포를 시각화한 그래프입니다.',
+  'Binned Box': '시간에 따른 오염물질 농도의 변화를 박스플롯으로 나타낸 그래프입니다.',
+  '꺾은선 그래프': '시간에 따른 오염물질 농도의 변화를 선으로 나타낸 그래프입니다.',
+};
+
+const visualizationTypes = ['CBPF', 'Binned Box', '꺾은선 그래프'] as const;
+
 export default function ChartFilter() {
   const setChart = useFileStore((state) => state.setChart);
   const setStep = useStepStore((state) => state.setStep);
@@ -15,7 +22,7 @@ export default function ChartFilter() {
     setIsClicked(type);
   };
   return (
-    <WhiteBox title="분석 도구" className="flex flex-col">
+    <WhiteBox title="분석 도구" className="flex flex-col justify-between">
       <div className="grid grid-cols-3 gap-4">
         {visualizationTypes.map((type) => (
           <VisualizationCard
@@ -26,6 +33,7 @@ export default function ChartFilter() {
             logoSrc="/src/assets/logo.png"
             isClicked={isClicked === type}
             onClick={() => onClick(type)}
+            description={description[type]}
           />
         ))}
       </div>
