@@ -1,6 +1,6 @@
 import Heatmap from '@/features/map/HeatMapContent';
 import { APIProvider, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EarthquakesGeojson, loadEarthquakeGeojson } from '@/features/map/earthquake';
 import SideLeftPanel from '@/features/map/components/SideLeftPanel';
 import SideRightPanel from '@/features/map/components/SideRightPanel';
@@ -9,7 +9,7 @@ import useDataVisualTypeStore from '@/features/map/store/useDataVisualTypeStore'
 import InfoWindowContent from '@/features/map/components/InfoWindow';
 import ClusteredMarkers from '@/features/map/components/ClusteredMarkers';
 import useGetStations from '@/features/map/query/station.query';
-import { MarkerFeature } from '@/features/map/types/CoordType';
+import useInfoWindowStore from '@/features/map/store/useInfoWindowStore';
 
 function MapController({ onReady }: { onReady: (map: google.maps.Map) => void }) {
   const map = useMap();
@@ -29,16 +29,12 @@ function GoogleMap() {
   const [earthquakesGeojson, setEarthquakesGeojson] = useState<EarthquakesGeojson>();
   const dataVisualType = useDataVisualTypeStore((state) => state.dataVisualType);
   const setMapInstance = useMapStore((state) => state.setMapInstance);
+
   const { data } = useGetStations();
 
   const [, setNumClusters] = useState(0);
-
-  const [infowindowData, setInfowindowData] = useState<{
-    anchor: google.maps.marker.AdvancedMarkerElement;
-    features: MarkerFeature[];
-  } | null>(null);
-
-  const handleInfoWindowClose = useCallback(() => setInfowindowData(null), [setInfowindowData]);
+  const setInfowindowData = useInfoWindowStore((state) => state.setInfowindowData);
+  const infowindowData = useInfoWindowStore((state) => state.infowindowData);
 
   useEffect(() => {
     loadEarthquakeGeojson().then(setEarthquakesGeojson);
@@ -62,20 +58,12 @@ function GoogleMap() {
           )}
 
           {dataVisualType === 'marker' && data.isSuccess && (
-            <ClusteredMarkers
-              geojson={data.result}
-              setNumClusters={setNumClusters}
-              setInfowindowData={setInfowindowData}
-            />
+            <ClusteredMarkers geojson={data.result} setNumClusters={setNumClusters} />
           )}
 
           {infowindowData && (
-            <InfoWindow
-              className="h-auto w-[150px]"
-              onCloseClick={handleInfoWindowClose}
-              anchor={infowindowData.anchor}
-            >
-              <InfoWindowContent features={infowindowData.features} />
+            <InfoWindow className="h-auto w-[150px]" onCloseClick={() => setInfowindowData(null)}>
+              <InfoWindowContent />
             </InfoWindow>
           )}
         </Map>

@@ -1,21 +1,19 @@
-import React, { memo } from 'react';
-import { MarkerFeature, MarkerFeatureProps } from '../types/CoordType';
-
-type InfowindowContentProps = {
-  features: MarkerFeature[];
-};
+import React from 'react';
+import { MarkerFeatureProps } from '../types/CoordType';
+import useInfoWindowStore from '../store/useInfoWindowStore';
 
 const numFmt = new Intl.NumberFormat();
 
-const InfoWindowContent = memo(({ features }: InfowindowContentProps) => {
-  if (features.length === 1) {
-    const f = features[0];
+function InfoWindowContent() {
+  const { infowindowData } = useInfoWindowStore();
+
+  if (infowindowData?.features.length === 1) {
+    const f = infowindowData.features[0];
     const props = f.properties;
 
     return (
       <div className="flex flex-col gap-2 p-3">
         <h1 className="text-sm font-bold text-gray-800">관측소</h1>
-
         <a
           href={getDetailsUrl(props)}
           target="_blank"
@@ -33,7 +31,7 @@ const InfoWindowContent = memo(({ features }: InfowindowContentProps) => {
       <h1 className="text-sm font-bold text-gray-800">관측소 목록</h1>
 
       <ul className="list-none space-y-1">
-        {features.slice(0, 5).map((feature) => {
+        {infowindowData?.features.slice(0, 5).map((feature) => {
           const props = feature.properties!;
 
           return (
@@ -58,7 +56,7 @@ const InfoWindowContent = memo(({ features }: InfowindowContentProps) => {
       </ul>
     </div>
   );
-});
+}
 
 export default InfoWindowContent;
 

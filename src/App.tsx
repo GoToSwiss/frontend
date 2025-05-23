@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import LoadingAuth from './pages/LoadingAuth';
 import NotFound from './pages/NotFound';
 import MyPage from './pages/MyPage';
+import MapLayout from './layouts/MapLayout';
 
 async function enableMocking() {
   if (import.meta.env.VITE_NODE_ENV !== 'development') {
@@ -36,10 +37,7 @@ const router = createBrowserRouter([
         path: 'upload',
         element: <Upload />,
       },
-      {
-        path: 'map',
-        element: <GoogleMap />,
-      },
+
       {
         path: 'mypage',
         element: <MyPage />,
@@ -53,6 +51,14 @@ const router = createBrowserRouter([
   {
     path: 'loadingAuth',
     element: <LoadingAuth />,
+  },
+  {
+    path: 'map',
+    element: (
+      <MapLayout>
+        <GoogleMap />
+      </MapLayout>
+    ),
   },
 ]);
 

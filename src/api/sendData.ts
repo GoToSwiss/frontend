@@ -1,6 +1,6 @@
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { ApiResponse } from '@/types/globalTypes';
-import api from '.';
+import axiosInstance from '.';
 
 /**
  *
@@ -21,13 +21,13 @@ async function sendData<T>(
     let response;
     switch (method) {
       case 'post':
-        response = await api.post<ApiResponse<T>>(url, data, config);
+        response = await axiosInstance.post<ApiResponse<T>>(url, data, config);
         break;
       case 'put':
-        response = await api.put<ApiResponse<T>>(url, data, config);
+        response = await axiosInstance.put<ApiResponse<T>>(url, data, config);
         break;
       case 'patch':
-        response = await api.patch<ApiResponse<T>>(url, data, config);
+        response = await axiosInstance.patch<ApiResponse<T>>(url, data, config);
         break;
       default:
         throw new Error(`Unsupported method: ${method}`);

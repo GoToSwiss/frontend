@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 const now = new Date();
-const nowStr = now.toTimeString().slice(0, 8); // "HH:mm:ss"
+// const nowStr = now.toTimeString().slice(0, 8); // "HH:mm:ss"
 
 type DateRangeState = {
   dateRange: [Date, Date];
@@ -12,7 +12,7 @@ type DateRangeState = {
 
 const useDateRangeStore = create<DateRangeState>((set) => ({
   dateRange: [now, now],
-  timeRange: [nowStr, nowStr],
+  timeRange: ['05:00:00', '08:00:00'],
   setDateRange: (range) => set({ dateRange: range }),
   setTimeRange: (range) => set({ timeRange: range }),
 }));

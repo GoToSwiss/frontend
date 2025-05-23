@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { ApiResponse } from '@/types/globalTypes';
-import api from '.';
+import axiosInstance from '.';
 
 /**
  *
@@ -11,7 +11,7 @@ import api from '.';
 
 const deleteData = async <T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> => {
   try {
-    const { data } = await api.delete<ApiResponse<T>>(url, config);
+    const { data } = await axiosInstance.delete<ApiResponse<T>>(url, config);
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
