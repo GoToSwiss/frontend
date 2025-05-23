@@ -1,4 +1,4 @@
-export interface AirQualityData {
+export interface AirQualityType {
   coGrade: number; // 일산화탄소 등급
   coValue: number; // 일산화탄소 수치 (ppm)
 
@@ -24,3 +24,5 @@ export interface AirQualityData {
 
   stationName: string; // 측정소 이름
 }
+
+export type AirSelectType = 'pm10' | 'pm25' | 'o3' | 'no2' | 'co' | 'so2' | 'khai';

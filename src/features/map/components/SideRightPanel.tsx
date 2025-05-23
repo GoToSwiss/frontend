@@ -1,19 +1,14 @@
 import { ChevronRight, X } from 'lucide-react';
 import RightPanelContent from './RightPanelContent';
 import usePanelStore from '../store/usePanelStore';
-import useStationStore from '../store/useStationStore';
-import useDataRangeStore from '../store/useDateRangeStore';
 
 function SideRightPanel() {
-  const { rightPanelOpen, closeRightPanel } = usePanelStore();
-  const { stationName } = useStationStore();
-  const { dateRange, timeRange } = useDataRangeStore();
-
+  const { rightPanelOpen, toggleRightPanel } = usePanelStore();
   return (
     <>
       <button
         type="button"
-        onClick={closeRightPanel}
+        onClick={() => toggleRightPanel()}
         className="absolute right-4 top-4 z-20 rounded bg-white p-1 shadow hover:bg-gray-100"
       >
         {rightPanelOpen ? (
@@ -25,11 +20,7 @@ function SideRightPanel() {
 
       {rightPanelOpen && (
         <div className="absolute right-4 top-11 z-10 h-[90%] w-72 space-y-6 overflow-y-auto rounded-lg bg-white p-4 shadow-md">
-          <RightPanelContent
-            stationName={stationName}
-            dateRange={dateRange}
-            timeRange={timeRange}
-          />
+          <RightPanelContent />
         </div>
       )}
     </>

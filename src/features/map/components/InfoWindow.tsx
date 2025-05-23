@@ -48,9 +48,9 @@ function InfoWindowContent() {
           );
         })}
 
-        {features.length > 5 && (
+        {infowindowData?.features.length > 5 && (
           <li className="text-sm font-medium text-gray-500">
-            외 {numFmt.format(features.length - 5)}개 더 있음
+            외 {numFmt.format(infowindowData.features.length - 5)}개 더 있음
           </li>
         )}
       </ul>

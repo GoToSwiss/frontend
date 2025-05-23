@@ -6,13 +6,13 @@ import DateSelection from './DateSelection';
 import usePanelStore from '../store/usePanelStore';
 
 function SideLeftPanel() {
-  const { leftPanelOpen, closeLeftPanel, openRightPanel } = usePanelStore();
+  const { leftPanelOpen, toggleLeftPanel, openRightPanel } = usePanelStore();
 
   return (
     <>
       <button
         type="button"
-        onClick={() => closeLeftPanel()}
+        onClick={() => toggleLeftPanel()}
         className="absolute left-4 top-4 z-20 rounded bg-white p-1 shadow hover:bg-gray-100"
       >
         {leftPanelOpen ? (
@@ -23,7 +23,7 @@ function SideLeftPanel() {
       </button>
 
       {leftPanelOpen && (
-        <div className="absolute left-4 top-11 z-10 h-[90%] w-80 space-y-6 rounded-lg bg-white p-4 shadow-md">
+        <div className="w-90 absolute left-4 top-11 z-10 h-[90%] space-y-6 rounded-lg bg-white p-4 shadow-md">
           <PlaceSearchInput />
           <DataVisualizationSelection />
           <AirLegend />

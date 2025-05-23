@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import getData from '@/api/getData';
 import { ApiResponse } from '@/types/globalTypes';
-import { AirQualityData } from '../types/AirQualityType';
+import { AirQualityData } from '../types/AirSelectType';
 
 const useGetAir = (stationName: string, dateRange: [Date, Date], timeRange: [string, string]) => {
   const [start, end] = dateRange;
