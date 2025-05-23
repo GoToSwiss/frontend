@@ -62,7 +62,11 @@ function GoogleMap() {
           )}
 
           {infowindowData && (
-            <InfoWindow className="h-auto w-[150px]" onCloseClick={() => setInfowindowData(null)}>
+            <InfoWindow
+              className="h-auto w-[150px]"
+              onCloseClick={() => setInfowindowData(null)}
+              position={infowindowData.anchor.position}
+            >
               <InfoWindowContent />
             </InfoWindow>
           )}

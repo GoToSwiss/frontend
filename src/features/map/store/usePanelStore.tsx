@@ -5,6 +5,8 @@ type PanelState = {
   rightPanelOpen: boolean;
   openLeftPanel: () => void;
   openRightPanel: () => void;
+  toggleLeftPanel: () => void;
+  toggleRightPanel: () => void;
   closeLeftPanel: () => void;
   closeRightPanel: () => void;
   setLeftPanel: (open: boolean) => void;
@@ -16,6 +18,8 @@ const usePanelStore = create<PanelState>((set) => ({
   rightPanelOpen: false,
   openLeftPanel: () => set(() => ({ leftPanelOpen: true })),
   openRightPanel: () => set(() => ({ rightPanelOpen: true })),
+  toggleLeftPanel: () => set((state) => ({ leftPanelOpen: !state.leftPanelOpen })),
+  toggleRightPanel: () => set((state) => ({ rightPanelOpen: !state.rightPanelOpen })),
   closeLeftPanel: () => set(() => ({ leftPanelOpen: false })),
   closeRightPanel: () => set(() => ({ rightPanelOpen: false })),
   setLeftPanel: (open) => set({ leftPanelOpen: open }),

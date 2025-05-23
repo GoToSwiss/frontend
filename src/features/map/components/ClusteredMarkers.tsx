@@ -25,6 +25,7 @@ function ClusteredMarkers({ geojson, setNumClusters }: ClusteredMarkersProps) {
   const { clusters, getLeaves } = useSupercluster(geojson, superclusterOptions);
   const setStationName = useStationStore((state) => state.setStationName);
   const openRightPanel = usePanelStore((state) => state.openRightPanel);
+
   useEffect(() => {
     setNumClusters(clusters.length);
   }, [setNumClusters, clusters.length]);
