@@ -4,10 +4,11 @@ import DataVisualizationSelection from './DataVisualizationSelection';
 import AirLegend from './AirLegend';
 import DateSelection from './DateSelection';
 import usePanelStore from '../store/usePanelStore';
+import useDataVisualTypeStore from '../store/useDataVisualTypeStore';
 
 function SideLeftPanel() {
-  const { leftPanelOpen, toggleLeftPanel, openRightPanel } = usePanelStore();
-
+  const { leftPanelOpen, toggleLeftPanel } = usePanelStore();
+  const dataVisualType = useDataVisualTypeStore((state) => state.dataVisualType);
   return (
     <>
       <button
@@ -26,14 +27,11 @@ function SideLeftPanel() {
         <div className="w-90 absolute left-4 top-11 z-10 h-[90%] space-y-6 rounded-lg bg-white p-4 shadow-md">
           <PlaceSearchInput />
           <DataVisualizationSelection />
-          <AirLegend />
-          <DateSelection />
-          <button
-            onClick={() => openRightPanel()}
-            className="w-full rounded border border-gray-300 px-3 py-2 text-xs shadow-sm transition hover:bg-gray-50"
-          >
-            분석
-          </button>
+          {dataVisualType === 'marker' && (
+            <>
+              <AirLegend /> <DateSelection />
+            </>
+          )}
         </div>
       )}
     </>

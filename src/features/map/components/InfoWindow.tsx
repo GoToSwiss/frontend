@@ -1,34 +1,36 @@
 import React from 'react';
-import { MarkerFeatureProps } from '../types/CoordType';
 import useInfoWindowStore from '../store/useInfoWindowStore';
+import useStationStore from '../store/useStationStore';
 
 const numFmt = new Intl.NumberFormat();
 
 function InfoWindowContent() {
   const { infowindowData } = useInfoWindowStore();
-
+  const setStationName = useStationStore((state) => state.setStationName);
   if (infowindowData?.features.length === 1) {
     const f = infowindowData.features[0];
     const props = f.properties;
 
     return (
       <div className="flex flex-col gap-2 p-3">
-        <h1 className="text-sm font-bold text-gray-800">관측소</h1>
-        <a
-          href={getDetailsUrl(props)}
-          target="_blank"
-          rel="noreferrer"
-          className="text-sm font-medium text-blue-600 hover:underline"
-        >
-          {props.stationName}
-        </a>
+        <h1 className="text-lg font-bold text-gray-800">관측소</h1>
+        <div>
+          <button
+            onClick={() => {
+              setStationName(props.stationName);
+            }}
+            className="text-lg font-medium text-blue-600 hover:underline"
+          >
+            {props.stationName}
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="flex flex-col gap-2 p-3">
-      <h1 className="text-sm font-bold text-gray-800">관측소 목록</h1>
+      <h1 className="text-lg font-bold text-gray-800">관측소 목록</h1>
 
       <ul className="list-none space-y-1">
         {infowindowData?.features.slice(0, 5).map((feature) => {
@@ -36,19 +38,19 @@ function InfoWindowContent() {
 
           return (
             <li key={feature.id}>
-              <a
-                href={getDetailsUrl(props)}
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm text-blue-600 hover:underline"
+              <button
+                onClick={() => {
+                  setStationName(props.stationName);
+                }}
+                className="w-full truncate text-start text-lg text-blue-600 hover:underline"
               >
                 {props.stationName}
-              </a>
+              </button>
             </li>
           );
         })}
 
-        {infowindowData?.features.length > 5 && (
+        {infowindowData?.features.length && infowindowData.features.length > 5 && (
           <li className="text-sm font-medium text-gray-500">
             외 {numFmt.format(infowindowData.features.length - 5)}개 더 있음
           </li>
@@ -59,7 +61,3 @@ function InfoWindowContent() {
 }
 
 export default InfoWindowContent;
-
-function getDetailsUrl(props: MarkerFeatureProps) {
-  return `https://www.airkorea.or.kr/web/search?query=${props.stationName}`;
-}

@@ -3,12 +3,15 @@ import RightPanelContent from './RightPanelContent';
 import usePanelStore from '../store/usePanelStore';
 
 function SideRightPanel() {
-  const { rightPanelOpen, toggleRightPanel } = usePanelStore();
+  const { rightPanelOpen, toggleRightPanel, closeChat } = usePanelStore();
   return (
     <>
       <button
         type="button"
-        onClick={() => toggleRightPanel()}
+        onClick={() => {
+          toggleRightPanel();
+          closeChat();
+        }}
         className="absolute right-4 top-4 z-20 rounded bg-white p-1 shadow hover:bg-gray-100"
       >
         {rightPanelOpen ? (

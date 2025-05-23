@@ -8,6 +8,7 @@ import useStationStore from '../store/useStationStore';
 import { MarkerFeature } from '../types/CoordType';
 import usePanelStore from '../store/usePanelStore';
 import useInfoWindowStore from '../store/useInfoWindowStore';
+import focusOnLocation from '../utils/focusOnLocation';
 
 type ClusteredMarkersProps = {
   geojson: FeatureCollection<Point>;
@@ -33,8 +34,10 @@ function ClusteredMarkers({ geojson, setNumClusters }: ClusteredMarkersProps) {
   const handleClusterClick = useCallback(
     (marker: google.maps.marker.AdvancedMarkerElement, clusterId: number) => {
       const leaves = getLeaves(clusterId);
+      focusOnLocation(leaves[0].geometry.coordinates[1], leaves[0].geometry.coordinates[0], 8);
       setInfowindowData({ anchor: marker, features: leaves as MarkerFeature[] });
     },
+
     [getLeaves, setInfowindowData],
   );
 
@@ -42,6 +45,7 @@ function ClusteredMarkers({ geojson, setNumClusters }: ClusteredMarkersProps) {
     (marker: google.maps.marker.AdvancedMarkerElement, featureId: string) => {
       const feature = clusters.find((feat) => feat.id === featureId) as Feature<Point>;
       console.log('feature', feature);
+      focusOnLocation(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
       setInfowindowData({ anchor: marker, features: [feature as MarkerFeature] });
       setStationName(feature.properties?.stationName);
       openRightPanel();

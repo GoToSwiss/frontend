@@ -10,8 +10,10 @@ import InfoWindowContent from '@/features/map/components/InfoWindow';
 import ClusteredMarkers from '@/features/map/components/ClusteredMarkers';
 import useGetStations from '@/features/map/query/station.query';
 import useInfoWindowStore from '@/features/map/store/useInfoWindowStore';
+import SeoulCircle from '@/features/map/components/SeoulCenter';
+import ChatBot from '@/features/map/components/ChatBot';
 
-function MapController({ onReady }: { onReady: (map: google.maps.Map) => void }) {
+export function MapController({ onReady }: { onReady: (map: google.maps.Map) => void }) {
   const map = useMap();
 
   useEffect(() => {
@@ -70,10 +72,12 @@ function GoogleMap() {
               <InfoWindowContent />
             </InfoWindow>
           )}
+          <SeoulCircle />
         </Map>
 
         <SideLeftPanel />
         <SideRightPanel />
+        <ChatBot />
       </APIProvider>
     </div>
   );

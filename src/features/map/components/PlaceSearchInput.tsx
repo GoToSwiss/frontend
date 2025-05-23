@@ -44,7 +44,7 @@ function PlaceSearchInput() {
   };
 
   return (
-    <div className="grid grid-cols-[3fr_1fr]">
+    <div className="grid h-10 grid-cols-[3fr_1fr]">
       <input
         ref={inputRef}
         type="text"
