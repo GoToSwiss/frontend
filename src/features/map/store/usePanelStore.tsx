@@ -3,6 +3,9 @@ import { create } from 'zustand';
 type PanelState = {
   leftPanelOpen: boolean;
   rightPanelOpen: boolean;
+  isChatOpen: boolean;
+  closeChat: () => void;
+  toggleChatOpen: () => void;
   openLeftPanel: () => void;
   openRightPanel: () => void;
   toggleLeftPanel: () => void;
@@ -16,6 +19,9 @@ type PanelState = {
 const usePanelStore = create<PanelState>((set) => ({
   leftPanelOpen: true,
   rightPanelOpen: false,
+  isChatOpen: false,
+  closeChat: () => set(() => ({ isChatOpen: false })),
+  toggleChatOpen: () => set((state) => ({ isChatOpen: !state.isChatOpen })),
   openLeftPanel: () => set(() => ({ leftPanelOpen: true })),
   openRightPanel: () => set(() => ({ rightPanelOpen: true })),
   toggleLeftPanel: () => set((state) => ({ leftPanelOpen: !state.leftPanelOpen })),

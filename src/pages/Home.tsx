@@ -1,3 +1,5 @@
+import HomeBanner from '@/features/home/HomeBanner';
+
 export default function Home() {
-  return <div>home</div>;
+  return <HomeBanner />;
 }
