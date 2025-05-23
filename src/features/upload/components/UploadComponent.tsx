@@ -1,7 +1,7 @@
-import { useRef, useTransition } from 'react';
-import Button from '@/components/Button';
+import { useRef, useState, useTransition } from 'react';
 import uploadLogo from '@/assets/upload/upload.png';
 import sendData from '@/api/sendData';
+import Button from '@/components/Button';
 import { toast } from 'react-toastify';
 import useFileStore from '../store/useFileStore';
 import { FinalResponseProps, UploadProps } from '../types/uploadType';
@@ -12,45 +12,47 @@ export default function UploadComponent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { file, setFile, setUploadedData } = useFileStore();
   const setStep = useStepStore((state) => state.setStep);
+  const [isDragOver, setIsDragOver] = useState(false);
   const [isLoading, startTransition] = useTransition();
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selected = event.target.files?.[0];
-    if (!selected) return;
+  const allowedExtensions = ['.xlsx', '.xls', '.csv'];
 
-    const allowedExtensions = ['.xlsx', '.xls', '.csv'];
-    const fileExtension = selected.name.slice(selected.name.lastIndexOf('.')).toLowerCase();
-
-    if (!allowedExtensions.includes(fileExtension)) {
-      alert('지원하지 않는 파일 형식입니다. CSV, XLSX, XLS 파일만 업로드 가능합니다.');
-      return;
+  const validateFile = (selectedFile: File) => {
+    const ext = selectedFile.name.slice(selectedFile.name.lastIndexOf('.')).toLowerCase();
+    if (!allowedExtensions.includes(ext)) {
+      toast.error('지원하지 않는 파일 형식입니다. CSV, XLSX, XLS 파일만 업로드 가능합니다.');
+      return false;
     }
+    return true;
+  };
 
-    setFile(selected);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    if (selected && validateFile(selected)) setFile(selected);
   };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
+    setIsDragOver(false);
     const dropped = e.dataTransfer.files?.[0];
-    if (!dropped) return;
-
-    const allowedExtensions = ['.xlsx', '.xls', '.csv'];
-    const fileExtension = dropped.name.slice(dropped.name.lastIndexOf('.')).toLowerCase();
-
-    if (!allowedExtensions.includes(fileExtension)) {
-      alert('지원하지 않는 파일 형식입니다. CSV, XLSX, XLS 파일만 업로드 가능합니다.');
-      return;
-    }
-
-    setFile(dropped);
+    if (dropped && validateFile(dropped)) setFile(dropped);
   };
 
-  const handleDragOver = (e: React.DragEvent) => e.preventDefault();
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
   const triggerFileInput = () => fileInputRef.current?.click();
 
-  const handleUpload = async (): Promise<void> => {
+  const handleUpload = async () => {
     if (!file) {
-      alert('파일을 먼저 업로드하세요.');
+      toast.error('파일을 먼저 업로드하세요.');
       return;
     }
 
@@ -69,7 +71,6 @@ export default function UploadComponent() {
 
         const response = await sendData<FinalResponseProps[]>('post', '/file/mapping', mappingData);
         setUploadedData(response.result);
-
         setStep(0);
         toast.success('업로드 성공!');
       });
@@ -79,15 +80,30 @@ export default function UploadComponent() {
   };
 
   return (
-    <>
+    <div className="w-full">
       <div
-        className="mb-6 h-auto w-full rounded-md border-2 border-dotted border-border_color py-10"
+        className={`mb-6 h-auto w-full rounded-xl border-4 border-dashed p-10 text-center transition-all duration-300 ${
+          isDragOver ? 'border-blue-400 bg-blue-50 shadow-lg' : 'border-gray-300 bg-white'
+        }`}
         onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        <div className="flex flex-col items-center gap-4">
-          <img src={uploadLogo} alt="업로드" className="h-auto w-12" />
-          <p className="text-theme_secondary">파일을 드래그하거나 아래 버튼 클릭</p>
+        <div className="flex flex-col items-center gap-4 transition-all duration-300">
+          <img
+            src={uploadLogo}
+            alt="upload icon"
+            className={`w-14 transition-transform duration-300 ${
+              isDragOver ? 'scale-110 opacity-90' : 'opacity-70'
+            }`}
+          />
+          <p
+            className={`text-base transition-colors duration-300 ${
+              isDragOver ? 'font-semibold text-blue-500' : 'text-gray-500'
+            }`}
+          >
+            {isDragOver ? '여기에 파일을 놓으세요!' : '파일을 드래그하거나 아래 버튼 클릭'}
+          </p>
           <input
             type="file"
             ref={fileInputRef}
@@ -95,21 +111,22 @@ export default function UploadComponent() {
             accept=".xlsx,.xls,.csv"
             className="hidden"
           />
-          <Button
-            className="rounded bg-theme_black px-4 py-2 text-white"
-            onClick={triggerFileInput}
-          >
+          <Button onClick={triggerFileInput} className="bg-theme_black px-4 py-2 text-white">
             파일 선택
           </Button>
-          {file && <p className="text-theme_tertiary">선택된 파일: {file.name}</p>}
-          <p className="text-theme_tertiary">지원형식 : CSV, XLSX, TXT(최대 100MB)</p>
+          {file && (
+            <p className="animate-rainbow-text break-all text-center font-semibold">
+              선택된 파일: {file.name}
+            </p>
+          )}
+          <p className="text-sm text-gray-400">지원 형식: CSV, XLSX, XLS</p>
         </div>
       </div>
 
       <button
-        className="mt-4 w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:bg-gray-400"
         onClick={handleUpload}
         disabled={isLoading}
+        className="w-full rounded bg-blue-600 px-4 py-3 text-white transition hover:bg-blue-700 disabled:bg-gray-400"
       >
         {isLoading ? (
           <div className="flex items-center justify-center gap-2">
@@ -139,6 +156,6 @@ export default function UploadComponent() {
           '업로드 및 분석 시작'
         )}
       </button>
-    </>
+    </div>
   );
 }
