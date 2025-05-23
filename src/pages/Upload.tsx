@@ -7,10 +7,18 @@ import DataFilter from '@/features/upload/components/filter/DataFilter';
 import useFileStore from '@/features/upload/store/useFileStore';
 import LineChart from '@/features/upload/components/chart/LineChart';
 import CBPF from '@/features/upload/components/chart/CBPF';
+import BinnedChart from '@/features/upload/components/chart/BinnedChart';
 
 export default function Upload() {
   const step = useStepStore((state) => state.step);
   const kind = useFileStore((state) => state.chart);
+  const selectChartComponent: Record<string, React.FC> = {
+    CBPF,
+    '꺾은선 그래프': LineChart,
+    'Binned Box': BinnedChart,
+  };
+
+  const ChartComponent = selectChartComponent[kind];
 
   return (
     <main className="flex flex-col gap-8 px-10 py-12">
@@ -30,8 +38,7 @@ export default function Upload() {
         {/* TODO: uploadedData를 이용해 시각화, 그래프별 조건부 렌더링 */}
         {step === 2 ? (
           <div className="grid grid-cols-2">
-            {kind === 'CBPF' ? <CBPF /> : <LineChart />}
-
+            {ChartComponent ? <ChartComponent /> : <p>해당 차트가 없습니다.</p>}
             <DataFilter />
           </div>
         ) : (

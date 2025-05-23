@@ -4,14 +4,7 @@ import VisualizationCard from '@/features/upload/components/VisualizationCard';
 import useFileStore from '../../store/useFileStore';
 import useStepStore from '../../store/useStepStore';
 
-const visualizationTypes = [
-  '막대 그래프',
-  '원형 그래프',
-  '꺾은선 그래프',
-  '산점도',
-  '히트맵',
-  'CBPF',
-];
+const visualizationTypes = ['꺾은선 그래프', 'CBPF', 'Binned Box'];
 export default function ChartFilter() {
   const setChart = useFileStore((state) => state.setChart);
   const setStep = useStepStore((state) => state.setStep);
