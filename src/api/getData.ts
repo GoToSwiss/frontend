@@ -1,6 +1,6 @@
 import { ApiResponse } from '@/types/globalTypes';
 import { AxiosError, AxiosRequestConfig } from 'axios';
-import api from '.';
+import axiosInstance from '.';
 
 /**
  *
@@ -14,7 +14,7 @@ const getData = async <T>(
   config?: AxiosRequestConfig, // config를 추가하여 params 등 설정 가능
 ): Promise<ApiResponse<T>> => {
   try {
-    const { data } = await api.get<ApiResponse<T>>(url, config);
+    const { data } = await axiosInstance.get<ApiResponse<T>>(url, config);
     return data;
   } catch (error) {
     if (error instanceof AxiosError) {

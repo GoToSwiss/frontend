@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import getData from '@/api/getData';
 import { ApiResponse } from '@/types/globalTypes';
-import { MarkerGeojson } from '../types/CoordType';
+import { AirQualityData } from '../types/AirQualityType';
 
 const useGetAir = (stationName: string, dateRange: [Date, Date], timeRange: [string, string]) => {
   const [start, end] = dateRange;
@@ -14,7 +14,7 @@ const useGetAir = (stationName: string, dateRange: [Date, Date], timeRange: [str
     ? ['air', 'hour', stationName, startStr, timeRange[0]]
     : ['air', 'day', stationName, startStr, endStr];
 
-  const queryFn = async (): Promise<ApiResponse<MarkerGeojson>> => {
+  const queryFn = async (): Promise<ApiResponse<AirQualityData[]>> => {
     if (isSameDay) {
       return getData(
         `/observatory/data/get/hour/range?nation=${stationName}&startDateTime=${startStr}T${timeRange[0]}&endDateTime=${endStr}T${timeRange[1]}`,
@@ -26,7 +26,7 @@ const useGetAir = (stationName: string, dateRange: [Date, Date], timeRange: [str
     );
   };
 
-  return useSuspenseQuery<ApiResponse<MarkerGeojson>>({
+  return useSuspenseQuery<ApiResponse<AirQualityData[]>>({
     queryKey,
     queryFn,
   });

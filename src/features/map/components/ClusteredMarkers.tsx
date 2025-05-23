@@ -6,16 +6,12 @@ import FeatureMarker from './FeatureMarker';
 import useSupercluster from '../hooks/use-supercluster';
 import useStationStore from '../store/useStationStore';
 import { MarkerFeature } from '../types/CoordType';
+import usePanelStore from '../store/usePanelStore';
+import useInfoWindowStore from '../store/useInfoWindowStore';
 
 type ClusteredMarkersProps = {
   geojson: FeatureCollection<Point>;
   setNumClusters: (n: number) => void;
-  setInfowindowData: (
-    data: {
-      anchor: google.maps.marker.AdvancedMarkerElement;
-      features: MarkerFeature[];
-    } | null,
-  ) => void;
 };
 
 const superclusterOptions: Supercluster.Options<GeoJsonProperties, ClusterProperties> = {
@@ -24,10 +20,11 @@ const superclusterOptions: Supercluster.Options<GeoJsonProperties, ClusterProper
   maxZoom: 12,
 };
 
-function ClusteredMarkers({ geojson, setNumClusters, setInfowindowData }: ClusteredMarkersProps) {
+function ClusteredMarkers({ geojson, setNumClusters }: ClusteredMarkersProps) {
+  const setInfowindowData = useInfoWindowStore((state) => state.setInfowindowData);
   const { clusters, getLeaves } = useSupercluster(geojson, superclusterOptions);
   const setStationName = useStationStore((state) => state.setStationName);
-
+  const openRightPanel = usePanelStore((state) => state.openRightPanel);
   useEffect(() => {
     setNumClusters(clusters.length);
   }, [setNumClusters, clusters.length]);
@@ -46,6 +43,7 @@ function ClusteredMarkers({ geojson, setNumClusters, setInfowindowData }: Cluste
       console.log('feature', feature);
       setInfowindowData({ anchor: marker, features: [feature as MarkerFeature] });
       setStationName(feature.properties?.stationName);
+      openRightPanel();
     },
     [clusters, setInfowindowData],
   );

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '@/api';
 import { useEffect } from 'react';
 import useToastNavigate from './useToastNavigate';
 
@@ -17,7 +17,7 @@ function useHandleLoginPost() {
       }
 
       try {
-        await axios.post(`${import.meta.env.VITE_BACK_URL}/login/google/2`, {
+        await axiosInstance.post(`/member/login/google`, {
           code,
           redirectUrl: import.meta.env.VITE_APP_GOOGLE_AUTH_REDIRECT_URI,
         });
