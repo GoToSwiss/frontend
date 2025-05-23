@@ -12,18 +12,22 @@ export default function VisualizationCard({
   return (
     <button
       onClick={onClick}
-      className={`${!isGraph && 'h-36'} group relative flex flex-col items-center justify-center rounded-lg border border-gray-200 p-4 text-center ${isClicked ? 'bg-gray-100' : 'hover:shadow-xl'} shadow-lg transition duration-300 ${className}`}
+      className={`group flex flex-col items-center justify-between rounded-2xl border p-6 text-left shadow-sm transition-all duration-300 hover:shadow-lg ${isClicked ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'} ${className}`}
     >
-      <div className="flex items-center gap-4 pb-2">
-        {!isGraph && <img src={logoSrc} alt="logo" className="size-6" />}
+      <div className="flex flex-col items-center justify-center gap-3">
+        {logoSrc && <img src={logoSrc} alt="logo" className={isGraph ? 'h-12 w-12' : 'h-6 w-6'} />}
         <h3
-          className={`${isClicked ? 'text-blue-600' : 'text-gray-800'} text-lg font-bold transition group-hover:text-blue-600`}
+          className={`text-lg font-semibold transition-colors duration-200 ${
+            isClicked ? 'text-blue-600' : 'text-gray-800 group-hover:text-blue-600'
+          }`}
         >
           {title}
         </h3>
       </div>
-      {isGraph && <img src={logoSrc} alt="logo" className="size-12" />}
-      <div className="text-gray-600 transition group-hover:text-gray-800">{description}</div>
+
+      <p className="mt-4 text-center text-sm leading-relaxed text-gray-600 group-hover:text-gray-800">
+        {description}
+      </p>
     </button>
   );
 }
