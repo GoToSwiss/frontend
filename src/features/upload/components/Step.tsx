@@ -1,22 +1,17 @@
 import ChartFilter from './filter/ChartFilter';
 import DataFilter from './filter/DataFilter';
 import useStepStore from '../store/useStepStore';
-import useFileStore from '../store/useFileStore';
+
+const stepComponent: Record<number, React.FC> = {
+  0: ChartFilter,
+  1: DataFilter,
+};
 
 export default function Step() {
   const step = useStepStore((state) => state.step);
-  const uploadedData = useFileStore((state) => state.uploadedData);
 
-  const renderStep = () => {
-    switch (step) {
-      case 0:
-        return <ChartFilter />;
-      case 1:
-        return <DataFilter />;
-      default:
-        return <div />;
-    }
-  };
+  const SelectedStepComponent = stepComponent[step];
+  if (!SelectedStepComponent) return null;
 
-  return <div>{uploadedData.length === 0 ? <div /> : <div>{renderStep()}</div>}</div>;
+  return <SelectedStepComponent />;
 }

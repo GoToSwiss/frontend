@@ -6,7 +6,7 @@ interface StepStore {
 }
 
 const useStepStore = create<StepStore>((set) => ({
-  step: 0,
+  step: -1,
   setStep: (step: number) => set({ step }),
 }));
 
