@@ -1,7 +1,28 @@
 import fileImg from '@/assets/mypage/file.png';
+import useFileStore from '@/features/upload/store/useFileStore';
+import getData from '@/api/getData';
+import { FinalResponseProps } from '@/features/upload/types/uploadType';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import useStepStore from '@/features/upload/store/useStepStore';
 import { UserUploadHistory } from '../types/mypageType';
 
 export default function UploadLogTable({ data }: { data: UserUploadHistory[] }) {
+  const setUploadedData = useFileStore((state) => state.setUploadedData);
+  const setStep = useStepStore((state) => state.setStep);
+  const navigate = useNavigate();
+
+  const handleSetFile = async (fileId: string) => {
+    try {
+      const response = await getData<FinalResponseProps[]>(`/file/read/${fileId}`);
+      setUploadedData(response.result);
+      setStep(0);
+      navigate('/upload');
+    } catch (error) {
+      toast.error('불러오기 실패!');
+    }
+  };
+
   return (
     <table className="w-full table-auto text-center">
       <thead>
@@ -30,7 +51,14 @@ export default function UploadLogTable({ data }: { data: UserUploadHistory[] }) 
               })}
             </td>
             <td className="px-4 py-2 text-theme_tertiary">{item.fileSize.toFixed(2)}kb</td>
-            <td className="px-4 py-2">⚙️</td>
+            <td className="px-4 py-2">
+              <button
+                onClick={() => handleSetFile(item.fileId)}
+                className="text-blue-500 hover:underline"
+              >
+                다시 분석하러 가기
+              </button>
+            </td>
           </tr>
         ))}
       </tbody>

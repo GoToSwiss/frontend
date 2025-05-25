@@ -24,7 +24,7 @@ export default function ChartFilter() {
   };
   return (
     <WhiteBox title="분석 도구" className="flex flex-col justify-between">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-4 gap-4">
         {visualizationTypes.map((type) => (
           <VisualizationCard
             key={type}
