@@ -13,6 +13,7 @@ import LoadingAuth from './pages/LoadingAuth';
 import NotFound from './pages/NotFound';
 import MyPage from './pages/MyPage';
 import MapLayout from './layouts/MapLayout';
+import ProtectedRoute from './components/ProtectedRoute';
 
 async function enableMocking() {
   if (import.meta.env.VITE_NODE_ENV !== 'development') {
@@ -35,12 +36,20 @@ const router = createBrowserRouter([
       },
       {
         path: 'upload',
-        element: <Upload />,
+        element: (
+          <ProtectedRoute>
+            <Upload />
+          </ProtectedRoute>
+        ),
       },
 
       {
         path: 'mypage',
-        element: <MyPage />,
+        element: (
+          <ProtectedRoute>
+            <MyPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
