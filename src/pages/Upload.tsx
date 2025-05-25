@@ -8,6 +8,7 @@ import useFileStore from '@/features/upload/store/useFileStore';
 import LineChart from '@/features/upload/components/chart/LineChart';
 import CBPF from '@/features/upload/components/chart/CBPF';
 import BinnedChart from '@/features/upload/components/chart/BinnedChart';
+import CorrelationHeatmap from '@/features/upload/components/chart/HeatMap';
 
 export default function Upload() {
   const step = useStepStore((state) => state.step);
@@ -16,6 +17,7 @@ export default function Upload() {
     CBPF,
     '꺾은선 그래프': LineChart,
     'Binned Box': BinnedChart,
+    히트맵: CorrelationHeatmap,
   };
 
   const ChartComponent = selectChartComponent[kind];
@@ -35,7 +37,6 @@ export default function Upload() {
       </section>
 
       <WhiteBox title="분석 결과" className="flex flex-col">
-        {/* TODO: uploadedData를 이용해 시각화, 그래프별 조건부 렌더링 */}
         {step === 2 ? (
           <div className="grid grid-cols-2">
             {ChartComponent ? <ChartComponent /> : <p>해당 차트가 없습니다.</p>}

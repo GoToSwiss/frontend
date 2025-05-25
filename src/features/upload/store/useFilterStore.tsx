@@ -80,4 +80,28 @@ const useBinnedBoxStore = create<BinnedBoxStore>((set) => ({
   reset: () => set(initialBinnedBoxState),
 }));
 
-export { useLineChartFilterStore, useCBPFStore, useBinnedBoxStore };
+interface HeatMapStore {
+  startTime: string;
+  endTime: string;
+  name: string;
+  setStartTime: (startTime: string) => void;
+  setEndTime: (endTime: string) => void;
+  setName: (name: string) => void;
+  reset: () => void;
+}
+
+const initialHeatMapState: Pick<HeatMapStore, 'startTime' | 'endTime' | 'name'> = {
+  startTime: '',
+  endTime: '',
+  name: '',
+};
+
+const useHeatMapStore = create<HeatMapStore>((set) => ({
+  ...initialHeatMapState,
+  setStartTime: (startTime: string) => set({ startTime }),
+  setEndTime: (endTime: string) => set({ endTime }),
+  setName: (name: string) => set({ name }),
+  reset: () => set(initialHeatMapState),
+}));
+
+export { useLineChartFilterStore, useCBPFStore, useBinnedBoxStore, useHeatMapStore };
