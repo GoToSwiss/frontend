@@ -12,22 +12,26 @@ export default function VisualizationCard({
   return (
     <button
       onClick={onClick}
-      className={`group flex flex-col items-center justify-between rounded-2xl border p-6 text-left shadow-sm transition-all duration-300 hover:shadow-lg ${isClicked ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'} ${className}`}
+      className={`group flex flex-col items-center gap-4 rounded-xl border p-6 transition-shadow duration-200 hover:shadow-md ${isClicked ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'} ${className}`}
     >
-      <div className="flex flex-col items-center justify-center gap-3">
-        {logoSrc && <img src={logoSrc} alt="logo" className={isGraph ? 'h-12 w-12' : 'h-6 w-6'} />}
+      {logoSrc && (
+        <img
+          src={logoSrc}
+          alt="logo"
+          className={`${isGraph ? 'h-14 w-14' : 'h-8 w-8'} transition-transform duration-200 group-hover:scale-105`}
+        />
+      )}
+
+      <div className="text-center">
         <h3
-          className={`text-lg font-semibold transition-colors duration-200 ${
-            isClicked ? 'text-blue-600' : 'text-gray-800 group-hover:text-blue-600'
-          }`}
+          className={`mb-1 text-base font-semibold transition-colors duration-200 ${isClicked ? 'text-blue-600' : 'text-gray-800 group-hover:text-blue-600'}`}
         >
           {title}
         </h3>
+        <p className="text-sm leading-snug text-gray-500 group-hover:text-gray-700">
+          {description}
+        </p>
       </div>
-
-      <p className="mt-4 text-center text-sm leading-relaxed text-gray-600 group-hover:text-gray-800">
-        {description}
-      </p>
     </button>
   );
 }

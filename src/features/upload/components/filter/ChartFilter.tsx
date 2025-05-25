@@ -4,13 +4,14 @@ import VisualizationCard from '@/features/upload/components/VisualizationCard';
 import useFileStore from '../../store/useFileStore';
 import useStepStore from '../../store/useStepStore';
 
-const description: Record<'CBPF' | 'Binned Box' | '꺾은선 그래프', string> = {
+const description: Record<'CBPF' | 'Binned Box' | '꺾은선 그래프' | '히트맵', string> = {
   CBPF: '풍향과 풍속에 따른 오염물질 농도 분포를 시각화한 그래프입니다.',
   'Binned Box': '시간에 따른 오염물질 농도의 변화를 박스플롯으로 나타낸 그래프입니다.',
   '꺾은선 그래프': '시간에 따른 오염물질 농도의 변화를 선으로 나타낸 그래프입니다.',
+  히트맵: '피어슨 상관계수를 이용한 히트맵입니다.',
 };
 
-const visualizationTypes = ['CBPF', 'Binned Box', '꺾은선 그래프'] as const;
+const visualizationTypes = ['CBPF', 'Binned Box', '꺾은선 그래프', '히트맵'] as const;
 
 export default function ChartFilter() {
   const setChart = useFileStore((state) => state.setChart);
@@ -23,7 +24,7 @@ export default function ChartFilter() {
   };
   return (
     <WhiteBox title="분석 도구" className="flex flex-col justify-between">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-4 gap-4">
         {visualizationTypes.map((type) => (
           <VisualizationCard
             key={type}
