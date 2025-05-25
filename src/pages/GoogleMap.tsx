@@ -11,6 +11,7 @@ import useInfoWindowStore from '@/features/map/store/useInfoWindowStore';
 import SeoulCircle from '@/features/map/components/SeoulCenter';
 import ChatBot from '@/features/map/components/chat/ChatBot';
 import HeatMapContent from '@/features/map/HeatMapContent';
+import MapMode3D from '@/features/map/components/3d/MapMode3D';
 
 export function MapController({ onReady }: { onReady: (map: google.maps.Map) => void }) {
   const map = useMap();
@@ -33,11 +34,38 @@ function GoogleMap() {
   const setInfowindowData = useInfoWindowStore((state) => state.setInfowindowData);
   const infowindowData = useInfoWindowStore((state) => state.infowindowData);
 
+  const nonAlphaVersionLoaded = Boolean(
+    globalThis &&
+      globalThis.google?.maps?.version &&
+      !globalThis.google?.maps?.version.endsWith('-alpha'),
+  );
+
+  if (nonAlphaVersionLoaded) {
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
+  }
+
   return (
     <div className="relative h-full w-full">
-      <APIProvider apiKey={import.meta.env.VITE_MAP_API} libraries={['places']}>
+      {dataVisualType === '3d' && (
+        <APIProvider apiKey={import.meta.env.VITE_MAP_API} libraries={['places']} version="alpha">
+          <MapMode3D />
+        </APIProvider>
+      )}
+      <APIProvider apiKey={import.meta.env.VITE_MAP_API} libraries={['places']} version="alpha">
         <Map
-          style={{ width: '100%', height: '100%', zIndex: 0 }}
+          style={{
+            ...(dataVisualType === '3d'
+              ? {
+                  width: '300px',
+                  height: '300px',
+                  position: 'absolute',
+                  zIndex: 50,
+                  right: 0,
+                  bottom: 0,
+                }
+              : { width: '100%', height: '100%', zIndex: 0 }),
+          }}
           defaultCenter={{ lat: 37.5665, lng: 126.978 }}
           defaultZoom={7}
           gestureHandling="greedy"
@@ -45,10 +73,9 @@ function GoogleMap() {
           mapId="104e02e9fce23a43cf95caf9"
         >
           <MapController onReady={setMapInstance} />
-
           {dataVisualType === 'heatmap' && <HeatMapContent radius={25} opacity={0.8} />}
 
-          {dataVisualType === 'marker' && data.isSuccess && (
+          {(dataVisualType === 'marker' || dataVisualType === '3d') && data.isSuccess && (
             <ClusteredMarkers geojson={data.result} setNumClusters={setNumClusters} />
           )}
 
@@ -63,10 +90,11 @@ function GoogleMap() {
           )}
           <SeoulCircle />
         </Map>
-        <SideLeftPanel />
-        <SideRightPanel />
-        <ChatBot />
       </APIProvider>
+
+      <SideLeftPanel />
+      <SideRightPanel />
+      <ChatBot />
     </div>
   );
 }

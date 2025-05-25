@@ -9,6 +9,7 @@ import { MarkerFeature } from '../types/CoordType';
 import usePanelStore from '../store/panel/usePanelStore';
 import useInfoWindowStore from '../store/useInfoWindowStore';
 import focusOnLocation from '../utils/focusOnLocation';
+import use3DmapPropertyStore from '../store/use3DmapPropertyStore';
 
 type ClusteredMarkersProps = {
   geojson: FeatureCollection<Point>;
@@ -26,6 +27,7 @@ function ClusteredMarkers({ geojson, setNumClusters }: ClusteredMarkersProps) {
   const { clusters, getLeaves } = useSupercluster(geojson, superclusterOptions);
   const setStationName = useStationStore((state) => state.setStationName);
   const openRightPanel = usePanelStore((state) => state.openRightPanel);
+  const setCameraProps = use3DmapPropertyStore((state) => state.setCameraProps);
 
   useEffect(() => {
     setNumClusters(clusters.length);
@@ -36,6 +38,17 @@ function ClusteredMarkers({ geojson, setNumClusters }: ClusteredMarkersProps) {
       const leaves = getLeaves(clusterId);
       focusOnLocation(leaves[0].geometry.coordinates[1], leaves[0].geometry.coordinates[0], 8);
       setInfowindowData({ anchor: marker, features: leaves as MarkerFeature[] });
+      setCameraProps({
+        center: {
+          lat: leaves[0].geometry.coordinates[1],
+          lng: leaves[0].geometry.coordinates[0],
+          altitude: 1300,
+        },
+        range: 5000,
+        heading: 80,
+        tilt: 69,
+        roll: 0,
+      });
     },
 
     [getLeaves, setInfowindowData],
@@ -46,6 +59,17 @@ function ClusteredMarkers({ geojson, setNumClusters }: ClusteredMarkersProps) {
       const feature = clusters.find((feat) => feat.id === featureId) as Feature<Point>;
 
       focusOnLocation(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
+      setCameraProps({
+        center: {
+          lat: feature.geometry.coordinates[1],
+          lng: feature.geometry.coordinates[0],
+          altitude: 1300,
+        },
+        range: 5000,
+        heading: 80,
+        tilt: 69,
+        roll: 0,
+      });
       setInfowindowData({ anchor: marker, features: [feature as MarkerFeature] });
       setStationName(feature.properties?.stationName);
       openRightPanel();

@@ -3,6 +3,7 @@ import Loading from '@/components/Loading';
 import QueryErrorBoundary from '@/services/QueryErrorBoundary';
 import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
+import ChatBot from '@/features/map/components/chat/ChatBot';
 
 export default function CommonLayout() {
   return (
@@ -19,6 +20,7 @@ export default function CommonLayout() {
             }
           >
             <Outlet />
+            <ChatBot />
           </Suspense>
         </QueryErrorBoundary>
       </div>

@@ -12,7 +12,7 @@ function SideRightPanel() {
           toggleRightPanel();
           closeChat();
         }}
-        className="absolute right-4 top-4 z-20 overflow-auto rounded bg-white p-1 shadow hover:bg-gray-100"
+        className="absolute right-4 top-4 z-50 overflow-auto rounded bg-white p-1 shadow hover:bg-gray-100"
       >
         {rightPanelOpen ? (
           <X size={12} className="text-gray-600" />

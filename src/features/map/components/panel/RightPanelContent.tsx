@@ -15,7 +15,7 @@ function RightPanelContent() {
   const isAll2023 = startDate.getFullYear() === 2023 && endDate.getFullYear() === 2023;
 
   return (
-    <div className="w-100 absolute right-4 top-11 z-10 h-[90%] space-y-6 overflow-y-auto rounded-lg bg-white p-4 shadow-md">
+    <div className="w-100 absolute right-4 top-11 z-50 h-[90%] space-y-6 overflow-y-auto rounded-lg bg-white p-4 shadow-md">
       <div className="space-y-6">
         <h1 className="text-lg font-semibold">{stationName} 관측소</h1>
 

@@ -1,7 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useEffect } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ToastContainer } from 'react-toastify';
 import Home from './pages/Home';
 import CommonLayout from './layouts/CommonLayout';
@@ -68,7 +67,6 @@ function App() {
   }, []);
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
       <RouterProvider router={router} />
       <ToastContainer />
     </QueryClientProvider>
