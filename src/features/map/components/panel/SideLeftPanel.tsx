@@ -15,7 +15,7 @@ function SideLeftPanel() {
       <button
         type="button"
         onClick={() => toggleLeftPanel()}
-        className="absolute left-4 top-4 z-20 rounded bg-white p-1 shadow hover:bg-gray-100"
+        className="z-5 0 absolute left-4 top-4 rounded bg-white p-1 shadow hover:bg-gray-100"
       >
         {leftPanelOpen ? (
           <X size={12} className="text-gray-600" />
@@ -25,7 +25,7 @@ function SideLeftPanel() {
       </button>
 
       {leftPanelOpen && (
-        <div className="w-90 absolute left-4 top-11 z-10 h-[90%] space-y-6 overflow-auto rounded-lg bg-white p-4 shadow-md">
+        <div className="w-90 absolute left-4 top-11 z-50 h-[90%] space-y-6 overflow-auto rounded-lg bg-white p-4 shadow-md">
           <PlaceSearchInput />
           <DataVisualizationSelection />
           {dataVisualType === 'marker' ? (
