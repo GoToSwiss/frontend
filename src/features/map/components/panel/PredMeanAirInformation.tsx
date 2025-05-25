@@ -1,45 +1,51 @@
 import { useMemo } from 'react';
-import useGetAir from '../../query/air.query';
+import usePredGetAir from '../../query/previousAir.query';
 import PredAirItem from './PredAirItem';
 
 function PredMeanAirInformation() {
-  const { data, isLoading } = useGetAir();
+  const { data, isLoading } = usePredGetAir();
 
   const averages = useMemo(() => {
     if (!data || data.result.length === 0) return null;
 
     const sum = data.result.reduce(
       (acc, item) => {
-        acc.pm10Value += item.pm10Value;
-        acc.pm25Value += item.pm25Value;
-        acc.o3Value += item.o3Value;
-        acc.no2Value += item.no2Value;
-        acc.coValue += item.coValue;
-        acc.so2Value += item.so2Value;
-        acc.khaiValue += item.khaiValue;
+        acc.so2 += item.so2;
+        acc.pm25 += item.pm25;
+        acc.pm10 += item.pm10;
+        acc.o3 += item.o3;
+        acc.no2 += item.no2;
+        acc.noAvg += item.noAvg;
+        acc.co += item.co;
+        acc.co2 += item.co2;
+        acc.ch4 += item.ch4;
         return acc;
       },
       {
-        pm10Value: 0,
-        pm25Value: 0,
-        o3Value: 0,
-        no2Value: 0,
-        coValue: 0,
-        so2Value: 0,
-        khaiValue: 0,
+        so2: 0,
+        pm25: 0,
+        pm10: 0,
+        o3: 0,
+        no2: 0,
+        noAvg: 0,
+        co: 0,
+        co2: 0,
+        ch4: 0,
       },
     );
 
     const getAverage = (v: number) => Math.round((v / data.result.length) * 100) / 100;
 
     return {
-      pm10Value: getAverage(sum.pm10Value),
-      pm25Value: getAverage(sum.pm25Value),
-      o3Value: getAverage(sum.o3Value),
-      no2Value: getAverage(sum.no2Value),
-      coValue: getAverage(sum.coValue),
-      so2Value: getAverage(sum.so2Value),
-      khaiValue: getAverage(sum.khaiValue),
+      so2: getAverage(sum.so2),
+      pm25: getAverage(sum.pm25),
+      pm10: getAverage(sum.pm10),
+      o3: getAverage(sum.o3),
+      no2: getAverage(sum.no2),
+      noAvg: getAverage(sum.noAvg),
+      co: getAverage(sum.co),
+      co2: getAverage(sum.co2),
+      ch4: getAverage(sum.ch4),
     };
   }, [data]);
 
@@ -55,42 +61,30 @@ function PredMeanAirInformation() {
             <div className="space-y-2 text-sm">
               <div className="font-semibold text-gray-700">평균 대기질 정보</div>
               <ul className="space-y-1">
-                <PredAirItem
-                  label="미세먼지 (PM10)"
-                  value={averages.pm10Value}
-                  unit="㎍/㎥"
-                  type="pm10"
-                />
+                <PredAirItem label="아황산가스 (SO₂)" value={averages.so2} unit="ppm" type="so2" />
                 <PredAirItem
                   label="초미세먼지 (PM2.5)"
-                  value={averages.pm25Value}
+                  value={averages.pm25}
                   unit="㎍/㎥"
                   type="pm25"
                 />
-                <PredAirItem label="오존 (O₃)" value={averages.o3Value} unit="ppm" type="o3" />
                 <PredAirItem
-                  label="이산화질소 (NO₂)"
-                  value={averages.no2Value}
+                  label="미세먼지 (PM10)"
+                  value={averages.pm10}
+                  unit="㎍/㎥"
+                  type="pm10"
+                />
+                <PredAirItem label="오존 (O₃)" value={averages.o3} unit="ppm" type="o3" />
+                <PredAirItem label="이산화질소 (NO₂)" value={averages.no2} unit="ppm" type="no2" />
+                <PredAirItem
+                  label="질소산화물 평균"
+                  value={averages.noAvg}
                   unit="ppm"
-                  type="no2"
+                  type="noAvg"
                 />
-                <PredAirItem
-                  label="일산화탄소 (CO)"
-                  value={averages.coValue}
-                  unit="ppm"
-                  type="co"
-                />
-                <PredAirItem
-                  label="아황산가스 (SO₂)"
-                  value={averages.so2Value}
-                  unit="ppm"
-                  type="so2"
-                />
-                <PredAirItem
-                  label="통합대기환경지수 (KHAI)"
-                  value={averages.khaiValue}
-                  type="khai"
-                />
+                <PredAirItem label="일산화탄소 (CO)" value={averages.co} unit="ppm" type="co" />
+                <PredAirItem label="이산화탄소 (CO₂)" value={averages.co2} unit="ppm" type="co2" />
+                <PredAirItem label="메탄 (CH₄)" value={averages.ch4} unit="ppm" type="ch4" />
               </ul>
             </div>
           )}

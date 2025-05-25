@@ -1,5 +1,7 @@
 // AirItem.tsx
 
+import { AirPreviousSelectType } from '../../types/AirSelectType';
+
 function PredAirItem({
   label,
   value,
@@ -61,8 +63,6 @@ function PredAirItem({
         return getCH4Grade(value);
       case 'so2':
         return getSO2Grade(value);
-      case 'khai':
-        return getKHAIGrade(value);
       default:
         return 0;
     }
@@ -81,19 +81,6 @@ function PredAirItem({
 }
 
 export default PredAirItem;
-
-// 타입 정의
-export type AirPreviousSelectType =
-  | 'so2'
-  | 'pm25'
-  | 'pm10'
-  | 'o3'
-  | 'no2'
-  | 'noAvg'
-  | 'co'
-  | 'co2'
-  | 'ch4'
-  | 'khai';
 
 // 등급 함수 (에어코리아 기준 및 사용자 기준 포함)
 function getPM10Grade(value: number): number {
@@ -146,9 +133,9 @@ function getCO2Grade(value: number): number {
 }
 
 function getCH4Grade(value: number): number {
-  if (value <= 1.8) return 1;
-  if (value <= 2.5) return 2;
-  if (value <= 3.5) return 3;
+  if (value <= 2000) return 1;
+  if (value <= 3000) return 2;
+  if (value <= 4000) return 3;
   return 4;
 }
 
@@ -156,12 +143,5 @@ function getSO2Grade(value: number): number {
   if (value <= 0.02) return 1;
   if (value <= 0.05) return 2;
   if (value <= 0.15) return 3;
-  return 4;
-}
-
-function getKHAIGrade(value: number): number {
-  if (value <= 50) return 1;
-  if (value <= 100) return 2;
-  if (value <= 250) return 3;
   return 4;
 }

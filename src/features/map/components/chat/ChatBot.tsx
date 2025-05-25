@@ -6,11 +6,14 @@ import useChatBot from '../../query/chatbot.query';
 import FunctionCallDisplay from './FunctionCallDisplay';
 import TypingText from './TypingText';
 import useChatStore from '../../store/useChatStore';
+import focusOnSQLLocation from '../../utils/focusSQLLocation';
+import useDataVisualTypeStore from '../../store/useDataVisualTypeStore';
 
 function ChatBot() {
   const { closeRightPanel, isChatOpen, toggleChatOpen } = usePanelStore();
   const messages = useChatStore((state) => state.messages);
   const addMessage = useChatStore((state) => state.addMessage);
+  const setDataVisualType = useDataVisualTypeStore((state) => state.setDataVisualType);
   const [input, setInput] = useState('');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -78,7 +81,7 @@ function ChatBot() {
                       msg.who === 'user' ? 'bg-gray-100 text-gray-800' : 'bg-blue-500 text-white'
                     }`}
                   >
-                    <TypingText text={msg.response} init={msg.init} />
+                    {msg.response && <TypingText text={msg.response} init={msg.init} />}
                   </div>
 
                   {msg.function_call.name !== '' && <FunctionCallDisplay {...msg.function_call} />}
@@ -93,7 +96,11 @@ function ChatBot() {
                   )}
                   {msg.function_call.name !== '' && msg.function_call.name !== 'run_sql' && (
                     <button
-                      onClick={() => openModal(msg.result)}
+                      onClick={() => {
+                        const args = JSON.parse(msg.function_call.arguments);
+                        setDataVisualType('marker');
+                        focusOnSQLLocation(args.station_name);
+                      }}
                       className="mt-2 text-xs text-blue-600 hover:underline"
                     >
                       ▶ 위치 이동하기
