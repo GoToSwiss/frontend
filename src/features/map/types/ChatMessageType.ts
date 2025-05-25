@@ -4,7 +4,7 @@ export interface ChatMessageType {
   response: string;
   function_call: {
     name: string;
-    arguments: string;
+    arguments: any;
   };
   result: any[];
 }

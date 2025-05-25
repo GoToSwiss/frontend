@@ -31,17 +31,17 @@ function PredAirLineChart() {
   const { selectedType } = usePredAirSelectionStore();
   const { data, isLoading } = usePredGetAir();
 
+  console.log('data', data);
+
   const chartData = useMemo(() => {
     if (!data || data.result.length === 0) return null;
 
     return {
-      labels: data.result.map((entry) => entry.dataTime),
+      labels: data.result.map((entry) => entry.measurementTime),
       datasets: [
         {
           label: airLabelMap[selectedType],
-          data: data.result.map(
-            (entry) => entry[`${selectedType}Value` as keyof typeof entry] as number,
-          ),
+          data: data.result.map((entry) => entry[selectedType as keyof typeof entry] as number),
           borderColor: 'rgba(59, 130, 246, 1)',
           backgroundColor: 'rgba(59, 130, 246, 0.2)',
           tension: 0.3,

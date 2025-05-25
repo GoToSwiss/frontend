@@ -48,3 +48,17 @@ export type AirPreviousSelectType =
   | 'co'
   | 'co2'
   | 'ch4';
+
+export type AirPreviousResponseType = {
+  ch4: number;
+  co: number;
+  co2: number;
+  measurementTime: string;
+  nearestObservatoryName: string;
+  no2: number;
+  noAvg: number;
+  o3: number;
+  pm10: number;
+  pm25: number;
+  so2: number;
+};
