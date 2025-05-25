@@ -1,9 +1,7 @@
-import Heatmap from '@/features/map/HeatMapContent';
 import { APIProvider, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps';
 import { useEffect, useState } from 'react';
-import { EarthquakesGeojson, loadEarthquakeGeojson } from '@/features/map/earthquake';
-import SideLeftPanel from '@/features/map/components/SideLeftPanel';
-import SideRightPanel from '@/features/map/components/SideRightPanel';
+import SideLeftPanel from '@/features/map/components/panel/SideLeftPanel';
+import SideRightPanel from '@/features/map/components/panel/SideRightPanel';
 import useMapStore from '@/features/map/store/useMapStore';
 import useDataVisualTypeStore from '@/features/map/store/useDataVisualTypeStore';
 import InfoWindowContent from '@/features/map/components/InfoWindow';
@@ -11,7 +9,8 @@ import ClusteredMarkers from '@/features/map/components/ClusteredMarkers';
 import useGetStations from '@/features/map/query/station.query';
 import useInfoWindowStore from '@/features/map/store/useInfoWindowStore';
 import SeoulCircle from '@/features/map/components/SeoulCenter';
-import ChatBot from '@/features/map/components/ChatBot';
+import ChatBot from '@/features/map/components/chat/ChatBot';
+import HeatMapContent from '@/features/map/HeatMapContent';
 
 export function MapController({ onReady }: { onReady: (map: google.maps.Map) => void }) {
   const map = useMap();
@@ -26,21 +25,13 @@ export function MapController({ onReady }: { onReady: (map: google.maps.Map) => 
 }
 
 function GoogleMap() {
-  const [radius] = useState(25);
-  const [opacity] = useState(0.8);
-  const [earthquakesGeojson, setEarthquakesGeojson] = useState<EarthquakesGeojson>();
   const dataVisualType = useDataVisualTypeStore((state) => state.dataVisualType);
   const setMapInstance = useMapStore((state) => state.setMapInstance);
-
   const { data } = useGetStations();
 
   const [, setNumClusters] = useState(0);
   const setInfowindowData = useInfoWindowStore((state) => state.setInfowindowData);
   const infowindowData = useInfoWindowStore((state) => state.infowindowData);
-
-  useEffect(() => {
-    loadEarthquakeGeojson().then(setEarthquakesGeojson);
-  }, []);
 
   return (
     <div className="relative h-full w-full">
@@ -55,9 +46,7 @@ function GoogleMap() {
         >
           <MapController onReady={setMapInstance} />
 
-          {dataVisualType === 'heatmap' && earthquakesGeojson && (
-            <Heatmap geojson={earthquakesGeojson} radius={radius} opacity={opacity} />
-          )}
+          {dataVisualType === 'heatmap' && <HeatMapContent radius={25} opacity={0.8} />}
 
           {dataVisualType === 'marker' && data.isSuccess && (
             <ClusteredMarkers geojson={data.result} setNumClusters={setNumClusters} />
@@ -74,7 +63,6 @@ function GoogleMap() {
           )}
           <SeoulCircle />
         </Map>
-
         <SideLeftPanel />
         <SideRightPanel />
         <ChatBot />

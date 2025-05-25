@@ -26,3 +26,25 @@ export interface AirQualityType {
 }
 
 export type AirSelectType = 'pm10' | 'pm25' | 'o3' | 'no2' | 'co' | 'so2' | 'khai';
+
+export type AirHeatMapSelectType =
+  | 'so2'
+  | 'pm25'
+  | 'pm10'
+  | 'o3'
+  | 'no2'
+  | 'noAvg'
+  | 'co'
+  | 'co2'
+  | 'ch4';
+
+export type AirPreviousSelectType =
+  | 'so2'
+  | 'pm25'
+  | 'pm10'
+  | 'o3'
+  | 'no2'
+  | 'noAvg'
+  | 'co'
+  | 'co2'
+  | 'ch4';

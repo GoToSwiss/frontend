@@ -10,28 +10,26 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useMemo } from 'react';
-import useGetAir from '../query/air.query';
-import useStationStore from '../store/useStationStore';
-import useDateRangeStore from '../store/useDateRangeStore';
-import useSelectedAirTypeStore from '../store/useSelectedAirTypeStore';
+import usePredGetAir from '../../query/previousAir.query';
+import usePredAirSelectionStore from '../../store/usePredAirSelectionStore';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const airLabelMap: Record<string, string> = {
-  pm10: '미세먼지 (PM10)',
+  so2: '아황산가스 (SO₂)',
   pm25: '초미세먼지 (PM2.5)',
+  pm10: '미세먼지 (PM10)',
   o3: '오존 (O₃)',
   no2: '이산화질소 (NO₂)',
+  noAvg: '질소 평균 (NOAvg)',
   co: '일산화탄소 (CO)',
-  so2: '아황산가스 (SO₂)',
-  khai: '통합대기환경지수 (KHAI)',
+  co2: '이산화탄소 (CO₂)',
+  ch4: '메탄 (CH₄)',
 };
 
-function AirLineChart() {
-  const { stationName } = useStationStore();
-  const { dateRange, timeRange } = useDateRangeStore();
-  const { selectedType } = useSelectedAirTypeStore();
-  const { data, isLoading } = useGetAir(stationName, dateRange, timeRange);
+function PredAirLineChart() {
+  const { selectedType } = usePredAirSelectionStore();
+  const { data, isLoading } = usePredGetAir();
 
   const chartData = useMemo(() => {
     if (!data || data.result.length === 0) return null;
@@ -63,6 +61,7 @@ function AirLineChart() {
   return (
     <div className="mt-4">
       <Line
+        className="h-60"
         options={{
           responsive: true,
           plugins: {
@@ -76,4 +75,4 @@ function AirLineChart() {
   );
 }
 
-export default AirLineChart;
+export default PredAirLineChart;

@@ -1,13 +1,9 @@
 import { useMemo } from 'react';
-import useGetAir from '../query/air.query';
-import AirItem from './AirItem';
-import useStationStore from '../store/useStationStore';
-import useDateRangeStore from '../store/useDateRangeStore';
+import useGetAir from '../../query/air.query';
+import PredAirItem from './PredAirItem';
 
-function MeanAirInformation() {
-  const { stationName } = useStationStore();
-  const { dateRange, timeRange } = useDateRangeStore();
-  const { data, isLoading } = useGetAir(stationName, dateRange, timeRange);
+function PredMeanAirInformation() {
+  const { data, isLoading } = useGetAir();
 
   const averages = useMemo(() => {
     if (!data || data.result.length === 0) return null;
@@ -59,23 +55,42 @@ function MeanAirInformation() {
             <div className="space-y-2 text-sm">
               <div className="font-semibold text-gray-700">평균 대기질 정보</div>
               <ul className="space-y-1">
-                <AirItem
+                <PredAirItem
                   label="미세먼지 (PM10)"
                   value={averages.pm10Value}
                   unit="㎍/㎥"
                   type="pm10"
                 />
-                <AirItem
+                <PredAirItem
                   label="초미세먼지 (PM2.5)"
                   value={averages.pm25Value}
                   unit="㎍/㎥"
                   type="pm25"
                 />
-                <AirItem label="오존 (O₃)" value={averages.o3Value} unit="ppm" type="o3" />
-                <AirItem label="이산화질소 (NO₂)" value={averages.no2Value} unit="ppm" type="no2" />
-                <AirItem label="일산화탄소 (CO)" value={averages.coValue} unit="ppm" type="co" />
-                <AirItem label="아황산가스 (SO₂)" value={averages.so2Value} unit="ppm" type="so2" />
-                <AirItem label="통합대기환경지수 (KHAI)" value={averages.khaiValue} type="khai" />
+                <PredAirItem label="오존 (O₃)" value={averages.o3Value} unit="ppm" type="o3" />
+                <PredAirItem
+                  label="이산화질소 (NO₂)"
+                  value={averages.no2Value}
+                  unit="ppm"
+                  type="no2"
+                />
+                <PredAirItem
+                  label="일산화탄소 (CO)"
+                  value={averages.coValue}
+                  unit="ppm"
+                  type="co"
+                />
+                <PredAirItem
+                  label="아황산가스 (SO₂)"
+                  value={averages.so2Value}
+                  unit="ppm"
+                  type="so2"
+                />
+                <PredAirItem
+                  label="통합대기환경지수 (KHAI)"
+                  value={averages.khaiValue}
+                  type="khai"
+                />
               </ul>
             </div>
           )}
@@ -85,4 +100,4 @@ function MeanAirInformation() {
   );
 }
 
-export default MeanAirInformation;
+export default PredMeanAirInformation;

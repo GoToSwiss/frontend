@@ -5,7 +5,7 @@ import { AirQualityType } from '../types/AirSelectType';
 import useStationStore from '../store/useStationStore';
 import useDateRangeStore from '../store/useDateRangeStore';
 
-const usePreviousGetAir = () => {
+const usePredGetAir = () => {
   const { dateRange, timeRange } = useDateRangeStore();
   const [start, end] = dateRange;
   const isSameDay = start.toDateString() === end.toDateString();
@@ -14,18 +14,18 @@ const usePreviousGetAir = () => {
   const endStr = end.toISOString().slice(0, 10);
 
   const queryKey = isSameDay
-    ? ['air', 'hour', stationName, startStr, timeRange[0]]
-    : ['air', 'day', stationName, startStr, endStr];
+    ? ['pred', 'hour', stationName, startStr, timeRange[0]]
+    : ['pred', 'day', stationName, startStr, endStr];
 
   const queryFn = async (): Promise<ApiResponse<AirQualityType[]>> => {
     if (isSameDay) {
       return getData(
-        `/observatory/data/get/hour/range?nation=${stationName}&startDateTime=${startStr}T${timeRange[0]}&endDateTime=${endStr}T${timeRange[1]}`,
+        `/pred/data/get/hour/range?nation=${stationName}&startDateTime=${startStr}T${timeRange[0]}&endDateTime=${endStr}T${timeRange[1]}`,
       );
     }
 
     return getData(
-      `/observatory/data/get/day/range?nation=${stationName}&startDate=${startStr}&endDate=${endStr}`,
+      `/pred/data/get/day/range?nation=${stationName}&startDate=${startStr}&endDate=${endStr}`,
     );
   };
 
@@ -35,4 +35,4 @@ const usePreviousGetAir = () => {
   });
 };
 
-export default usePreviousGetAir;
+export default usePredGetAir;
