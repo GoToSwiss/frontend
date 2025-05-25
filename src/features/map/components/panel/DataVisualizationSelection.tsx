@@ -1,4 +1,4 @@
-import useDataVisualTypeStore from '../store/useDataVisualTypeStore';
+import useDataVisualTypeStore from '../../store/useDataVisualTypeStore';
 
 function DataVisualizationSelection() {
   const { dataVisualType, setDataVisualType } = useDataVisualTypeStore();

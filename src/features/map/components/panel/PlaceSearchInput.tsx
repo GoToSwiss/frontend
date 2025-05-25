@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
-import { Coords } from '../types/CoordType';
-import useMapStore from '../store/useMapStore';
+import { Coords } from '../../types/CoordType';
+import useMapStore from '../../store/useMapStore';
 
 function PlaceSearchInput() {
   const inputRef = useRef<HTMLInputElement>(null);

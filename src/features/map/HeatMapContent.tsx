@@ -1,46 +1,43 @@
 import { useEffect, useMemo } from 'react';
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
-import { FeatureCollection, Point, GeoJsonProperties } from 'geojson';
 import useMapStore from './store/useMapStore';
+import useGetHeatMap from './query/heatmap.query';
 
 type HeatmapProps = {
-  geojson: FeatureCollection<Point, GeoJsonProperties>;
   radius: number;
   opacity: number;
 };
 
-function Heatmap({ geojson, radius, opacity }: HeatmapProps) {
+function HeatMapContent({ radius, opacity }: HeatmapProps) {
+  const { data } = useGetHeatMap();
   const mapInstance = useMapStore((state) => state.mapInstance);
   const visualization = useMapsLibrary('visualization');
 
   const heatmap = useMemo(() => {
-    if (!visualization || !mapInstance) return null;
+    if (!visualization) return null;
 
     return new google.maps.visualization.HeatmapLayer({
       radius,
       opacity,
     });
-  }, [visualization, radius, opacity]);
+  }, [visualization, mapInstance]);
+
+  useEffect(() => {
+    if (!heatmap) return;
+    if (data.result.length === 0) heatmap.setData([]);
+    heatmap.setData(
+      data.result.map((point) => ({
+        location: new google.maps.LatLng(point.dmX, point.dmY),
+        weight: point.value,
+      })),
+    );
+  }, [heatmap, data]);
 
   useEffect(() => {
     if (!heatmap) return;
 
-    heatmap.setData(
-      geojson.features.map((point) => {
-        const [lng, lat] = point.geometry.coordinates;
-
-        return {
-          location: new google.maps.LatLng(lat, lng),
-          weight: point.properties?.mag,
-        };
-      }),
-    );
-  }, [heatmap, geojson, radius, opacity]);
-
-  useEffect(() => {
-    if (!heatmap || !mapInstance) return;
-
     heatmap.setMap(mapInstance);
+
     // eslint-disable-next-line consistent-return
     return () => {
       heatmap.setMap(null);
@@ -50,4 +47,4 @@ function Heatmap({ geojson, radius, opacity }: HeatmapProps) {
   return null;
 }
 
-export default Heatmap;
+export default HeatMapContent;

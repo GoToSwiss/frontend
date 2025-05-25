@@ -6,7 +6,7 @@ import FeatureMarker from './FeatureMarker';
 import useSupercluster from '../hooks/use-supercluster';
 import useStationStore from '../store/useStationStore';
 import { MarkerFeature } from '../types/CoordType';
-import usePanelStore from '../store/usePanelStore';
+import usePanelStore from '../store/panel/usePanelStore';
 import useInfoWindowStore from '../store/useInfoWindowStore';
 import focusOnLocation from '../utils/focusOnLocation';
 
@@ -44,7 +44,7 @@ function ClusteredMarkers({ geojson, setNumClusters }: ClusteredMarkersProps) {
   const handleMarkerPinClick = useCallback(
     (marker: google.maps.marker.AdvancedMarkerElement, featureId: string) => {
       const feature = clusters.find((feat) => feat.id === featureId) as Feature<Point>;
-      console.log('feature', feature);
+
       focusOnLocation(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
       setInfowindowData({ anchor: marker, features: [feature as MarkerFeature] });
       setStationName(feature.properties?.stationName);

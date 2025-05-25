@@ -1,11 +1,14 @@
 import React from 'react';
 import useInfoWindowStore from '../store/useInfoWindowStore';
 import useStationStore from '../store/useStationStore';
+import focusOnLocation from '../utils/focusOnLocation';
+import usePanelStore from '../store/panel/usePanelStore';
 
 const numFmt = new Intl.NumberFormat();
 
 function InfoWindowContent() {
   const { infowindowData } = useInfoWindowStore();
+  const { openRightPanel } = usePanelStore();
   const setStationName = useStationStore((state) => state.setStationName);
   if (infowindowData?.features.length === 1) {
     const f = infowindowData.features[0];
@@ -40,7 +43,9 @@ function InfoWindowContent() {
             <li key={feature.id}>
               <button
                 onClick={() => {
+                  openRightPanel();
                   setStationName(props.stationName);
+                  focusOnLocation(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
                 }}
                 className="w-full truncate text-start text-lg text-blue-600 hover:underline"
               >
