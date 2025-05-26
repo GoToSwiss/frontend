@@ -6,7 +6,7 @@ interface DataVisualTypeStore {
 }
 
 const useDataVisualTypeStore = create<DataVisualTypeStore>((set) => ({
-  dataVisualType: '3d',
+  dataVisualType: 'marker',
   setDataVisualType: (type) => set({ dataVisualType: type }),
 }));
 

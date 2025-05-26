@@ -4,7 +4,6 @@ import usePanelStore from '../../store/panel/usePanelStore';
 import RenderResultTable from './RenderResultTable';
 import useChatBot from '../../query/chatbot.query';
 import FunctionCallDisplay from './FunctionCallDisplay';
-import TypingText from './TypingText';
 import useChatStore from '../../store/useChatStore';
 import focusOnSQLLocation from '../../utils/focusSQLLocation';
 import useDataVisualTypeStore from '../../store/useDataVisualTypeStore';
@@ -81,7 +80,7 @@ function ChatBot() {
                       msg.who === 'user' ? 'bg-gray-100 text-gray-800' : 'bg-blue-500 text-white'
                     }`}
                   >
-                    {msg.response && <TypingText text={msg.response} init={msg.init} />}
+                    {msg.response}
                   </div>
 
                   {msg.function_call.name !== '' && <FunctionCallDisplay {...msg.function_call} />}
