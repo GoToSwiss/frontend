@@ -35,6 +35,12 @@ function SideLeftPanel() {
           ) : (
             <HeatMapSelection />
           )}
+          <p className="text-black-500 text-xs">
+            데이터는 실시간 과측된 자료이며 측정소 연기 시점이나 <br />
+            데이터의 수신상태에 따라 미수신될 수 있음
+            <br />
+            <span className="text-blue-500">출처: 환경부/한국환경공단</span>
+          </p>
         </div>
       )}
     </>
