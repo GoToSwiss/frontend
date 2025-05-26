@@ -6,6 +6,9 @@ export default {
       animation: {
         'rainbow-text': 'rainbow 10s linear infinite',
       },
+      fontFamily: {
+        sans: ['Pretendard', 'sans-serif'],
+      },
       keyframes: {
         rainbow: {
           '0%': { color: '#ff0000' },
