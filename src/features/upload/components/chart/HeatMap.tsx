@@ -72,7 +72,6 @@ export default function CorrelationHeatmap() {
           tickSize: 5,
         },
         y: {
-          reverse: true,
           label: null,
           tickSize: 5,
         },
