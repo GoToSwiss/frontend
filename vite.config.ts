@@ -12,6 +12,9 @@ export default defineConfig({
       },
     },
   },
+  optimizeDeps: {
+    include: ['supercluster'],
+  },
   resolve: {
     alias: {
       '@': '/src',

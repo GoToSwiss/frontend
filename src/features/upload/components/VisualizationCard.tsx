@@ -6,19 +6,32 @@ export default function VisualizationCard({
   className = '',
   isGraph = false,
   logoSrc,
+  isClicked = false,
+  onClick = () => {},
 }: VisualizationCardProps) {
   return (
     <button
-      className={`${!isGraph && 'h-36'} group relative flex flex-col items-center justify-center rounded-lg border border-gray-200 p-4 text-center shadow-lg transition duration-300 hover:shadow-xl ${className}`}
+      onClick={onClick}
+      className={`group flex flex-col items-center gap-4 rounded-xl border p-6 transition-shadow duration-200 hover:shadow-md ${isClicked ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'} ${className}`}
     >
-      <div className="flex items-center gap-4 pb-2">
-        {!isGraph && <img src={logoSrc} alt="logo" className="size-6" />}
-        <h3 className="text-lg font-bold text-gray-800 transition group-hover:text-blue-600">
+      {logoSrc && (
+        <img
+          src={logoSrc}
+          alt="logo"
+          className={`${isGraph ? 'h-14 w-14' : 'h-8 w-8'} transition-transform duration-200 group-hover:scale-105`}
+        />
+      )}
+
+      <div className="text-center">
+        <h3
+          className={`mb-1 text-base font-semibold transition-colors duration-200 ${isClicked ? 'text-blue-600' : 'text-gray-800 group-hover:text-blue-600'}`}
+        >
           {title}
         </h3>
+        <p className="text-sm leading-snug text-gray-500 group-hover:text-gray-700">
+          {description}
+        </p>
       </div>
-      {isGraph && <img src={logoSrc} alt="logo" className="size-12" />}
-      <div className="text-gray-600 transition group-hover:text-gray-800">{description}</div>
     </button>
   );
 }

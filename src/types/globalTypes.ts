@@ -5,3 +5,10 @@ export interface ButtonProps {
   className?: string;
   onClick: () => void;
 }
+
+export interface ApiResponse<T> {
+  isSuccess: boolean;
+  code: string;
+  message: string | undefined;
+  result: T;
+}

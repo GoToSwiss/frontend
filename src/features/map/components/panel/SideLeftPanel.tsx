@@ -1,0 +1,44 @@
+import { X, ChevronRight } from 'lucide-react';
+import PlaceSearchInput from './PlaceSearchInput';
+import DataVisualizationSelection from './DataVisualizationSelection';
+import AirLegend from './AirLegend';
+import DateSelection from './DateSelection';
+import usePanelStore from '../../store/panel/usePanelStore';
+import useDataVisualTypeStore from '../../store/useDataVisualTypeStore';
+import HeatMapSelection from './HeatMapSelection';
+
+function SideLeftPanel() {
+  const { leftPanelOpen, toggleLeftPanel } = usePanelStore();
+  const dataVisualType = useDataVisualTypeStore((state) => state.dataVisualType);
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => toggleLeftPanel()}
+        className="z-5 0 absolute left-4 top-4 rounded bg-white p-1 shadow hover:bg-gray-100"
+      >
+        {leftPanelOpen ? (
+          <X size={12} className="text-gray-600" />
+        ) : (
+          <ChevronRight size={12} className="text-gray-600" />
+        )}
+      </button>
+
+      {leftPanelOpen && (
+        <div className="w-90 absolute left-4 top-11 z-50 h-[90%] space-y-6 overflow-auto rounded-lg bg-white p-4 shadow-md">
+          <PlaceSearchInput />
+          <DataVisualizationSelection />
+          {dataVisualType === 'marker' ? (
+            <>
+              <AirLegend /> <DateSelection />
+            </>
+          ) : (
+            <HeatMapSelection />
+          )}
+        </div>
+      )}
+    </>
+  );
+}
+
+export default SideLeftPanel;
