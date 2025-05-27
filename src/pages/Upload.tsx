@@ -10,6 +10,9 @@ import CBPF from '@/features/upload/components/chart/CBPF';
 import BinnedChart from '@/features/upload/components/chart/BinnedChart';
 import CorrelationHeatmap from '@/features/upload/components/chart/HeatMap';
 import SEO from '@/components/SEO';
+import book from '@/assets/upload/book.png';
+import video from '@/assets/upload/video.png';
+import help from '@/assets/upload/help.png';
 
 export default function Upload() {
   const step = useStepStore((state) => state.step);
@@ -55,17 +58,17 @@ export default function Upload() {
             <VisualizationCard
               title="사용자 매뉴얼"
               description="상세한 기능 설명과 사용법을 확인하세요"
-              logoSrc="/src/assets/upload/book.png"
+              logoSrc={book}
             />
             <VisualizationCard
               title="비디오 튜토리얼"
               description="단계별 가이드 영상을 시청하세요"
-              logoSrc="/src/assets/upload/video.png"
+              logoSrc={video}
             />
             <VisualizationCard
               title="고객 지원"
               description="문의사항이 있으시면 연락주세요"
-              logoSrc="/src/assets/upload/help.png"
+              logoSrc={help}
             />
           </div>
         </WhiteBox>

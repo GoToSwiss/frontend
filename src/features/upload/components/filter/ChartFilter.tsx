@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import WhiteBox from '@/features/upload/components/WhiteBox';
 import VisualizationCard from '@/features/upload/components/VisualizationCard';
+import logo from '@/assets/logo.png';
 import useFileStore from '../../store/useFileStore';
 import useStepStore from '../../store/useStepStore';
 
@@ -31,7 +32,7 @@ export default function ChartFilter() {
             title={type}
             className="rounded-md border p-4 text-center shadow-md"
             isGraph
-            logoSrc="/src/assets/logo.png"
+            logoSrc={logo}
             isClicked={isClicked === type}
             onClick={() => onClick(type)}
             description={description[type]}
