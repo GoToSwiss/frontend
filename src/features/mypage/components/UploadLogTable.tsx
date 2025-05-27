@@ -34,33 +34,39 @@ export default function UploadLogTable({ data }: { data: UserUploadHistory[] }) 
         </tr>
       </thead>
       <tbody className="font-light">
-        {data.map((item) => (
-          <tr key={item.fileId} className="border-b border-gray-200 last:border-b-0">
-            <td className="flex items-center justify-center gap-4 px-4 py-2 font-normal">
-              <img src={fileImg} alt="파일 이미지" className="w-4" />
-              {item.filename}
-            </td>
-            <td className="px-4 py-2 text-theme_tertiary">
-              {new Date(item.createdAt).toLocaleString('ko-KR', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-              })}
-            </td>
-            <td className="px-4 py-2 text-theme_tertiary">{item.fileSize.toFixed(2)}kb</td>
-            <td className="px-4 py-2">
-              <button
-                onClick={() => handleSetFile(item.fileId)}
-                className="text-blue-500 hover:underline"
-              >
-                다시 분석하러 가기
-              </button>
-            </td>
+        {data ? (
+          data.map((item) => (
+            <tr key={item.fileId} className="border-b border-gray-200 last:border-b-0">
+              <td className="flex items-center justify-center gap-4 px-4 py-2 font-normal">
+                <img src={fileImg} alt="파일 이미지" className="w-4" />
+                {item.filename}
+              </td>
+              <td className="px-4 py-2 text-theme_tertiary">
+                {new Date(item.createdAt).toLocaleString('ko-KR', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                })}
+              </td>
+              <td className="px-4 py-2 text-theme_tertiary">{item.fileSize.toFixed(2)}kb</td>
+              <td className="px-4 py-2">
+                <button
+                  onClick={() => handleSetFile(item.fileId)}
+                  className="text-blue-500 hover:underline"
+                >
+                  다시 분석하러 가기
+                </button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td className="flex items-center px-4 py-2 text-theme_tertiary">데이터가 없습니다.</td>
           </tr>
-        ))}
+        )}
       </tbody>
     </table>
   );
