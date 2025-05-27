@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import useStepStore from '@/features/upload/store/useStepStore';
 import { UserUploadHistory } from '../types/mypageType';
 
-export default function UploadLogTable({ data }: { data: UserUploadHistory[] }) {
+export default function UploadLogTable({ data }: { data: UserUploadHistory[] | null }) {
   const setUploadedData = useFileStore((state) => state.setUploadedData);
   const setStep = useStepStore((state) => state.setStep);
   const navigate = useNavigate();
