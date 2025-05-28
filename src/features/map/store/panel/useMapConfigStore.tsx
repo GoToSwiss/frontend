@@ -1,6 +1,4 @@
 import { create } from 'zustand';
-import brightColorsStyles from '../../components/map-styles/bright-colors';
-import vitaminCStyles from '../../components/map-styles/vitamin-c';
 
 const MapTypeId = {
   HYBRID: 'hybrid',
@@ -24,46 +22,19 @@ export const MAP_CONFIGS: MapConfig[] = [
   },
   {
     id: 'satellite',
-    label: 'Satellite (no mapId)',
+    label: 'Satellite',
+    mapId: '49ae42fed52588c3',
     mapTypeId: MapTypeId.SATELLITE,
   },
   {
     id: 'hybrid',
-    label: 'Hybrid (no mapId)',
+    label: 'Hybrid',
+    mapId: '49ae42fed52588c3',
     mapTypeId: MapTypeId.HYBRID,
   },
   {
     id: 'terrain',
-    label: 'Terrain (no mapId)',
-    mapTypeId: MapTypeId.TERRAIN,
-  },
-  {
-    id: 'styled1',
-    label: 'Raster / "Bright Colors" (no mapId)',
-    mapTypeId: MapTypeId.ROADMAP,
-    styles: brightColorsStyles,
-  },
-  {
-    id: 'styled2',
-    label: 'Raster / "Vitamin C" (no mapId)',
-    mapTypeId: MapTypeId.ROADMAP,
-    styles: vitaminCStyles,
-  },
-  {
-    id: 'satellite2',
-    label: 'Satellite ("light" mapId)',
-    mapId: '49ae42fed52588c3',
-    mapTypeId: MapTypeId.SATELLITE,
-  },
-  {
-    id: 'hybrid2',
-    label: 'Hybrid ("light" mapId)',
-    mapId: '49ae42fed52588c3',
-    mapTypeId: MapTypeId.HYBRID,
-  },
-  {
-    id: 'terrain2',
-    label: 'Terrain ("light" mapId)',
+    label: 'Terrain',
     mapId: '49ae42fed52588c3',
     mapTypeId: MapTypeId.TERRAIN,
   },
@@ -83,6 +54,6 @@ interface MapConfigState {
 }
 
 export const useMapConfigStore = create<MapConfigState>((set) => ({
-  mapConfig: MAP_CONFIGS[0], // 기본값
+  mapConfig: MAP_CONFIGS[0],
   setMapConfig: (config) => set({ mapConfig: config }),
 }));
