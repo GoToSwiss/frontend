@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import getUserInfo from '../features/mypage/api/getUserInfo';
+import Loading from './Loading';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -23,7 +24,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   }, []);
 
   if (isAuth === null) {
-    return <div>인증 상태 확인 중...</div>; // 로딩 중
+    return <Loading title="인증 상태 확인 중..." description="인증 상태를 확인하고 있습니다." />;
   }
 
   if (!isAuth) {

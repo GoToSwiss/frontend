@@ -9,7 +9,7 @@ export default function CommonLayout() {
   return (
     <div>
       <Header />
-      <div className="z-10 h-[calc(100vh-60px)] bg-[#F9FAFB]">
+      <div className="z-10 bg-[#F9FAFB]">
         <QueryErrorBoundary>
           <Suspense
             fallback={

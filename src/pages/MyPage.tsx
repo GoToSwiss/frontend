@@ -15,8 +15,8 @@ export default function MyPage() {
 
   const [sort, setSort] = useState<'latest' | 'name'>('latest');
 
-  const sortedData = data?.result?.fileLogs
-    ? data.result.fileLogs.sort((a, b) => {
+  const sortedData = data.result.fileLogs
+    ? [...data.result.fileLogs].sort((a, b) => {
         if (sort === 'latest') {
           return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         }
