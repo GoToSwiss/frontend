@@ -6,11 +6,11 @@ function KoreaBoundaryCircle() {
   const circleRef = useRef<google.maps.Circle | null>(null);
 
   useEffect(() => {
-    if (!map || circleRef.current) return;
+    if (!map || circleRef.current) return undefined;
 
     const circle = new google.maps.Circle({
-      center: { lat: 35.8, lng: 127.75 }, // ⬅ 중심을 더 남쪽으로
-      radius: 380000, // 250km 반경으로 대한민국 전역 포함
+      center: { lat: 35.8, lng: 127.75 },
+      radius: 380000,
       map,
       strokeColor: '#3B82F6',
       strokeOpacity: 0.8,
@@ -20,7 +20,6 @@ function KoreaBoundaryCircle() {
     });
 
     circleRef.current = circle;
-    /* eslint-disable consistent-return */
     return () => circle.setMap(null);
   }, [map]);
 

@@ -2,8 +2,8 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import getData from '@/api/getData';
 import { ApiResponse } from '@/types/globalTypes';
 import { AirPreviousResponseType } from '../types/AirSelectType';
-import useStationStore from '../store/useStationStore';
-import useDateRangeStore from '../store/useDateRangeStore';
+import useStationStore from '../store/panel/useStationStore';
+import useDateRangeStore from '../store/panel/useDateRangeStore';
 
 const usePredGetAir = () => {
   const { dateRange, timeRange } = useDateRangeStore();

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AirHeatMapSelectType } from '../types/AirSelectType';
+import { AirHeatMapSelectType } from '../../types/AirSelectType';
 
 interface AirSelectionState {
   selectedType: AirHeatMapSelectType;

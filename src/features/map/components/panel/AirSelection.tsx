@@ -1,4 +1,4 @@
-import useSelectedAirTypeStore from '../../store/useSelectedAirTypeStore';
+import useSelectedAirTypeStore from '../../store/panel/useSelectedAirTypeStore';
 import { AirSelectType } from '../../types/AirSelectType';
 
 const airOptions = [

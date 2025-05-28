@@ -4,12 +4,12 @@ import { Feature, FeatureCollection, GeoJsonProperties, Point } from 'geojson';
 import FeaturesClusterMarker from './FeaturesClusterMarker';
 import FeatureMarker from './FeatureMarker';
 import useSupercluster from '../hooks/use-supercluster';
-import useStationStore from '../store/useStationStore';
+import useStationStore from '../store/panel/useStationStore';
 import { MarkerFeature } from '../types/CoordType';
 import usePanelStore from '../store/panel/usePanelStore';
 import useInfoWindowStore from '../store/useInfoWindowStore';
 import focusOnLocation from '../utils/focusOnLocation';
-import use3DmapPropertyStore from '../store/use3DmapPropertyStore';
+import use3DmapPropertyStore from '../store/panel/use3DmapPropertyStore';
 
 type ClusteredMarkersProps = {
   geojson: FeatureCollection<Point>;

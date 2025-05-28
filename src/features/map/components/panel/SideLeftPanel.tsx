@@ -4,12 +4,14 @@ import DataVisualizationSelection from './DataVisualizationSelection';
 import AirLegend from './AirLegend';
 import DateSelection from './DateSelection';
 import usePanelStore from '../../store/panel/usePanelStore';
-import useDataVisualTypeStore from '../../store/useDataVisualTypeStore';
+import useDataVisualTypeStore from '../../store/panel/useDataVisualTypeStore';
 import HeatMapSelection from './HeatMapSelection';
+import StyleControlPanel from './StyleControlPanel';
 
 function SideLeftPanel() {
   const { leftPanelOpen, toggleLeftPanel } = usePanelStore();
   const dataVisualType = useDataVisualTypeStore((state) => state.dataVisualType);
+
   return (
     <>
       <button
@@ -27,6 +29,7 @@ function SideLeftPanel() {
       {leftPanelOpen && (
         <div className="w-90 absolute left-4 top-11 z-50 h-[90%] space-y-6 overflow-auto rounded-lg bg-white p-4 shadow-md">
           <PlaceSearchInput />
+          <StyleControlPanel />
           <DataVisualizationSelection />
           {dataVisualType === 'marker' || dataVisualType === '3d' ? (
             <>

@@ -1,4 +1,4 @@
-import usePredAirSelectionStore from '../../store/usePredAirSelectionStore';
+import usePredAirSelectionStore from '../../store/panel/usePredAirSelectionStore';
 import { AirPreviousSelectType } from '../../types/AirSelectType';
 
 const airOptions = [
