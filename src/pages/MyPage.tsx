@@ -10,7 +10,7 @@ import SEO from '@/components/SEO';
 export default function MyPage() {
   const { data } = useSuspenseQuery<ApiResponse<UserInfoProps>>({
     queryKey: ['uploadHistory'],
-    queryFn: getUserInfo,
+    queryFn: () => getUserInfo(false),
   });
 
   const [sort, setSort] = useState<'latest' | 'name'>('latest');

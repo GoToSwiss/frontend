@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import getUserInfo from '../features/mypage/api/getUserInfo';
+import useAuthStore from '../store/useAuthStore';
 import Loading from './Loading';
 
 interface ProtectedRouteProps {
@@ -8,26 +7,13 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const [isAuth, setIsAuth] = useState<boolean | null>(null);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await getUserInfo();
-        setIsAuth(response.isSuccess);
-      } catch (error) {
-        setIsAuth(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
-
-  if (isAuth === null) {
-    return <Loading title="인증 상태 확인 중..." description="인증 상태를 확인하고 있습니다." />;
+  if (isLoggedIn === null) {
+    return <Loading title="인증 상태 확인 중..." description="잠시만 기다려주세요." />;
   }
 
-  if (!isAuth) {
+  if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
 

@@ -13,6 +13,8 @@ import NotFound from './pages/NotFound';
 import MyPage from './pages/MyPage';
 import MapLayout from './layouts/MapLayout';
 import ProtectedRoute from './components/ProtectedRoute';
+import useAuthStore from './store/useAuthStore';
+import getUserInfo from './features/mypage/api/getUserInfo';
 
 async function enableMocking() {
   if (import.meta.env.VITE_NODE_ENV !== 'development') {
@@ -71,9 +73,20 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
   useEffect(() => {
     enableMocking();
+    const isAuth = async () => {
+      try {
+        const isLoggedIn = await getUserInfo(true);
+        setIsLoggedIn(isLoggedIn.isSuccess);
+      } catch (error) {
+        setIsLoggedIn(false);
+      }
+    };
+    isAuth();
   }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />

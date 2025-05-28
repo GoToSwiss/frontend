@@ -1,5 +1,6 @@
 import axiosInstance from '@/api';
 import { useEffect } from 'react';
+import useAuthStore from '@/store/useAuthStore';
 import useToastNavigate from './useToastNavigate';
 
 function useHandleLoginPost() {
@@ -21,14 +22,16 @@ function useHandleLoginPost() {
           code,
           redirectUrl: import.meta.env.VITE_APP_GOOGLE_AUTH_REDIRECT_URI,
         });
+        const { setIsLoggedIn } = useAuthStore.getState();
+        setIsLoggedIn(true);
 
         toastAndGo(true, '로그인 성공', '/', {
           autoClose: 1500,
         });
       } catch (error) {
-        // toastAndGo(false, '로그인 실패', '/login', {
-        //   autoClose: 1500,
-        // });
+        toastAndGo(false, '로그인 실패', '/login', {
+          autoClose: 1500,
+        });
       }
     };
 
