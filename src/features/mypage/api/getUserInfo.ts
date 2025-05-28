@@ -7,7 +7,9 @@ export default async function getUserInfo() {
     const response = await getData<UserInfoProps>('/member/profile');
     return response;
   } catch (error) {
-    toast.error('Error fetching user info');
+    toast.error('유저 정보를 가져오는데 실패했습니다. 다시 로그인 해주세요!', {
+      autoClose: 1500,
+    });
     throw error;
   }
 }

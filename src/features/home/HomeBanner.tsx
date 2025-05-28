@@ -17,7 +17,7 @@ export default function HomeBanner() {
           복잡한 대기질 데이터를 쉽고 직관적으로 분석하세요
         </p>
         <div className="flex gap-4">
-          <Link to="/login" className="bg-blue-600 px-6 py-2 text-lg text-white hover:bg-blue-500">
+          <Link to="/upload" className="bg-blue-600 px-6 py-2 text-lg text-white hover:bg-blue-500">
             시작하기
           </Link>
           <Link

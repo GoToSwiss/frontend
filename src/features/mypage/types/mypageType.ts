@@ -9,5 +9,5 @@ export interface UserInfoProps {
   email: string;
   name: string;
   imgUrl: string;
-  fileLogs: UserUploadHistory[];
+  fileLogs: UserUploadHistory[] | null;
 }
