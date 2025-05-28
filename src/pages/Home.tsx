@@ -3,7 +3,7 @@ import HomeBanner from '@/features/home/HomeBanner';
 import SEO from '@/components/SEO';
 import { useLocation } from 'react-router-dom';
 import useAuthStore from '@/store/useAuthStore';
-import useIsMobile from '@/features/map/hooks/use-mobile';
+import useIsMobile from '@/utils/use-mobile';
 
 export default function Home() {
   const location = useLocation();

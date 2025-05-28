@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import useHeatMapSelectionStore from '../../store/useHeatMapSelectionStore';
+import useHeatMapSelectionStore from '../../store/panel/useHeatMapSelectionStore';
 import { AirHeatMapSelectType } from '../../types/AirSelectType';
 
 const airOptions = [

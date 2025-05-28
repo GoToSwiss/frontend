@@ -1,4 +1,4 @@
-import useDateRangeStore from '../store/useDateRangeStore';
+import useDateRangeStore from '../store/panel/useDateRangeStore';
 
 function TimeSelection() {
   const { timeRange, setTimeRange, dateRange } = useDateRangeStore();

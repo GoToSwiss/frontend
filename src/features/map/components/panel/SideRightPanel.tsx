@@ -4,6 +4,7 @@ import usePanelStore from '../../store/panel/usePanelStore';
 
 function SideRightPanel() {
   const { rightPanelOpen, toggleRightPanel, closeChat } = usePanelStore();
+
   return (
     <>
       <button

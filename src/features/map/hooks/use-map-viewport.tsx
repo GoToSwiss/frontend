@@ -11,17 +11,16 @@ function useMapViewport({ padding = 0 }: MapViewportOptions = {}) {
   const [bbox, setBbox] = useState<BBox>([-180, -90, 180, 90]);
   const [zoom, setZoom] = useState(0);
 
-  // observe the map to get current bounds
   useEffect(() => {
-    if (!mapInstance) return;
+    if (!mapInstance) return undefined;
 
     const listener = mapInstance.addListener('bounds_changed', () => {
       const bounds = mapInstance.getBounds();
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const zoom = mapInstance.getZoom();
+
+      const newZoom = mapInstance.getZoom();
       const projection = mapInstance.getProjection();
 
-      if (!bounds || !zoom || !projection) return;
+      if (!bounds || !newZoom || !projection) return;
 
       const sw = bounds.getSouthWest();
       const ne = bounds.getNorthEast();
@@ -35,10 +34,9 @@ function useMapViewport({ padding = 0 }: MapViewportOptions = {}) {
       const e = ne.lng() + paddingDegrees;
 
       setBbox([w, s, e, n]);
-      setZoom(zoom);
+      setZoom(newZoom);
     });
 
-    // eslint-disable-next-line consistent-return
     return () => listener.remove();
   }, [mapInstance, padding]);
 
@@ -46,7 +44,6 @@ function useMapViewport({ padding = 0 }: MapViewportOptions = {}) {
 }
 
 function degreesPerPixel(zoomLevel: number) {
-  // 360° divided by the number of pixels at the zoom-level
   return 360 / (2 ** zoomLevel * 256);
 }
 export default useMapViewport;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import TimeSelection from '../TimeSelection';
-import useDateRangeStore from '../../store/useDateRangeStore';
+import useDateRangeStore from '../../store/panel/useDateRangeStore';
 
 function DateSelection() {
   const [isOpen, setIsOpen] = useState(false);

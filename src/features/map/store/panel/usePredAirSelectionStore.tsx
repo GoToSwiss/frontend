@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AirPreviousSelectType } from '../types/AirSelectType';
+import { AirPreviousSelectType } from '../../types/AirSelectType';
 
 interface AirTypeStore {
   selectedType: AirPreviousSelectType;

@@ -16,7 +16,7 @@ export default function TypingText({ text, speed = 100, init = true }: TypingTex
 
   useEffect(() => {
     if (!init) {
-      return;
+      return undefined;
     }
     indexRef.current = 0;
     setDisplayedText('');
@@ -43,7 +43,6 @@ export default function TypingText({ text, speed = 100, init = true }: TypingTex
 
     type();
 
-    // eslint-disable-next-line consistent-return
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };

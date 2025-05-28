@@ -1,6 +1,6 @@
 import React from 'react';
 import useInfoWindowStore from '../store/useInfoWindowStore';
-import useStationStore from '../store/useStationStore';
+import useStationStore from '../store/panel/useStationStore';
 import focusOnLocation from '../utils/focusOnLocation';
 import usePanelStore from '../store/panel/usePanelStore';
 
@@ -10,6 +10,7 @@ function InfoWindowContent() {
   const { infowindowData } = useInfoWindowStore();
   const { openRightPanel } = usePanelStore();
   const setStationName = useStationStore((state) => state.setStationName);
+
   if (infowindowData?.features.length === 1) {
     const f = infowindowData.features[0];
     const props = f.properties;
