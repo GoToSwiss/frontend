@@ -1,4 +1,4 @@
-import { APIProvider, InfoWindow, Map } from '@vis.gl/react-google-maps';
+import { APIProvider, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps';
 import { useEffect, useState } from 'react';
 import SideLeftPanel from '@/features/map/components/panel/SideLeftPanel';
 import SideRightPanel from '@/features/map/components/panel/SideRightPanel';
@@ -13,7 +13,18 @@ import ChatBot from '@/features/map/components/chat/ChatBot';
 import HeatMapContent from '@/features/map/HeatMapContent';
 import MapMode3D from '@/features/map/components/3d/MapMode3D';
 import SEO from '@/components/SEO';
-import MapController from '@/features/map/MapController';
+
+export function MapController({ onReady }: { onReady: (map: google.maps.Map) => void }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (map) {
+      onReady(map);
+    }
+  }, [map, onReady]);
+
+  return null;
+}
 
 function GoogleMap() {
   const dataVisualType = useDataVisualTypeStore((state) => state.dataVisualType);
