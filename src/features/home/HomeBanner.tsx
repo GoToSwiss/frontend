@@ -35,21 +35,27 @@ export default function HomeBanner() {
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-3">
           <div className="rounded-lg bg-gray-50 p-6 text-center shadow">
             <div className="mb-4 text-4xl text-blue-500">⬆️</div>
-            <h3 className="mb-2 text-lg font-semibold">데이터 업로드</h3>
+            <h3 className="mb-2 text-lg font-semibold">
+              <Link to="/upload">데이터 업로드</Link>
+            </h3>
             <p className="text-sm text-gray-600">
               CSV, Excel, JSON 등 다양한 형식의 파일을 손쉽게 업로드하고 관리할 수 있습니다.
             </p>
           </div>
           <div className="rounded-lg bg-gray-50 p-6 text-center shadow">
             <div className="mb-4 text-4xl text-green-500">📊</div>
-            <h3 className="mb-2 text-lg font-semibold">데이터 분석</h3>
+            <h3 className="mb-2 text-lg font-semibold">
+              <Link to="/map">데이터 분석</Link>
+            </h3>
             <p className="text-sm text-gray-600">
               고급 통계 분석 도구를 활용하여 복잡한 대기질 데이터를 쉽게 분석할 수 있습니다.
             </p>
           </div>
           <div className="rounded-lg bg-gray-50 p-6 text-center shadow">
             <div className="mb-4 text-4xl text-purple-500">📈</div>
-            <h3 className="mb-2 text-lg font-semibold">시각화</h3>
+            <h3 className="mb-2 text-lg font-semibold">
+              <Link to="/map">시각화</Link>
+            </h3>
             <p className="text-sm text-gray-600">
               직관적인 차트와 그래프를 통해 데이터를 시각화하고 인사이트를 얻을 수 있습니다.
             </p>

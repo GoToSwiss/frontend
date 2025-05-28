@@ -20,7 +20,7 @@ interface CameraViewState {
 }
 
 const INITIAL_CAMERA_PROPS: CameraViewProps = {
-  center: { lat: 37.72809, lng: -119.64473, altitude: 1300 },
+  center: { lat: 37.72809, lng: 126.978, altitude: 1500 },
   range: 5000,
   heading: 61,
   tilt: 69,
