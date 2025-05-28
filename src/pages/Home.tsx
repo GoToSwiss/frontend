@@ -1,9 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HomeBanner from '@/features/home/HomeBanner';
 import SEO from '@/components/SEO';
+import { useLocation } from 'react-router-dom';
+import useAuthStore from '@/store/useAuthStore';
 import useIsMobile from '@/features/map/hooks/use-mobile';
 
 export default function Home() {
+  const location = useLocation();
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+
+  useEffect(() => {
+    if (location.state?.fromLogout) {
+      setIsLoggedIn(false);
+    }
+  }, [location.state]);
+
   const isMobile = useIsMobile();
   const [isClosed, setIsClosed] = useState(false);
 
