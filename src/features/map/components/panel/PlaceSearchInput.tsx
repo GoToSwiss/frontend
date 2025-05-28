@@ -10,7 +10,7 @@ function PlaceSearchInput() {
   const onPlaceSelected = (coords: Coords) => {
     if (mapInstance) {
       mapInstance.panTo(coords);
-      mapInstance.setZoom(10);
+      mapInstance.setZoom(11);
     }
   };
 
@@ -44,7 +44,7 @@ function PlaceSearchInput() {
   };
 
   return (
-    <div className="grid h-10 grid-cols-[3fr_1fr]">
+    <div className="grid h-9 grid-cols-[5fr_1fr]">
       <input
         ref={inputRef}
         type="text"

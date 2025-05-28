@@ -10,7 +10,7 @@ interface AirSelectionState {
 
 const useHeatMapSelectionStore = create<AirSelectionState>((set) => ({
   selectedType: 'pm10',
-  selectedDateTime: new Date().toISOString(),
+  selectedDateTime: new Date('2023-03-01T00:00:00').toISOString(),
   setSelectedType: (type) => set({ selectedType: type }),
   setSelectedDateTime: (datetime) => set({ selectedDateTime: datetime }),
 }));

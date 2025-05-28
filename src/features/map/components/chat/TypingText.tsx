@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import useChatStore from '../../store/useChatStore';
 
 interface TypingTextProps {
   text: string;
@@ -8,6 +9,8 @@ interface TypingTextProps {
 
 export default function TypingText({ text, speed = 100, init = true }: TypingTextProps) {
   const [displayedText, setDisplayedText] = useState(init ? '' : text);
+  const message = useChatStore((state) => state.messages);
+  const setMessages = useChatStore((state) => state.setMessages);
   const indexRef = useRef(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -15,7 +18,6 @@ export default function TypingText({ text, speed = 100, init = true }: TypingTex
     if (!init) {
       return;
     }
-
     indexRef.current = 0;
     setDisplayedText('');
 
@@ -24,6 +26,18 @@ export default function TypingText({ text, speed = 100, init = true }: TypingTex
         setDisplayedText(text.slice(0, indexRef.current));
         indexRef.current += 1;
         timeoutRef.current = setTimeout(type, speed);
+      }
+      if (indexRef.current === text.length) {
+        const updatedMessage = message.map((msg) => {
+          if (msg.init) {
+            return {
+              ...msg,
+              init: false,
+            };
+          }
+          return msg;
+        });
+        setMessages(updatedMessage);
       }
     };
 

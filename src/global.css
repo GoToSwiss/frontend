@@ -2,40 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .cluster-marker {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease-in-out;
-    animation: glowPulse 2s infinite ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease-in-out;
+  animation: glowPulse 2s infinite ease-in-out;
+}
+
+.cluster-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cluster-text {
+  position: absolute;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* 반짝임 애니메이션 */
+@keyframes glowPulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 3px rgba(30, 136, 229, 0.8));
+    transform: scale(1);
   }
-  
-  .cluster-content {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  50% {
+    filter: drop-shadow(0 0 10px rgba(30, 136, 229, 1));
+    transform: scale(1.1);
   }
-  
-  .cluster-text {
-    position: absolute;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    text-align: center;
-    pointer-events: none;
+}
+
+/* global.css 또는 Tailwind config에 넣어도 됨 */
+.ripple {
+  width: 100px;
+  height: 100px;
+  background: rgba(0, 128, 255, 0.3); /* 원하는 색상 */
+  border-radius: 50%;
+  animation: rippleAnimation 2s infinite;
+  transform: scale(0.5);
+}
+
+@keyframes rippleAnimation {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.6;
   }
-  
-  /* 반짝임 애니메이션 */
-  @keyframes glowPulse {
-    0%, 100% {
-      filter: drop-shadow(0 0 3px rgba(30, 136, 229, 0.8));
-      transform: scale(1);
-    }
-    50% {
-      filter: drop-shadow(0 0 10px rgba(30, 136, 229, 1));
-      transform: scale(1.1);
-    }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
   }
-  
+}

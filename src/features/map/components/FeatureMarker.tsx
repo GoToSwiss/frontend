@@ -25,9 +25,13 @@ function FeatureMarker({ position, featureId, onMarkerClick }: TreeMarkerProps) 
       position={position}
       onClick={handleClick}
       anchorPoint={AdvancedMarkerAnchorPoint.CENTER}
-      className="marker feature"
     >
-      <MarkerPinSvg />
+      <div className="relative flex h-8 w-8 items-center justify-center">
+        <div className="ripple absolute" />
+        <div className="z-10">
+          <MarkerPinSvg />
+        </div>
+      </div>
     </AdvancedMarker>
   );
 }

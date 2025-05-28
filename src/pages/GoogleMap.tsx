@@ -1,4 +1,4 @@
-import { APIProvider, InfoWindow, Map, useMap } from '@vis.gl/react-google-maps';
+import { APIProvider, InfoWindow, Map } from '@vis.gl/react-google-maps';
 import { useEffect, useState } from 'react';
 import SideLeftPanel from '@/features/map/components/panel/SideLeftPanel';
 import SideRightPanel from '@/features/map/components/panel/SideRightPanel';
@@ -13,18 +13,7 @@ import ChatBot from '@/features/map/components/chat/ChatBot';
 import HeatMapContent from '@/features/map/HeatMapContent';
 import MapMode3D from '@/features/map/components/3d/MapMode3D';
 import SEO from '@/components/SEO';
-
-export function MapController({ onReady }: { onReady: (map: google.maps.Map) => void }) {
-  const map = useMap();
-
-  useEffect(() => {
-    if (map) {
-      onReady(map);
-    }
-  }, [map, onReady]);
-
-  return null;
-}
+import MapController from '@/features/map/MapController';
 
 function GoogleMap() {
   const dataVisualType = useDataVisualTypeStore((state) => state.dataVisualType);
@@ -41,10 +30,26 @@ function GoogleMap() {
       !globalThis.google?.maps?.version.endsWith('-alpha'),
   );
 
-  if (nonAlphaVersionLoaded) {
-    // eslint-disable-next-line no-restricted-globals
-    location.reload();
-  }
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .vAygCK-api-load-alpha-banner {
+        display: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    if (nonAlphaVersionLoaded && !localStorage.getItem('reloadedOnce')) {
+      localStorage.setItem('reloadedOnce', 'true');
+      setTimeout(() => {
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
+      }, 300);
+    }
+    return () => {
+      localStorage.removeItem('reloadedOnce');
+    };
+  }, []);
 
   return (
     <>

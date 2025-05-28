@@ -50,7 +50,7 @@ export default function AirDataSelector() {
         <select
           value={selectedType}
           onChange={(e) => setSelectedType(e.target.value as AirHeatMapSelectType)}
-          className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-xs shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
           {airOptions.map((option) => (
             <option key={option.key} value={option.key}>
@@ -65,13 +65,13 @@ export default function AirDataSelector() {
         <Calendar
           value={calendarDate}
           onChange={(value) => handleDateChange(value as Date)}
-          defaultActiveStartDate={new Date('2023-01-01')}
+          defaultActiveStartDate={new Date('2023-03-01')}
         />
       </div>
 
       <div>
         <h1 className="text-sm font-semibold">시간 선택 (시)</h1>
-        <p className="mb-2 text-xs text-gray-500">히트 맵 데이터는 23년 이전부터 존재합니다.</p>
+        <p className="mb-2 text-xs text-gray-500">히트 맵 데이터는 24년 이전부터 존재합니다.</p>
         <div className="mt-1 flex items-center gap-2">
           <select
             value={hour}
