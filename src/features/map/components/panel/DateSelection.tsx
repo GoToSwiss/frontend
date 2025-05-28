@@ -33,9 +33,9 @@ function DateSelection() {
 
   return (
     <div className="relative">
-      <h1 className="text-xs font-semibold">날짜 선택</h1>
+      <h1 className="text-sm font-semibold">날짜 선택</h1>
       <p className="mb-3 text-xs text-gray-500">
-        2023년 이전 데이터는 ch4, noAvg, co2가 추가적으로 보여집니다.
+        2024년 이전 데이터는 ch4, noAvg, co2가 추가적으로 보여집니다.
       </p>
       <button
         onClick={() => setIsOpen(true)}
