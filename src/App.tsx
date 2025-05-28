@@ -35,11 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'upload',
-        element: (
-          <ProtectedRoute>
-            <Upload />
-          </ProtectedRoute>
-        ),
+        element: <Upload />,
       },
 
       {
