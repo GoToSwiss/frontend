@@ -15,7 +15,7 @@ function SideLeftPanel() {
       <button
         type="button"
         onClick={() => toggleLeftPanel()}
-        className="z-5 0 absolute left-4 top-4 rounded bg-white p-1 shadow hover:bg-gray-100"
+        className="0 absolute left-4 top-4 z-50 rounded bg-white p-1 shadow hover:bg-gray-100"
       >
         {leftPanelOpen ? (
           <X size={12} className="text-gray-600" />

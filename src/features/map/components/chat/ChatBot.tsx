@@ -61,7 +61,7 @@ function ChatBot() {
       </button>
 
       {isChatOpen && (
-        <div className="absolute bottom-20 right-6 z-50 flex h-[80%] w-[40%] flex-col overflow-auto rounded-lg bg-white p-4 shadow-lg">
+        <div className="absolute bottom-20 right-6 z-50 flex h-[80%] w-[32%] flex-col overflow-auto rounded-lg bg-white p-4 shadow-lg">
           <div className="flex items-center justify-between border-b pb-2">
             <div className="flex items-center gap-7">
               <span className="text-sm font-semibold">onAir 챗봇</span>
