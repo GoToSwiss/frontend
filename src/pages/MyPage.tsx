@@ -33,6 +33,7 @@ export default function MyPage() {
             src={data.result.imgUrl || profileImg}
             alt="프로필 이미지"
             className="size-32 rounded-full"
+            referrerPolicy="no-referrer"
           />
           <div className="flex flex-col justify-center gap-2">
             <div className="flex flex-col">

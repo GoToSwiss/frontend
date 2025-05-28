@@ -21,6 +21,8 @@ axiosInstance.interceptors.response.use(
 
         const { setIsLoggedIn } = useAuthStore.getState();
         setIsLoggedIn(true);
+        const { setUserImg } = useAuthStore.getState();
+        setUserImg(refreshRes.data.userImg);
 
         // eslint-disable-next-line no-param-reassign
         error.config.headers.Authorization = `Bearer ${newAccessToken}`;

@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ToastContainer } from 'react-toastify';
 import Home from './pages/Home';
@@ -15,6 +15,7 @@ import MapLayout from './layouts/MapLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import useAuthStore from './store/useAuthStore';
 import getUserInfo from './features/mypage/api/getUserInfo';
+import Loading from './components/Loading';
 
 async function enableMocking() {
   if (import.meta.env.VITE_NODE_ENV !== 'development') {
@@ -73,19 +74,28 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+  const setUserImg = useAuthStore((state) => state.setUserImg);
   useEffect(() => {
     enableMocking();
     const isAuth = async () => {
       try {
         const isLoggedIn = await getUserInfo(true);
         setIsLoggedIn(isLoggedIn.isSuccess);
+        setUserImg(isLoggedIn.result.imgUrl);
+        setIsLoading(false);
       } catch (error) {
         setIsLoggedIn(false);
+        setIsLoading(false);
       }
     };
     isAuth();
   }, []);
+
+  if (isLoading) {
+    return <Loading title="ONAIR에 오신걸 환영합니다!" description="잠시만 기다려주세요." />;
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

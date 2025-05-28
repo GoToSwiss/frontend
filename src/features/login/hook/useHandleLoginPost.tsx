@@ -18,12 +18,14 @@ function useHandleLoginPost() {
       }
 
       try {
-        await axiosInstance.post(`/member/login/google`, {
+        const res = await axiosInstance.post(`/member/login/google`, {
           code,
           redirectUrl: import.meta.env.VITE_APP_GOOGLE_AUTH_REDIRECT_URI,
         });
         const { setIsLoggedIn } = useAuthStore.getState();
+        const { setUserImg } = useAuthStore.getState();
         setIsLoggedIn(true);
+        setUserImg(res.data.imgUrl);
 
         toastAndGo(true, '로그인 성공', '/', {
           autoClose: 1500,

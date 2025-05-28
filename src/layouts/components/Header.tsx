@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom';
 import logo from '@/assets/logo.png';
+import useAuthStore from '@/store/useAuthStore';
+import defaultImg from '@/assets/layout/kwon.jpg';
 
 export default function Header() {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const userImg = useAuthStore((state) => state.userImg);
+
   return (
     <header className="relative flex h-[60px] items-center justify-between bg-white px-10 py-2 shadow-md">
       <div className="flex items-center gap-8">
@@ -21,17 +26,35 @@ export default function Header() {
           </li>
         </ul>
       </div>
-      <div className="flex items-center gap-6">
-        <Link to="/mypage" className="text-md transition-colors hover:text-blue-600">
-          마이 페이지
-        </Link>
-        <button
-          type="button"
-          className="rounded-md bg-red-500 px-4 py-1 text-white transition-colors hover:bg-red-600"
+
+      {isLoggedIn ? (
+        <div className="flex items-center gap-6">
+          <Link to="/mypage" className="text-md transition-colors hover:text-blue-600">
+            <img
+              src={userImg}
+              alt="유저 이미지"
+              onError={(e) => {
+                e.currentTarget.src = defaultImg;
+              }}
+              className="h-8 w-8 rounded-full"
+              referrerPolicy="no-referrer"
+            />
+          </Link>
+          <button
+            type="button"
+            className="rounded-md bg-red-500 px-4 py-1 text-white transition-colors hover:bg-red-600"
+          >
+            로그아웃
+          </button>
+        </div>
+      ) : (
+        <Link
+          to="/login"
+          className="rounded-md bg-blue-500 px-4 py-1 text-white transition-colors hover:bg-blue-600"
         >
-          로그아웃
-        </button>
-      </div>
+          로그인
+        </Link>
+      )}
     </header>
   );
 }
