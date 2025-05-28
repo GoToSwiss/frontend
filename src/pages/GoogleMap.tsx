@@ -13,6 +13,8 @@ import ChatBot from '@/features/map/components/chat/ChatBot';
 import HeatMapContent from '@/features/map/HeatMapContent';
 import MapMode3D from '@/features/map/components/3d/MapMode3D';
 import SEO from '@/components/SEO';
+import useIsMobile from '@/features/map/hooks/use-mobile';
+import usePanelStore from '@/features/map/store/panel/usePanelStore';
 
 export function MapController({ onReady }: { onReady: (map: google.maps.Map) => void }) {
   const map = useMap();
@@ -29,7 +31,10 @@ export function MapController({ onReady }: { onReady: (map: google.maps.Map) => 
 function GoogleMap() {
   const dataVisualType = useDataVisualTypeStore((state) => state.dataVisualType);
   const setMapInstance = useMapStore((state) => state.setMapInstance);
+  const { closeLeftPanel } = usePanelStore();
+
   const { data } = useGetStations();
+  const isMobile = useIsMobile();
 
   const [, setNumClusters] = useState(0);
   const setInfowindowData = useInfoWindowStore((state) => state.setInfowindowData);
@@ -42,6 +47,7 @@ function GoogleMap() {
   );
 
   useEffect(() => {
+    if (isMobile) closeLeftPanel();
     const style = document.createElement('style');
     style.innerHTML = `
       .vAygCK-api-load-alpha-banner {
