@@ -23,7 +23,7 @@ const gradeRanges: Record<string, string[]> = {
 export default function AirLegend() {
   return (
     <div className="space-y-2 text-xs">
-      <h2 className="text-xs font-semibold">대기질 등급 기준</h2>
+      <h2 className="text-sm font-semibold">대기질 등급 기준</h2>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left text-xs">
           <thead>

@@ -7,6 +7,7 @@ import FunctionCallDisplay from './FunctionCallDisplay';
 import useChatStore from '../../store/useChatStore';
 import focusOnSQLLocation from '../../utils/focusSQLLocation';
 import useDataVisualTypeStore from '../../store/useDataVisualTypeStore';
+import TypingText from './TypingText';
 
 function ChatBot() {
   const { closeRightPanel, isChatOpen, toggleChatOpen } = usePanelStore();
@@ -14,7 +15,7 @@ function ChatBot() {
   const addMessage = useChatStore((state) => state.addMessage);
   const setDataVisualType = useDataVisualTypeStore((state) => state.setDataVisualType);
   const [input, setInput] = useState('');
-
+  const clearMessages = useChatStore((state) => state.clearMessages);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedResult, setSelectedResult] = useState<any[]>([]);
 
@@ -54,7 +55,7 @@ function ChatBot() {
     <div>
       <button
         onClick={chatStart}
-        className="absolute bottom-6 right-6 z-50 rounded-full bg-blue-600 p-3 text-white shadow-lg hover:bg-blue-700"
+        className="fixed bottom-6 right-6 z-50 rounded-full bg-blue-600 p-3 text-white shadow-lg hover:bg-blue-700"
       >
         💬
       </button>
@@ -62,7 +63,27 @@ function ChatBot() {
       {isChatOpen && (
         <div className="absolute bottom-20 right-6 z-50 flex h-[80%] w-[40%] flex-col overflow-auto rounded-lg bg-white p-4 shadow-lg">
           <div className="flex items-center justify-between border-b pb-2">
-            <span className="text-sm font-semibold">AI 채팅</span>
+            <div className="flex items-center gap-7">
+              <span className="text-sm font-semibold">onAir 챗봇</span>
+              <button
+                className="text-xs font-semibold text-red-600"
+                onClick={() => {
+                  const confirmed = window.confirm('정말로 챗 기록을 모두 비우시겠습니까?');
+                  if (confirmed) {
+                    clearMessages();
+                    addMessage({
+                      init: true,
+                      who: 'bot',
+                      response: '안녕하세요! 무엇을 도와드릴까요?',
+                      function_call: { name: '', arguments: '' },
+                      result: [],
+                    });
+                  }
+                }}
+              >
+                챗 비우기
+              </button>
+            </div>
             <button onClick={toggleChatOpen} className="text-sm text-gray-500 hover:text-gray-700">
               ✕
             </button>
@@ -80,7 +101,7 @@ function ChatBot() {
                       msg.who === 'user' ? 'bg-gray-100 text-gray-800' : 'bg-blue-500 text-white'
                     }`}
                   >
-                    {msg.response}
+                    {msg.response && <TypingText text={msg.response} init={msg.init} />}
                   </div>
 
                   {msg.function_call.name !== '' && <FunctionCallDisplay {...msg.function_call} />}
@@ -116,13 +137,13 @@ function ChatBot() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="flex-1 rounded border border-gray-300 px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-              placeholder="메시지를 입력하세요"
+              className="h-8 flex-1 rounded border border-gray-300 px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+              placeholder="관측소나 기상청 관련 질문을 해보세요!"
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             />
             <button
               onClick={handleSend}
-              className="rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
+              className="h-8 rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
             >
               전송
             </button>

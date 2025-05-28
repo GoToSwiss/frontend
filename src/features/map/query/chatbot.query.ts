@@ -4,8 +4,7 @@ import { ChatMessageType } from '../types/ChatMessageType';
 import useChatStore from '../store/useChatStore';
 
 const useChatBot = () => {
-  const setMessages = useChatStore((state) => state.setMessages);
-  const getMessages = useChatStore.getState;
+  const addMessage = useChatStore((state) => state.addMessage);
 
   return useMutation<ChatMessageType, Error, { question: string }>({
     mutationFn: ({ question }) =>
@@ -14,9 +13,16 @@ const useChatBot = () => {
         .then((res) => res.data),
 
     onSuccess: (data) => {
-      const currentMessages = getMessages().messages;
-      const processedMessages = currentMessages.map((msg) => ({ ...msg, init: false }));
-      setMessages([...processedMessages, { ...data, init: true }]);
+      addMessage(data);
+    },
+    onError: () => {
+      addMessage({
+        init: true,
+        who: 'bot',
+        response: '죄송합니다. 다시 시도해주세요.',
+        function_call: { name: '', arguments: '' },
+        result: [],
+      });
     },
   });
 };

@@ -9,7 +9,7 @@ function DataVisualizationSelection() {
 
   return (
     <div>
-      <h1 className="mb-2 text-xs font-semibold">데이터 시각화</h1>
+      <h1 className="mb-2 text-sm font-semibold">데이터 시각화</h1>
       {dataVisualType === '3d' && (
         <p className="mb-2 text-xs text-red-500">3d 모드는 실험적입니다.</p>
       )}
