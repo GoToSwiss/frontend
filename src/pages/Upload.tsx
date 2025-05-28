@@ -13,8 +13,11 @@ import SEO from '@/components/SEO';
 import book from '@/assets/upload/book.png';
 import video from '@/assets/upload/video.png';
 import help from '@/assets/upload/help.png';
+import { useState } from 'react';
+import UploadGuide from '@/features/upload/components/UploadGuide';
 
 export default function Upload() {
+  const [open, setOpen] = useState(false);
   const step = useStepStore((state) => state.step);
   const kind = useFileStore((state) => state.chart);
   const selectChartComponent: Record<string, React.FC> = {
@@ -32,10 +35,19 @@ export default function Upload() {
       <main className="flex flex-col gap-8 px-10 py-12">
         <section className="flex flex-col gap-2">
           <h1 className="text-2xl font-bold">데이터 분석 도구</h1>
-          <p className="text-sm text-gray-500">환경 데이터를 업로드하고 분석을 시작하세요.</p>
+          <p className="text-sm text-gray-500">
+            환경 데이터를 업로드하고 분석을 시작하세요.{' '}
+            <button
+              className="text-blue-500 hover:underline"
+              onClick={() => setOpen((prev) => !prev)}
+            >
+              &gt;업로드 방법
+            </button>
+            <UploadGuide open={open} />
+          </p>
         </section>
 
-        <section className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <section className="grid grid-cols-1 sm:grid-cols-2">
           <WhiteBox title="데이터 업로드" className="flex flex-col justify-between">
             <UploadComponent />
           </WhiteBox>
