@@ -1,11 +1,23 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '@/assets/logo.png';
 import useAuthStore from '@/store/useAuthStore';
 import defaultImg from '@/assets/layout/kwon.jpg';
+import sendData from '@/api/sendData';
+import { toast } from 'react-toastify';
 
 export default function Header() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const userImg = useAuthStore((state) => state.userImg);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await sendData('post', '/member/logout', {}, { withCredentials: true });
+      navigate('/', { state: { fromLogout: true } });
+    } catch (error) {
+      toast.error('로그아웃 실패');
+    }
+  };
 
   return (
     <header className="relative flex h-[60px] items-center justify-between bg-white px-10 py-2 shadow-md">
@@ -43,6 +55,7 @@ export default function Header() {
           <button
             type="button"
             className="rounded-md bg-red-500 px-4 py-1 text-white transition-colors hover:bg-red-600"
+            onClick={handleLogout}
           >
             로그아웃
           </button>
