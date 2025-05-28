@@ -11,7 +11,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { useMemo } from 'react';
 import usePredGetAir from '../../query/previousAir.query';
-import usePredAirSelectionStore from '../../store/usePredAirSelectionStore';
+import usePredAirSelectionStore from '../../store/panel/usePredAirSelectionStore';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -28,10 +28,8 @@ const airLabelMap: Record<string, string> = {
 };
 
 function PredAirLineChart() {
-  const { selectedType } = usePredAirSelectionStore();
+  const selectedType = usePredAirSelectionStore((state) => state.selectedType);
   const { data, isLoading } = usePredGetAir();
-
-  console.log('data', data);
 
   const chartData = useMemo(() => {
     if (!data || data.result.length === 0) return null;

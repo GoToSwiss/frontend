@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import SideLeftPanel from '@/features/map/components/panel/SideLeftPanel';
 import SideRightPanel from '@/features/map/components/panel/SideRightPanel';
 import useMapStore from '@/features/map/store/useMapStore';
-import useDataVisualTypeStore from '@/features/map/store/useDataVisualTypeStore';
+import useDataVisualTypeStore from '@/features/map/store/panel/useDataVisualTypeStore';
 import InfoWindowContent from '@/features/map/components/InfoWindow';
 import ClusteredMarkers from '@/features/map/components/ClusteredMarkers';
 import useGetStations from '@/features/map/query/station.query';
@@ -13,8 +13,9 @@ import ChatBot from '@/features/map/components/chat/ChatBot';
 import HeatMapContent from '@/features/map/HeatMapContent';
 import MapMode3D from '@/features/map/components/3d/MapMode3D';
 import SEO from '@/components/SEO';
-import useIsMobile from '@/features/map/hooks/use-mobile';
+import useIsMobile from '@/utils/use-mobile';
 import usePanelStore from '@/features/map/store/panel/usePanelStore';
+import { useMapConfigStore } from '@/features/map/store/panel/useMapConfigStore';
 
 export function MapController({ onReady }: { onReady: (map: google.maps.Map) => void }) {
   const map = useMap();
@@ -32,6 +33,7 @@ function GoogleMap() {
   const dataVisualType = useDataVisualTypeStore((state) => state.dataVisualType);
   const setMapInstance = useMapStore((state) => state.setMapInstance);
   const { closeLeftPanel } = usePanelStore();
+  const mapConfig = useMapConfigStore((state) => state.mapConfig);
 
   const { data } = useGetStations();
   const isMobile = useIsMobile();
@@ -97,9 +99,10 @@ function GoogleMap() {
             }}
             defaultCenter={{ lat: 37.5665, lng: 126.978 }}
             defaultZoom={7}
+            mapId={mapConfig.mapId}
+            mapTypeId={mapConfig.mapTypeId}
             gestureHandling="greedy"
             disableDefaultUI
-            mapId="104e02e9fce23a43cf95caf9"
           >
             <MapController onReady={setMapInstance} />
             {dataVisualType === 'heatmap' && <HeatMapContent radius={25} opacity={0.8} />}

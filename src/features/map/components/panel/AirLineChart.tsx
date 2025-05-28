@@ -11,7 +11,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { useMemo } from 'react';
 import useGetAir from '../../query/air.query';
-import useSelectedAirTypeStore from '../../store/useSelectedAirTypeStore';
+import useSelectedAirTypeStore from '../../store/panel/useSelectedAirTypeStore';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
