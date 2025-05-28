@@ -43,7 +43,7 @@ export default function Header() {
         <div className="flex items-center gap-6">
           <Link to="/mypage" className="text-md transition-colors hover:text-blue-600">
             <img
-              src={userImg}
+              src={userImg || defaultImg}
               alt="유저 이미지"
               onError={(e) => {
                 e.currentTarget.src = defaultImg;
